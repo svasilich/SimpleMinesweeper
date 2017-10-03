@@ -8,6 +8,8 @@ namespace SimpleMinesweeper.Core
 {
     interface ICellStrategy
     {
+        ICell Cell { get; }
+
         void Action();
     }
 }
