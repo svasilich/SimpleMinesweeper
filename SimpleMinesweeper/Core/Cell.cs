@@ -8,18 +8,24 @@ namespace SimpleMinesweeper.Core
 {
     class Cell : ICell
     {
-        public CellState State { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public CellState State { get; set; }
 
-        public bool Mined => throw new NotImplementedException();
+        public bool Mined { get; set; }
 
-        public int CoordX => throw new NotImplementedException();
+        public int CoordX { get; private set; }
 
-        public int CoordY => throw new NotImplementedException();
+        public int CoordY { get; private set; }
 
         public ICellStrategy LeftClickStrategy { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public ICellStrategy RightClickStrategy { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public event EventHandler OnLeftClick;
         public event EventHandler OnRihtClick;
+
+        public Cell(int x, int y)
+        {
+            CoordX = x;
+            CoordY = y;
+        }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SimpleMinesweeper.Core
 {
-    enum CellState
+    public enum CellState
     {
         NoOpened,
         Opened,
@@ -14,10 +14,10 @@ namespace SimpleMinesweeper.Core
         Flagged
     }
 
-    interface ICell
+    public interface ICell
     {
         CellState State { get; set; }
-        bool Mined { get; }
+        bool Mined { get; set; }
         int CoordX { get; }
         int CoordY { get; }
 

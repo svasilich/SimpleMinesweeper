@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SimpleMinesweeper.Core
 {
-    interface ICellStrategy
+    public interface ICellStrategy
     {
         ICell Cell { get; }
 

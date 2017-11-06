@@ -74,6 +74,8 @@
     <Compile Include="Core\CellStrategy\NoMinedStrategy.cs" />
     <Compile Include="Core\CellStrategy\ResetFlagStratey.cs" />
     <Compile Include="Core\CellStrategy\SetFlagStrategy.cs" />
+    <Compile Include="Core\IMinefield.cs" />
+    <Compile Include="Core\Minefield.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
