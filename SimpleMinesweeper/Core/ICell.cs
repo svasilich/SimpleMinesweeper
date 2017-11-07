@@ -21,10 +21,10 @@ namespace SimpleMinesweeper.Core
         int CoordX { get; }
         int CoordY { get; }
 
-        ICellStrategy LeftClickStrategy { get; set; }
-        ICellStrategy RightClickStrategy { get; set; }
+        void Open();
+        void SetFlag();
 
-        event EventHandler OnLeftClick;
-        event EventHandler OnRihtClick;
+        event EventHandler OnOpen;
+        event EventHandler OnSetFlag;
     }
 }

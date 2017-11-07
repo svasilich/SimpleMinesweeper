@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SimpleMinesweeper.Core.CellStrategyFactory
+namespace SimpleMinesweeper.Core
 {
-    interface ICellStrategyFactory
+    public interface IMinePositionsGenerator
     {
-        ICellStrategy GetStrategy();
+        int Next(int max);
     }
 }

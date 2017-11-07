@@ -16,11 +16,18 @@ namespace SimpleMinesweeper.Core
 
         public int CoordY { get; private set; }
 
-        public ICellStrategy LeftClickStrategy { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public ICellStrategy RightClickStrategy { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public void Open()
+        {
+            OnOpen?.Invoke(this, EventArgs.Empty);
+        }
 
-        public event EventHandler OnLeftClick;
-        public event EventHandler OnRihtClick;
+        public void SetFlag()
+        {
+            OnSetFlag?.Invoke(this, EventArgs.Empty);
+        }
+
+        public event EventHandler OnOpen;
+        public event EventHandler OnSetFlag;
 
         public Cell(int x, int y)
         {

@@ -11,6 +11,13 @@ namespace SimpleMinesweeper.Core
         private List<List<ICell>> cells;
         public List<List<ICell>> Cells { get { return cells; } }
 
+        private IMinePositionsGenerator minePositionsGenerator;
+
+        public Minefield(IMinePositionsGenerator minePositionsGenerator)
+        {
+            this.minePositionsGenerator = minePositionsGenerator;
+        }
+
         public void Fill(int hight, int length, int mineCount)
         {
             CheckFillParameters(hight, length, mineCount);
@@ -20,11 +27,26 @@ namespace SimpleMinesweeper.Core
             {
                 List<ICell> row = new List<ICell>(length);
                 for (int x = 0; x < length; ++x)
-                    row.Add(new Cell(x, y));
+                {
+                    ICell cell = new Cell(x, y);
+                    cell.OnOpen += Cell_OnOpen;
+                    cell.OnSetFlag += Cell_OnSetFlag;
+                    row.Add(cell);
+                }
                 cells.Add(row);
             }
 
             MineAField(hight, length, mineCount);
+        }
+
+        protected virtual void Cell_OnSetFlag(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected virtual void Cell_OnOpen(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private void CheckFillParameters(int hight, int length, int mineCount)
@@ -44,13 +66,12 @@ namespace SimpleMinesweeper.Core
 
         private void MineAField(int higth, int length, int mineCount)
         {
-            Random random = new Random((int) DateTime.Now.Ticks);
             for (int i = 0; i < mineCount; ++i)
             {
                 while (true)
                 {
-                    int minePosX = random.Next(length);
-                    int minePosY = random.Next(higth);
+                    int minePosX = minePositionsGenerator.Next(length);
+                    int minePosY = minePositionsGenerator.Next(higth);
 
                     ICell cell = cells[minePosY][minePosX];
                     if (!cell.Mined)
@@ -64,7 +85,7 @@ namespace SimpleMinesweeper.Core
 
         public ICell GetCellByCoords(int x, int y)
         {
-            throw new NotImplementedException();
+            return cells[y][x];
         }
     }
 }

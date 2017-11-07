@@ -62,19 +62,11 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Core\CellStrategyFactory\ICellStrategyFactory.cs" />
-    <Compile Include="Core\CellStrategyFactory\LeftClickCellStrategyFactory.cs" />
-    <Compile Include="Core\CellStrategyFactory\RightClickCellStrategyFactory.cs" />
-    <Compile Include="Core\CellStrategy\AbstractCellStrategy.cs" />
     <Compile Include="Core\Cell.cs" />
-    <Compile Include="Core\CellStrategy\DoNothingStrategy.cs" />
     <Compile Include="Core\ICell.cs" />
-    <Compile Include="Core\CellStrategy\ICellStrategy.cs" />
-    <Compile Include="Core\CellStrategy\MinedStrategy.cs" />
-    <Compile Include="Core\CellStrategy\NoMinedStrategy.cs" />
-    <Compile Include="Core\CellStrategy\ResetFlagStratey.cs" />
-    <Compile Include="Core\CellStrategy\SetFlagStrategy.cs" />
     <Compile Include="Core\IMinefield.cs" />
+    <Compile Include="Core\IMinePositionsGenerator.cs" />
+    <Compile Include="Core\RandomMinePositionGenerator.cs" />
     <Compile Include="Core\Minefield.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
