@@ -86,6 +86,85 @@ namespace SimpleMinesweeperTests.Core
             Assert.AreSame(clickedCell, field.FlaggedCell);
         }
 
+        [Test]
+        public void SetMineToCenterAndCheckNearby()
+        {
+            IMinefield field = SetMineToCenter();
+            IEnumerable<ICell> toCheck = GetNearbyFromCenter(field);
+
+            foreach (var cell in toCheck)
+                Assert.AreEqual(1, cell.MinesNearby, $"X:{cell.CoordX}; Y:{cell.CoordY}");
+        }
+
+        [Test]
+        public void SetMineToCornerAndCheckNearby()
+        {
+            IMinefield field = SetMineToPosition(0, 0);
+
+            List<ICell> toCheck = new List<ICell>(3);
+            toCheck.Add(field.GetCellByCoords(0, 1));
+            toCheck.Add(field.GetCellByCoords(1, 1));
+            toCheck.Add(field.GetCellByCoords(1, 0));
+
+            foreach (var cell in toCheck)
+                Assert.AreEqual(1, cell.MinesNearby, $"X:{cell.CoordX}; Y:{cell.CoordY}");
+        }
+
+        [Test]
+        public void SetMineToCenterThenUnmineAndCellNearbyHesNoMined()
+        {
+            IMinefield field = SetMineToCenter();
+            IEnumerable<ICell> toCheck = GetNearbyFromCenter(field);
+
+            ICell center = field.GetCellByCoords(5, 5);
+            ((Minefield)field).RemoveMineFromCell(center);
+
+            foreach (var cell in toCheck)
+                Assert.AreEqual(0, cell.MinesNearby, $"X:{cell.CoordX}; Y:{cell.CoordY}");
+        }
+
+        [Test]
+        public void SetMineToCenterAndItselfHasNoMinedNearby()
+        {
+            IMinefield field = SetMineToCenter();
+            IEnumerable<ICell> toCheck = GetNearbyFromCenter(field);
+
+            ICell center = field.GetCellByCoords(5, 5);
+
+            Assert.AreEqual(0, center.MinesNearby);
+        }
+
+        private static IMinefield SetMineToCenter()
+        {
+            IMinefield field = SetMineToPosition(5, 5);
+            return field;
+        }
+
+        private IEnumerable<ICell> GetNearbyFromCenter(IMinefield field)
+        {
+            List<ICell> nearby = new List<ICell>(8);
+            nearby.Add(field.GetCellByCoords(4, 4));
+            nearby.Add(field.GetCellByCoords(4, 5));
+            nearby.Add(field.GetCellByCoords(4, 6));
+            nearby.Add(field.GetCellByCoords(5, 4));
+            nearby.Add(field.GetCellByCoords(5, 6));
+            nearby.Add(field.GetCellByCoords(6, 4));
+            nearby.Add(field.GetCellByCoords(6, 5));
+            nearby.Add(field.GetCellByCoords(6, 6));
+            return nearby;
+        }
+
+        private static IMinefield SetMineToPosition(int x, int y)
+        {
+            int mineCount = 1;
+            List<int> coords = new List<int> { x, y };
+            IMinePositionsGenerator generator = new CollectionMinePositionGenerator(coords);
+            IMinefield field = new Minefield(generator);
+
+            field.Fill(10, 10, mineCount);
+            return field;
+        }
+
         #region Subtypes
 
         class CollectionMinePositionGenerator : IMinePositionsGenerator

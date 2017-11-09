@@ -10,6 +10,9 @@ namespace SimpleMinesweeper.Core
     {
         private List<List<ICell>> cells;
         public List<List<ICell>> Cells { get { return cells; } }
+        private int hight;
+        private int length;
+        private int mineCount;
 
         private IMinePositionsGenerator minePositionsGenerator;
 
@@ -18,9 +21,56 @@ namespace SimpleMinesweeper.Core
             this.minePositionsGenerator = minePositionsGenerator;
         }
 
-        public void Fill(int hight, int length, int mineCount)
+        public void SetMineToCell(ICell cell)
         {
-            CheckFillParameters(hight, length, mineCount);
+            SetCellMinedState(cell, true);
+        }
+
+        public void RemoveMineFromCell(ICell cell)
+        {
+            SetCellMinedState(cell, false);
+        }
+
+        private void SetCellMinedState(ICell cell, bool isMined)
+        {
+            cell.Mined = isMined;
+            var nearby = GetCellNearby(cell);
+            int add = isMined ? 1 : -1;
+            foreach (var neighbor in nearby)
+                neighbor.MinesNearby += add;
+        }
+
+        private IEnumerable<ICell> GetCellNearby(ICell cell)
+        {            
+            int topLeftX = cell.CoordX - 1;
+            topLeftX = topLeftX < 0 ? 0 : topLeftX;
+            int topLeftY = cell.CoordY - 1;
+            topLeftY = topLeftY < 0 ? 0 : topLeftY;
+
+            int bottomRihtX = cell.CoordX + 1;
+            bottomRihtX = bottomRihtX == length ? length - 1 : bottomRihtX;
+            int bottomRightY = cell.CoordY + 1;
+            bottomRightY = bottomRightY == hight ? hight - 1 : bottomRightY;
+
+            List<ICell> nearby = new List<ICell>();
+            for (int x = topLeftX; x <= bottomRihtX; ++x)
+                for (int y = topLeftY; y <= bottomRightY; ++y)
+                {
+                    if (x == cell.CoordX && y == cell.CoordY)
+                        continue;
+
+                    nearby.Add(Cells[y][x]);
+                };
+
+            return nearby;
+        }
+
+        public void Fill(int fieldHight, int fieldLength, int mineCount)
+        {
+            CheckFillParameters(fieldHight, fieldLength, mineCount);
+            hight = fieldHight;
+            length = fieldLength;
+            this.mineCount = mineCount;
 
             cells = new List<List<ICell>>(hight);
             for (int y = 0; y < hight; ++y)
@@ -36,7 +86,7 @@ namespace SimpleMinesweeper.Core
                 cells.Add(row);
             }
 
-            MineAField(hight, length, mineCount);
+            MineAField();
         }
 
         protected virtual void Cell_OnSetFlag(object sender, EventArgs e)
@@ -64,19 +114,19 @@ namespace SimpleMinesweeper.Core
                 throw new ArgumentException("Слишком много мин.");
         }
 
-        private void MineAField(int higth, int length, int mineCount)
+        private void MineAField()
         {
             for (int i = 0; i < mineCount; ++i)
             {
                 while (true)
                 {
                     int minePosX = minePositionsGenerator.Next(length);
-                    int minePosY = minePositionsGenerator.Next(higth);
+                    int minePosY = minePositionsGenerator.Next(hight);
 
                     ICell cell = cells[minePosY][minePosX];
                     if (!cell.Mined)
                     {
-                        cell.Mined = true;
+                        SetMineToCell(cell);
                         break;
                     }
                 }

@@ -20,6 +20,7 @@ namespace SimpleMinesweeper.Core
         bool Mined { get; set; }
         int CoordX { get; }
         int CoordY { get; }
+        int MinesNearby { get; set; }
 
         void Open();
         void SetFlag();
