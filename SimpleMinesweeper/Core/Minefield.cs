@@ -14,11 +14,14 @@ namespace SimpleMinesweeper.Core
         private int length;
         private int mineCount;
 
+        public FieldState State { get; private set; }
+
         private IMinePositionsGenerator minePositionsGenerator;
 
         public Minefield(IMinePositionsGenerator minePositionsGenerator)
         {
             this.minePositionsGenerator = minePositionsGenerator;
+            State = FieldState.NotStarted;
         }
 
         public void SetMineToCell(ICell cell)
@@ -33,6 +36,9 @@ namespace SimpleMinesweeper.Core
 
         private void SetCellMinedState(ICell cell, bool isMined)
         {
+            if (cell.Mined == isMined)
+                return;
+
             cell.Mined = isMined;
             var nearby = GetCellNearby(cell);
             int add = isMined ? 1 : -1;
@@ -91,12 +97,73 @@ namespace SimpleMinesweeper.Core
 
         protected virtual void Cell_OnSetFlag(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            ICell flaggedCell = (ICell)sender;
+
+            switch (flaggedCell.State)
+            {
+                case CellState.NoOpened:
+                    flaggedCell.State = CellState.Flagged;
+                    return;
+
+                case CellState.Flagged:
+                    flaggedCell.State = CellState.NoOpened;
+                    return;
+            }
         }
 
         protected virtual void Cell_OnOpen(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            if (State == FieldState.NotStarted)
+                State = FieldState.InGame;
+
+            ICell openedCell = (ICell)sender;
+
+            if (openedCell.State != CellState.NoOpened)
+                return;
+
+            if (openedCell.Mined)
+            {
+                if (State == FieldState.GameOver)
+                {
+                    openedCell.State = CellState.NoFindedMine;
+                }
+                else
+                {
+                    openedCell.State = CellState.BlownUpped;
+                    GameOver();
+                }
+                return;
+            }
+
+            openedCell.State = CellState.Opened;
+            int minesNearby = openedCell.MinesNearby;
+            if (minesNearby == 0)
+            {
+                IEnumerable<ICell> cellsNearby = GetCellNearby(openedCell);
+                foreach (var cell in cellsNearby)
+                {
+                    if (cell.State == CellState.NoOpened)
+                        cell.Open();
+                }
+                return;
+            }
+
+            openedCell.State = CellState.Opened;
+        }
+
+        protected void GameOver()
+        {
+            State = FieldState.GameOver;
+
+            foreach (var row in Cells)
+                foreach (var cell in row)
+                {
+                    if (cell.State == CellState.NoOpened)
+                        cell.Open();
+
+                    if (cell.State == CellState.Flagged && !cell.Mined)
+                        cell.State = CellState.WrongFlag;
+                }
         }
 
         private void CheckFillParameters(int hight, int length, int mineCount)

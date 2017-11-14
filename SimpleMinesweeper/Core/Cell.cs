@@ -46,6 +46,7 @@ namespace SimpleMinesweeper.Core
         {
             CoordX = x;
             CoordY = y;
+            State = CellState.NoOpened;
         }
     }
 }

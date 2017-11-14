@@ -11,7 +11,9 @@ namespace SimpleMinesweeper.Core
         NoOpened,
         Opened,
         BlownUpped,
-        Flagged
+        Flagged,
+        WrongFlag,
+        NoFindedMine
     }
 
     public interface ICell
