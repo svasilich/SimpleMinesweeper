@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 
 namespace SimpleMinesweeper.Core
 {
@@ -14,9 +16,20 @@ namespace SimpleMinesweeper.Core
         private int length;
         private int mineCount;
 
-        public FieldState State { get; private set; }
+        private FieldState state;
+        public FieldState State
+        {
+            get { return state; }
+            private set
+            {
+                state = value;
+                OnStateChanged?.Invoke(this, new EventArgs());
+            }
+        }
 
         private IMinePositionsGenerator minePositionsGenerator;
+
+        public event EventHandler OnStateChanged;
 
         public Minefield(IMinePositionsGenerator minePositionsGenerator)
         {
@@ -203,6 +216,6 @@ namespace SimpleMinesweeper.Core
         public ICell GetCellByCoords(int x, int y)
         {
             return cells[y][x];
-        }
+        } 
     }
 }

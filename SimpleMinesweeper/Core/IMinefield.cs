@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace SimpleMinesweeper.Core
 {
@@ -16,6 +14,8 @@ namespace SimpleMinesweeper.Core
     public interface IMinefield
     {
         FieldState State { get; }
+
+        event EventHandler OnStateChanged;
 
         List<List<ICell>> Cells { get; }
 
