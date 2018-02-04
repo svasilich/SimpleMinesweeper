@@ -8,7 +8,7 @@ namespace SimpleMinesweeper.Core
 {
     public enum CellState
     {
-        NoOpened,
+        NotOpened,
         Opened,
         BlownUpped,
         Flagged,
@@ -26,8 +26,10 @@ namespace SimpleMinesweeper.Core
 
         void Open();
         void SetFlag();
-
+        
         event EventHandler OnOpen;
         event EventHandler OnSetFlag;
+        event EventHandler OnStateChanged;
+        event EventHandler OnMinedChanged;
     }
 }

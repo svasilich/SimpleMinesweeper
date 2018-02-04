@@ -114,12 +114,12 @@ namespace SimpleMinesweeper.Core
 
             switch (flaggedCell.State)
             {
-                case CellState.NoOpened:
+                case CellState.NotOpened:
                     flaggedCell.State = CellState.Flagged;
                     return;
 
                 case CellState.Flagged:
-                    flaggedCell.State = CellState.NoOpened;
+                    flaggedCell.State = CellState.NotOpened;
                     return;
             }
         }
@@ -131,7 +131,7 @@ namespace SimpleMinesweeper.Core
 
             ICell openedCell = (ICell)sender;
 
-            if (openedCell.State != CellState.NoOpened)
+            if (openedCell.State != CellState.NotOpened)
                 return;
 
             if (openedCell.Mined)
@@ -155,7 +155,7 @@ namespace SimpleMinesweeper.Core
                 IEnumerable<ICell> cellsNearby = GetCellNearby(openedCell);
                 foreach (var cell in cellsNearby)
                 {
-                    if (cell.State == CellState.NoOpened)
+                    if (cell.State == CellState.NotOpened)
                         cell.Open();
                 }
                 return;
@@ -171,7 +171,7 @@ namespace SimpleMinesweeper.Core
             foreach (var row in Cells)
                 foreach (var cell in row)
                 {
-                    if (cell.State == CellState.NoOpened)
+                    if (cell.State == CellState.NotOpened)
                         cell.Open();
 
                     if (cell.State == CellState.Flagged && !cell.Mined)

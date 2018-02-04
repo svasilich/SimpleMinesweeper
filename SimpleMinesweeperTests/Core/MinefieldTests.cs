@@ -135,8 +135,8 @@ namespace SimpleMinesweeperTests.Core
         }
 
         [TestCase(CellState.BlownUpped, CellState.BlownUpped)]
-        [TestCase(CellState.Flagged, CellState.NoOpened)]
-        [TestCase(CellState.NoOpened, CellState.Flagged)]
+        [TestCase(CellState.Flagged, CellState.NotOpened)]
+        [TestCase(CellState.NotOpened, CellState.Flagged)]
         [TestCase(CellState.Opened, CellState.Opened)]
         public void SetFlagToCell(CellState begin, CellState expected)
         {
@@ -162,7 +162,7 @@ namespace SimpleMinesweeperTests.Core
         }
 
         [TestCase(2, 2, 1, 1, CellState.Opened)]
-        [TestCase(4, 4, 3, 3, CellState.NoOpened)]
+        [TestCase(4, 4, 3, 3, CellState.NotOpened)]
         public void OpenNoMinedCellAndCheckNearbyOpening(int xOpen, int yOpen, int xCheck, int yCheck, CellState expected)
         {
             IMinefield field = SetMineToCenter();

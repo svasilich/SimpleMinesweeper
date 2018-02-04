@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using SimpleMinesweeper.Core;
 
 namespace SimpleMinesweeper
 {
@@ -23,6 +24,21 @@ namespace SimpleMinesweeper
         public MainWindow()
         {
             InitializeComponent();
+
+            ICell cell = new Cell(1, 1);
+            SimpleCell.DataContext = new ViewModel.CellViewModel(cell);
+            cell.State = CellState.NotOpened;
+            cell.OnOpen += Cell_OnOpen;
+        }
+
+        private void Cell_OnOpen(object sender, EventArgs e)
+        {
+            ICell cell = (ICell)sender;
+            if (cell.State == CellState.NotOpened)
+                cell.State = CellState.Opened;
+            else
+                cell.State = CellState.NotOpened;
+
         }
     }
 }
