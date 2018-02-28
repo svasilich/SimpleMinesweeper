@@ -7,9 +7,23 @@
         xmlns:e="clr-namespace:SimpleMinesweeper.View"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
+    <Window.Resources>
+        <DataTemplate x:Key="CellDataTemplate">
+            <e:CellView Width="100" Height="50"></e:CellView>
+        </DataTemplate>
+
+        <DataTemplate x:Key="MinefieldRowTemplate">
+            <ItemsControl ItemsSource="{Binding}" ItemTemplate="{DynamicResource CellDataTemplate}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </DataTemplate>
+    </Window.Resources>
+
     <Grid>
-        <e:CellView x:Name="SimpleCell">
-            
-        </e:CellView>
+        <ItemsControl x:Name="minefieldGrid" ItemTemplate="{DynamicResource MinefieldRowTemplate}"/>
     </Grid>
 </Window>

@@ -10,18 +10,16 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-using SimpleMinesweeper.ViewModel;
 
 namespace SimpleMinesweeper.View
 {
     /// <summary>
-    /// Логика взаимодействия для CellView.xaml
+    /// Логика взаимодействия для MineFieldView.xaml
     /// </summary>
-    public partial class CellView : UserControl
+    public partial class MineFieldView : Window
     {
-        public CellView()
+        public MineFieldView()
         {
             InitializeComponent();
         }

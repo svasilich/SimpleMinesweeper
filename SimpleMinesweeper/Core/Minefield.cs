@@ -30,6 +30,7 @@ namespace SimpleMinesweeper.Core
         private IMinePositionsGenerator minePositionsGenerator;
 
         public event EventHandler OnStateChanged;
+        public event EventHandler OnFilled;
 
         public Minefield(IMinePositionsGenerator minePositionsGenerator)
         {
@@ -106,6 +107,8 @@ namespace SimpleMinesweeper.Core
             }
 
             MineAField();
+
+            OnFilled?.Invoke(this, EventArgs.Empty);
         }
 
         protected virtual void Cell_OnSetFlag(object sender, EventArgs e)

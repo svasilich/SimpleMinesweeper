@@ -7,7 +7,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using SimpleMinesweeper.Core;
 
-namespace SimpleMinesweeper
+namespace SimpleMinesweeper.ViewModel
 {
     class MinefieldViewModel : INotifyPropertyChanged
     {
@@ -28,6 +28,14 @@ namespace SimpleMinesweeper
         {
             field = minefield;
             field.OnStateChanged += Field_OnStateChanged;
+            field.OnFilled += Field_OnFilled;
+
+            cells = new List<List<CellViewModel>>();
+        }
+
+        private void Field_OnFilled(object sender, EventArgs e)
+        {
+            ReloadCells();
         }
 
         private void Field_OnStateChanged(object sender, EventArgs e)
@@ -35,8 +43,33 @@ namespace SimpleMinesweeper
             State = field.State;   
         }
 
-        // Релизация обозреваемой коллекции клеток.
-        // Реализация ReloadCells
+        private List<List<CellViewModel>> cells;
+        public List<List<CellViewModel>> Cells
+        {
+            get => cells;
+            private set
+            {
+                cells = value;
+                NotifyPropertyChanged();
+            }
+        }
+        
+        private void ReloadCells()
+        {
+            cells.Clear();
+
+            var modelCells = field.Cells;
+            foreach (var row in modelCells)
+            {
+                List<CellViewModel> list = new List<CellViewModel>();
+                cells.Add(list);
+                foreach (var cell in row)
+                {
+                    CellViewModel cvm = new CellViewModel(cell);
+                    list.Add(cvm);
+                }
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

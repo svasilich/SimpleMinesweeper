@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using SimpleMinesweeper.Core;
+using SimpleMinesweeper.ViewModel;
 
 namespace SimpleMinesweeper
 {
@@ -25,10 +26,14 @@ namespace SimpleMinesweeper
         {
             InitializeComponent();
 
-            ICell cell = new Cell(1, 1);
-            SimpleCell.DataContext = new ViewModel.CellViewModel(cell);
-            cell.State = CellState.NotOpened;
-            cell.OnOpen += Cell_OnOpen;
+
+            IMinefield minefield = new Minefield(new RandomMinePositionGenerator());
+            MinefieldViewModel minefieldViewModel = new MinefieldViewModel(minefield);
+            minefieldGrid.ItemsSource = minefieldViewModel.Cells;
+
+            minefield.Fill(10, 10, 5);
+            
+            
         }
 
         private void Cell_OnOpen(object sender, EventArgs e)

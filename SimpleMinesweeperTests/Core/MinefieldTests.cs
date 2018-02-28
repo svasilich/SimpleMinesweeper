@@ -27,7 +27,7 @@ namespace SimpleMinesweeperTests.Core
         }
 
         [Test]
-        public void MineFieldAndCheckCorrectMineCount()
+        public void FillMineFieldAndCheckCorrectMineCount()
         {
             int mineCount = 30;
             IMinefield mineField = CreateDefaultMineField();

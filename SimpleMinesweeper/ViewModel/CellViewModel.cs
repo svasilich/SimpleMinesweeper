@@ -1,20 +1,83 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows.Input;
 using SimpleMinesweeper.Core;
 
 namespace SimpleMinesweeper.ViewModel
 {
-    class CellViewModel : INotifyPropertyChanged
+    class OpenCellCommand : ICommand
+    {
+        private ICell cell;
+
+        public event EventHandler CanExecuteChanged
+        {
+            add { CommandManager.RequerySuggested += value; }
+            remove { CommandManager.RequerySuggested -= value; }
+        }
+
+        public bool CanExecute(object parameter)
+        {
+            return cell.State == CellState.Opened || cell.State == CellState.NotOpened;
+        }
+
+        public void Execute(object parameter)
+        {
+            cell.Open();
+        }        
+
+        public OpenCellCommand(ICell cell)
+        {
+            this.cell = cell;
+        }
+    }
+
+    class SetFlagCellCommand : ICommand
+    {
+        ICell cell;
+        public event EventHandler CanExecuteChanged
+        {
+            add { CommandManager.RequerySuggested += value; }
+            remove { CommandManager.RequerySuggested += value; }
+        }
+
+        public SetFlagCellCommand(ICell cell)
+        {
+            this.cell = cell;
+        }
+
+        public bool CanExecute(object parameter)
+        {
+            return cell.State == CellState.Flagged ||
+                cell.State == CellState.NotOpened;
+        }
+
+        public void Execute(object parameter)
+        {
+            cell.SetFlag();
+        }
+
+        
+    }
+
+class CellViewModel : INotifyPropertyChanged
     {
         ICell modelCell;
+        OpenCellCommand openCommand;
+        SetFlagCellCommand setFlagCommand;
 
         public CellViewModel(ICell cell)
         {
             modelCell = cell;
             modelCell.OnStateChanged += ModelCell_OnStateChanged;
             modelCell.OnMinedChanged += ModelCell_OnMinedChanged;
+
+            openCommand = new OpenCellCommand(modelCell);
+            setFlagCommand = new SetFlagCellCommand(modelCell);
         }
+
+        public OpenCellCommand OpenCellCommand => openCommand;
+        public SetFlagCellCommand SetFlagCellCommand => setFlagCommand; 
 
         private void ModelCell_OnMinedChanged(object sender, EventArgs e)
         {
@@ -40,16 +103,6 @@ namespace SimpleMinesweeper.ViewModel
         {
             get => modelCell.MinesNearby;
             set => modelCell.MinesNearby = value;
-        }
-
-        public void Open()
-        {
-            modelCell.Open();
-        }
-
-        public void SetFlag()
-        {
-            modelCell.SetFlag();
         }
 
         #region Поддержка INotifyPropertyChanged 

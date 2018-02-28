@@ -7,9 +7,14 @@
              xmlns:core="clr-namespace:SimpleMinesweeper.Core"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
+    
+    
         <Button Content="{Binding Path=State}"
-                Click="Button_Click">
+                Command="{Binding OpenCellCommand}"
+                >
+            <Button.InputBindings>
+                <MouseBinding MouseAction="RightClick" Command="{Binding SetFlagCellCommand}"/>
+            </Button.InputBindings>
         </Button>        
-    </Grid>
+    
 </UserControl>
