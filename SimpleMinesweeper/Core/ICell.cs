@@ -27,9 +27,19 @@ namespace SimpleMinesweeper.Core
         void Open();
         void SetFlag();
         
-        event EventHandler OnOpen;
-        event EventHandler OnSetFlag;
-        event EventHandler OnStateChanged;
+        event EventHandler<CellChangeStateEventArgs> OnStateChanged;
         event EventHandler OnMinedChanged;
+    }
+
+    public class CellChangeStateEventArgs : EventArgs
+    {
+        private CellState newState;
+
+        public CellChangeStateEventArgs(CellState newState)
+        {
+            this.newState = newState;
+        }
+
+        public CellState NewState => newState;
     }
 }

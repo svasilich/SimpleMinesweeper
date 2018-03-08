@@ -98,9 +98,7 @@ namespace SimpleMinesweeper.Core
                 List<ICell> row = new List<ICell>(length);
                 for (int x = 0; x < length; ++x)
                 {
-                    ICell cell = new Cell(x, y);
-                    cell.OnOpen += Cell_OnOpen;
-                    cell.OnSetFlag += Cell_OnSetFlag;
+                    ICell cell = new Cell(this, x, y);
                     row.Add(cell);
                 }
                 cells.Add(row);

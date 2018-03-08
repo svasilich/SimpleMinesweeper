@@ -27,17 +27,6 @@ namespace SimpleMinesweeperTests.Core
         }
 
         [Test]
-        public void FillMineFieldAndCheckCorrectMineCount()
-        {
-            int mineCount = 30;
-            IMinefield mineField = CreateDefaultMineField();
-            mineField.Fill(10, 10, mineCount);
-
-            int factMineCount = mineField.Cells.Sum(x => x.Sum(y => y.Mined ? 1 : 0));
-            Assert.AreEqual(mineCount, factMineCount);
-        }
-
-        [Test]
         public void FillMineFieldAndCheckMinedPosition()
         {
             int mineCount = 3;
@@ -59,33 +48,7 @@ namespace SimpleMinesweeperTests.Core
 
                 }
         }
-
-        [Test]
-        public void OpenCellAndCheckSender()
-        {
-            MinefieldCellEventTest field = new MinefieldCellEventTest(new RandomMinePositionGenerator());
-
-            field.Fill(10, 10, 30);
-
-            ICell clickedCell = field.GetCellByCoords(1, 1);
-            clickedCell.Open();
-
-            Assert.AreSame(clickedCell, field.OpenedCell);
-        }
         
-        [Test]
-        public void SetCellCellAndCheckSender()
-        {
-            MinefieldCellEventTest field = new MinefieldCellEventTest(new RandomMinePositionGenerator());
-
-            field.Fill(10, 10, 30);
-
-            ICell clickedCell = field.GetCellByCoords(1, 1);
-            clickedCell.SetFlag();
-
-            Assert.AreSame(clickedCell, field.FlaggedCell);
-        }
-
         [Test]
         public void SetMineToCenterAndCheckNearby()
         {
@@ -133,79 +96,7 @@ namespace SimpleMinesweeperTests.Core
 
             Assert.AreEqual(0, center.MinesNearby);
         }
-
-        [TestCase(CellState.BlownUpped, CellState.BlownUpped)]
-        [TestCase(CellState.Flagged, CellState.NotOpened)]
-        [TestCase(CellState.NotOpened, CellState.Flagged)]
-        [TestCase(CellState.Opened, CellState.Opened)]
-        public void SetFlagToCell(CellState begin, CellState expected)
-        {
-            IMinefield field = SetMineToCenter();
-
-            ICell testCell = field.GetCellByCoords(0, 0);
-            testCell.State = begin;
-            testCell.SetFlag();
-
-            Assert.AreEqual(expected, testCell.State);
-        }
-
-        [TestCase(5, 5, CellState.BlownUpped)]
-        [TestCase(0, 0, CellState.Opened)]
-        public void OpenCell(int x, int y, CellState expected)
-        {
-            IMinefield field = SetMineToCenter();
-
-            ICell testCell = field.GetCellByCoords(x, y);
-            testCell.Open();
-
-            Assert.AreEqual(expected, testCell.State);
-        }
-
-        [TestCase(2, 2, 1, 1, CellState.Opened)]
-        [TestCase(4, 4, 3, 3, CellState.NotOpened)]
-        public void OpenNoMinedCellAndCheckNearbyOpening(int xOpen, int yOpen, int xCheck, int yCheck, CellState expected)
-        {
-            IMinefield field = SetMineToCenter();
-
-            ICell cellToOpen = field.GetCellByCoords(xOpen, yOpen);
-            cellToOpen.Open();
-
-            ICell cellToCheck = field.GetCellByCoords(xCheck, yCheck);
-
-            Assert.AreEqual(expected, cellToCheck.State);
-        }
-
-        [Test]
-        public void GameStartingAfterCellOpened()
-        {
-            IMinefield minefield = SetMineToCenter();
-
-            minefield.Cells[0][0].Open();
-
-            Assert.AreEqual(FieldState.InGame, minefield.State);
-        }
-
-        [Test]
-        public void GameOverSetWrongFlagsAndNoFindedMines()
-        {
-            List<int> coords = new List<int> { 5, 5, 1, 2 };
-            IMinePositionsGenerator generator = new CollectionMinePositionGenerator(coords);
-            IMinefield minefield = new Minefield(generator);
-            minefield.Fill(10, 10, 2);
-
-            ICell flaggedCell = minefield.GetCellByCoords(1, 1);
-            flaggedCell.SetFlag();
-
-            ICell minedCell = minefield.GetCellByCoords(5, 5);
-            minedCell.Open();
-
-            ICell noFindedMine = minefield.GetCellByCoords(1, 2);
-
-            Assert.AreEqual(FieldState.GameOver, minefield.State);
-            Assert.AreEqual(CellState.WrongFlag, flaggedCell.State);
-            Assert.AreEqual(CellState.NoFindedMine, noFindedMine.State);
-        }
-
+        
         private static IMinefield SetMineToCenter()
         {
             IMinefield field = SetMineToPosition(5, 5);

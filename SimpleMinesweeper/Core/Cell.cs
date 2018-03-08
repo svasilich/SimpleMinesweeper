@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace SimpleMinesweeper.Core
 {
-    class Cell : ICell
+    public class Cell : ICell
     {
         private const int MaxNearBy = 8;
+        private IMinefield minefield;
 
         private CellState state;
         public CellState State {
@@ -16,7 +17,7 @@ namespace SimpleMinesweeper.Core
             set
             {
                 state = value;
-                OnStateChanged?.Invoke(this, EventArgs.Empty);
+                OnStateChanged?.Invoke(this, new CellChangeStateEventArgs(state));
             }
         }
 
@@ -48,21 +49,32 @@ namespace SimpleMinesweeper.Core
 
         public void Open()
         {
-            OnOpen?.Invoke(this, EventArgs.Empty);
+            if (minefield.State == FieldState.GameOver)
+                return;
+
+            if (State == CellState.NotOpened)
+                State = (mined ? 
+                    CellState.BlownUpped : 
+                    CellState.Opened);
         }
 
         public void SetFlag()
         {
-            OnSetFlag?.Invoke(this, EventArgs.Empty);
-        }
+            if (minefield.State == FieldState.GameOver)
+                return;
 
-        public event EventHandler OnOpen;
-        public event EventHandler OnSetFlag;
-        public event EventHandler OnStateChanged;
+            if (State == CellState.NotOpened)
+                State = CellState.Flagged;
+            else if (State== CellState.Flagged)
+                State = CellState.NotOpened;
+        }
+        
+        public event EventHandler<CellChangeStateEventArgs> OnStateChanged;
         public event EventHandler OnMinedChanged;
 
-        public Cell(int x, int y)
+        public Cell(IMinefield field, int x, int y)
         {
+            this.minefield = field;
             CoordX = x;
             CoordY = y;
             State = CellState.NotOpened;
