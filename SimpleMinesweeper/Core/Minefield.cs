@@ -98,25 +98,31 @@ namespace SimpleMinesweeper.Core
         private void Cell_OnStateChanged(object sender, CellChangeStateEventArgs e)
         {
             ICell cell = (ICell)sender;
+            switch (cell.State)
+            {
+                case CellState.Opened:
+                    if (State == FieldState.NotStarted)
+                        State = FieldState.InGame;
+                    break;
 
-            if (State == FieldState.NotStarted)
-            {
-                State = FieldState.InGame;
-                
-                if (cell.Mined)
-                {
-                    cell.Mined = false;
-                    AddMainToRandomFieldsPosition();
-                    cell.State = CellState.Opened;
-                }
+                case CellState.Explosion:
+                    if (State == FieldState.NotStarted)
+                    {
+                        RemoveMineToRendomPosition(cell);
+                        cell.Open();
+                    }
+                    else
+                        GameOver();
+
+                    break;
             }
-            else if (State == FieldState.InGame)
-            {
-                if (cell.Mined)
-                {
-                    State = FieldState.GameOver;
-                }
-            }
+        }
+
+        private void RemoveMineToRendomPosition(ICell from)
+        {
+            from.Mined = false;
+            AddMainToRandomFieldsPosition();
+            from.State = CellState.NotOpened;
         }
 
         protected virtual void Cell_OnSetFlag(object sender, EventArgs e)
@@ -175,7 +181,7 @@ namespace SimpleMinesweeper.Core
             openedCell.State = CellState.Opened;
         }
 
-        protected void GameOver()
+        private void GameOver()
         {
             State = FieldState.GameOver;
 
@@ -183,7 +189,12 @@ namespace SimpleMinesweeper.Core
                 foreach (var cell in row)
                 {
                     if (cell.State == CellState.NotOpened)
-                        cell.Open();
+                    {
+                        if (cell.Mined)
+                            cell.State = CellState.NoFindedMine;
+                        else
+                            cell.State = CellState.Opened;
+                    }
 
                     if (cell.State == CellState.Flagged && !cell.Mined)
                         cell.State = CellState.WrongFlag;

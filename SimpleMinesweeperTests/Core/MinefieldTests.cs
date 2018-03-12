@@ -82,7 +82,6 @@ namespace SimpleMinesweeperTests.Core
         public void MineExplosion_StateToGameOver()
         {
             IMinefield field = SetMineToCenter();
-
             ICell cell = field.GetCellByCoords(0, 0);
             cell.Open();
 
@@ -91,6 +90,39 @@ namespace SimpleMinesweeperTests.Core
             cell.Open();
 
             Assert.AreEqual(FieldState.GameOver, field.State);            
+        }
+
+        [Test]
+        public void MineExplosion_AllCellsAreShowedUp()
+        {
+            List<int> coords = new List<int> { 0, 0, 0, 1, 5, 5 };
+            IMinePositionsGenerator generator = new CollectionMinePositionGenerator(coords);
+            IMinefield field = new Minefield(new CellFactory(), generator);
+            field.Fill(10, 10, 3);
+            ICell cell = field.GetCellByCoords(1, 0);
+            cell.Open();
+
+            ICell cellFlagged = field.GetCellByCoords(0, 1);
+            cellFlagged.SetFlag();
+
+            ICell cellWrongFlag = field.GetCellByCoords(2, 2);
+            cellWrongFlag.SetFlag();
+
+            // Boom!
+            cell = field.GetCellByCoords(5, 5);
+            cell.Open();
+
+            // Assertation
+
+            ICell cellOpened = field.GetCellByCoords(9, 9);
+            Assert.AreEqual(CellState.Opened, cellOpened.State);
+
+            ICell cellNoFinded = field.GetCellByCoords(0, 0);
+            Assert.AreEqual(CellState.NoFindedMine, cellNoFinded.State);
+
+            Assert.AreEqual(CellState.Flagged, cellFlagged.State);
+
+            Assert.AreEqual(CellState.WrongFlag, cellWrongFlag.State);
         }
 
         #region Вспомогательные методы
