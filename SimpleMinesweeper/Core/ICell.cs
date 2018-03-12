@@ -10,7 +10,7 @@ namespace SimpleMinesweeper.Core
     {
         NotOpened,
         Opened,
-        BlownUpped,
+        Explosion,
         Flagged,
         WrongFlag,
         NoFindedMine

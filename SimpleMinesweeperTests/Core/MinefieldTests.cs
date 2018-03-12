@@ -11,79 +11,38 @@ namespace SimpleMinesweeperTests.Core
     {
         private IMinefield CreateDefaultMineField()
         {
-            return new Minefield(new RandomMinePositionGenerator());
+            return new Minefield(new CellFactory(), new RandomMinePositionGenerator());
         }
 
         [TestCase(0, 1, 1, "высота")]
         [TestCase(1, 0, 1, "ширина")]
         [TestCase(1, 1, 0, "количество мин должно быть больше")]
         [TestCase(5, 5, 100, "слишком много")]
-        public void SendFillIncorrectParametersThrowException(int height, int length, int mineCount, string expected)
+        public void SendFillIncorrectParameters_ThrowException(int height, int length, int mineCount, string expected)
         {
             IMinefield minefield = CreateDefaultMineField();
 
             var ex = Assert.Catch<ArgumentException>(() => minefield.Fill(height, length, mineCount));
             StringAssert.Contains(expected.ToUpper(), ex.Message.ToUpper());
         }
-
-        [Test]
-        public void FillMineFieldAndCheckMinedPosition()
-        {
-            int mineCount = 3;
-            List<int> coords = new List<int> { 0, 0, 5, 5, 9, 9 };
-            IMinePositionsGenerator generator = new CollectionMinePositionGenerator(coords);
-            IMinefield field = new Minefield(generator);
-
-            field.Fill(10, 10, mineCount);
-
-            for (int y = 0; y < 10; ++y)
-                for (int x = 0; x < 10; ++x)
-                {
-                    if ((x == 0 && y == 0) ||
-                        (x == 5 && y == 5) ||
-                        (x == 9 && y == 9))
-                        Assert.True(field.GetCellByCoords(x, y).Mined);
-                    else
-                        Assert.False(field.GetCellByCoords(x, y).Mined);
-
-                }
-        }
         
-        [Test]
-        public void SetMineToCenterAndCheckNearby()
-        {
-            IMinefield field = SetMineToCenter();
-            IEnumerable<ICell> toCheck = GetNearbyFromCenter(field);
-
-            foreach (var cell in toCheck)
-                Assert.AreEqual(1, cell.MinesNearby, $"X:{cell.CoordX}; Y:{cell.CoordY}");
-        }
-
         [Test]
         public void SetMineToCornerAndCheckNearby()
         {
-            IMinefield field = SetMineToPosition(0, 0);
+            IEnumerable<int> coords = new List<int>()
+            {
+                1, 1,
+                1,0,
+                0, 1
+            };
 
-            List<ICell> toCheck = new List<ICell>(3);
-            toCheck.Add(field.GetCellByCoords(0, 1));
-            toCheck.Add(field.GetCellByCoords(1, 1));
-            toCheck.Add(field.GetCellByCoords(1, 0));
+            IMinePositionsGenerator generator = new CollectionMinePositionGenerator(coords);
+            IMinefield field = new Minefield(new CellFactory(), generator);
+            field.Fill(10, 10, 3);
 
-            foreach (var cell in toCheck)
-                Assert.AreEqual(1, cell.MinesNearby, $"X:{cell.CoordX}; Y:{cell.CoordY}");
-        }
+            int minesCount = field.GetCellMineNearbyCount(field.Cells[0][0]);
 
-        [Test]
-        public void SetMineToCenterThenUnmineAndCellNearbyHesNoMined()
-        {
-            IMinefield field = SetMineToCenter();
-            IEnumerable<ICell> toCheck = GetNearbyFromCenter(field);
-
-            ICell center = field.GetCellByCoords(5, 5);
-            ((Minefield)field).RemoveMineFromCell(center);
-
-            foreach (var cell in toCheck)
-                Assert.AreEqual(0, cell.MinesNearby, $"X:{cell.CoordX}; Y:{cell.CoordY}");
+            Assert.AreEqual(3, minesCount);
         }
 
         [Test]
@@ -96,7 +55,45 @@ namespace SimpleMinesweeperTests.Core
 
             Assert.AreEqual(0, center.MinesNearby);
         }
+
+        [Test]        
+        public void FirstClick_StateChangeToInGame()
+        {
+            IMinefield minefield = SetMineToCenter();
+
+            minefield.Cells[0][0].Open();
+
+            Assert.AreEqual(FieldState.InGame, minefield.State);
+        }
+
+        [Test]
+        public void FirstClickOnMinedCell_NoExplosion()
+        {
+            IMinefield minefield = SetMineToCenter();
         
+            ICell cell = minefield.Cells[5][5];
+            cell.Open();
+        
+            Assert.AreNotEqual(CellState.Explosion, cell.State);
+            Assert.AreNotEqual(FieldState.GameOver, minefield.State);
+        }
+        
+        [Test]
+        public void MineExplosion_StateToGameOver()
+        {
+            IMinefield field = SetMineToCenter();
+
+            ICell cell = field.GetCellByCoords(0, 0);
+            cell.Open();
+
+            // Boom!
+            cell = field.GetCellByCoords(5, 5);
+            cell.Open();
+
+            Assert.AreEqual(FieldState.GameOver, field.State);            
+        }
+
+        #region Вспомогательные методы
         private static IMinefield SetMineToCenter()
         {
             IMinefield field = SetMineToPosition(5, 5);
@@ -122,11 +119,13 @@ namespace SimpleMinesweeperTests.Core
             int mineCount = 1;
             List<int> coords = new List<int> { x, y };
             IMinePositionsGenerator generator = new CollectionMinePositionGenerator(coords);
-            IMinefield field = new Minefield(generator);
+            IMinefield field = new Minefield(new CellFactory(), generator);
 
             field.Fill(10, 10, mineCount);
             return field;
         }
+
+        #endregion
 
         #region Subtypes
 
@@ -143,27 +142,10 @@ namespace SimpleMinesweeperTests.Core
 
             public int Next(int max)
             {
+                if (step >= coords.Count())
+                    return step++;
+
                 return coords.ElementAt(step++);
-            }
-        }
-
-        class MinefieldCellEventTest : Minefield
-        {
-            public ICell OpenedCell { get; private set; }
-            public ICell FlaggedCell { get; private set; }
-
-            public MinefieldCellEventTest(IMinePositionsGenerator minePositionsGenerator) : base(minePositionsGenerator)
-            {
-            }
-
-            protected override void Cell_OnOpen(object sender, EventArgs e)
-            {
-                OpenedCell = (ICell)sender;
-            }
-
-            protected override void Cell_OnSetFlag(object sender, EventArgs e)
-            {
-                FlaggedCell = (ICell)sender;
             }
         }
         #endregion 

@@ -30,7 +30,7 @@ namespace SimpleMinesweeperTests.Core
             Assert.AreEqual(CellState.Flagged, cell.State);
         }
 
-        [TestCase(CellState.BlownUpped)]
+        [TestCase(CellState.Explosion)]
         [TestCase(CellState.NoFindedMine)]
         [TestCase(CellState.Opened)]
         [TestCase(CellState.WrongFlag)]
@@ -70,7 +70,7 @@ namespace SimpleMinesweeperTests.Core
 
             cell.Open();
 
-            Assert.AreEqual(CellState.BlownUpped, cell.State);
+            Assert.AreEqual(CellState.Explosion, cell.State);
         }
 
         [Test]
@@ -88,7 +88,7 @@ namespace SimpleMinesweeperTests.Core
         }
 
         private CellState newCellState;
-        [TestCase(CellState.BlownUpped)]
+        [TestCase(CellState.Explosion)]
         [TestCase(CellState.Flagged)]
         [TestCase(CellState.NoFindedMine)]
         [TestCase(CellState.Opened)]
@@ -108,7 +108,7 @@ namespace SimpleMinesweeperTests.Core
             newCellState = e.NewState;
         }
 
-        [TestCase(CellState.BlownUpped)]
+        [TestCase(CellState.Explosion)]
         [TestCase(CellState.Flagged)]
         [TestCase(CellState.NoFindedMine)]
         [TestCase(CellState.Opened)]
@@ -151,6 +151,24 @@ namespace SimpleMinesweeperTests.Core
             cell.SetFlag();
 
             Assert.AreEqual(CellState.NotOpened, cell.State);
+        }
+
+        [Test]
+        public void CellOpen_GetNearby()
+        {
+            IMinefield minefield = Substitute.For<IMinefield>();
+            minefield.State.Returns(FieldState.InGame);
+            minefield.GetCellMineNearbyCount(Arg.Any<ICell>()).Returns(x => 10);
+
+            ICell cell = new Cell(minefield, 0, 0)
+            {
+                State = CellState.NotOpened,
+                Mined = false
+            };
+
+            cell.Open();
+
+            Assert.AreEqual(10, cell.MinesNearby);
         }
 
         private static IMinefield CreateGameOveredMinefield()
@@ -201,5 +219,6 @@ namespace SimpleMinesweeperTests.Core
         {
             flagSetted = true;
         }
+
     }
 }

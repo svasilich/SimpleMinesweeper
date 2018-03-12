@@ -8,7 +8,8 @@ namespace SimpleMinesweeper.Core
     {
         NotStarted,
         InGame,
-        GameOver
+        GameOver,
+        WIn
     }
 
     public interface IMinefield
@@ -21,6 +22,7 @@ namespace SimpleMinesweeper.Core
         List<List<ICell>> Cells { get; }
 
         ICell GetCellByCoords(int x, int y);
+        int GetCellMineNearbyCount(ICell cell);
 
         void Fill(int hight, int length, int mineCount);
     }

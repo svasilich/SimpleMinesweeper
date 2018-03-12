@@ -35,17 +35,8 @@ namespace SimpleMinesweeper.Core
         public int CoordX { get; private set; }
 
         public int CoordY { get; private set; }
-
-        private int minesNearby;
-        public int MinesNearby
-        {
-            get => minesNearby;
-            set
-            {
-                if (value >= 0 && value <= MaxNearBy)
-                    minesNearby = value;
-            }
-        }
+        
+        public int MinesNearby { get; set; }
 
         public void Open()
         {
@@ -53,9 +44,16 @@ namespace SimpleMinesweeper.Core
                 return;
 
             if (State == CellState.NotOpened)
-                State = (mined ? 
-                    CellState.BlownUpped : 
-                    CellState.Opened);
+            {
+                if (mined)
+                    State = CellState.Explosion;
+                else
+                {
+                    MinesNearby = minefield.GetCellMineNearbyCount(this);
+                    State = CellState.Opened;
+                }
+                
+            }
         }
 
         public void SetFlag()
@@ -68,7 +66,25 @@ namespace SimpleMinesweeper.Core
             else if (State== CellState.Flagged)
                 State = CellState.NotOpened;
         }
-        
+
+        public override bool Equals(object obj)
+        {
+            var cell = obj as Cell;
+            return cell != null &&
+                   Mined == cell.Mined &&
+                   CoordX == cell.CoordX &&
+                   CoordY == cell.CoordY;
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = 280058429;
+            hashCode = hashCode * -1521134295 + Mined.GetHashCode();
+            hashCode = hashCode * -1521134295 + CoordX.GetHashCode();
+            hashCode = hashCode * -1521134295 + CoordY.GetHashCode();
+            return hashCode;
+        }
+
         public event EventHandler<CellChangeStateEventArgs> OnStateChanged;
         public event EventHandler OnMinedChanged;
 

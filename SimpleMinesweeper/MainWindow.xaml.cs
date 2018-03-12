@@ -27,7 +27,7 @@ namespace SimpleMinesweeper
             InitializeComponent();
 
 
-            IMinefield minefield = new Minefield(new RandomMinePositionGenerator());
+            IMinefield minefield = new Minefield(new CellFactory(), new RandomMinePositionGenerator());
             MinefieldViewModel minefieldViewModel = new MinefieldViewModel(minefield);
             minefieldGrid.ItemsSource = minefieldViewModel.Cells;
 
