@@ -14,6 +14,8 @@ namespace SimpleMinesweeper.Core
         private int hight;
         private int length;
         private int mineCount;
+        private int notMinedCellsCount;
+        private int openedCellsCount;
 
         private FieldState state;
         public FieldState State
@@ -76,6 +78,8 @@ namespace SimpleMinesweeper.Core
             hight = fieldHight;
             length = fieldLength;
             this.mineCount = mineCount;
+            notMinedCellsCount = hight * length - mineCount;
+            openedCellsCount = 0;
 
             Cells = new List<List<ICell>>(hight);
             for (int y = 0; y < hight; ++y)
@@ -103,6 +107,12 @@ namespace SimpleMinesweeper.Core
                 case CellState.Opened:
                     if (State == FieldState.NotStarted)
                         State = FieldState.InGame;
+
+                    // Все ли незаминированные клетки открыты?
+                    ++openedCellsCount;
+                    if (openedCellsCount == notMinedCellsCount)
+                        State = FieldState.Win;
+
                     break;
 
                 case CellState.Explosion:

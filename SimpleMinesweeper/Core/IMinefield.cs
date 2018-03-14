@@ -9,7 +9,7 @@ namespace SimpleMinesweeper.Core
         NotStarted,
         InGame,
         GameOver,
-        WIn
+        Win
     }
 
     public interface IMinefield

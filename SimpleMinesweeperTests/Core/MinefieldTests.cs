@@ -82,6 +82,7 @@ namespace SimpleMinesweeperTests.Core
         public void MineExplosion_StateToGameOver()
         {
             IMinefield field = SetMineToCenter();
+            field.GetCellByCoords(0, 1).Mined = true;
             ICell cell = field.GetCellByCoords(0, 0);
             cell.Open();
 
@@ -123,6 +124,23 @@ namespace SimpleMinesweeperTests.Core
             Assert.AreEqual(CellState.Flagged, cellFlagged.State);
 
             Assert.AreEqual(CellState.WrongFlag, cellWrongFlag.State);
+        }
+        
+        [Test]
+        public void OpenAllNoMinedCells_StateToWin()
+        {
+            IMinefield minefield = SetMineToCenter();
+            WinGame(minefield);
+
+            Assert.AreEqual(FieldState.Win, minefield.State);
+        }
+
+        private static void WinGame(IMinefield minefield)
+        {
+            foreach (var row in minefield.Cells)
+                foreach (var cell in row)
+                    if (!cell.Mined)
+                        cell.Open();
         }
 
         #region Вспомогательные методы
