@@ -24,6 +24,6 @@ namespace SimpleMinesweeper.Core
         ICell GetCellByCoords(int x, int y);
         int GetCellMineNearbyCount(ICell cell);
 
-        void Fill(int hight, int length, int mineCount);
+        void Fill(int height, int length, int mineCount);
     }
 }

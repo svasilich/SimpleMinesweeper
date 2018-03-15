@@ -22,8 +22,17 @@
             </ItemsControl>
         </DataTemplate>
     </Window.Resources>
-
-    <Grid>
-        <ItemsControl x:Name="minefieldGrid" ItemTemplate="{DynamicResource MinefieldRowTemplate}"/>
-    </Grid>
+    <StackPanel>
+        <DockPanel>
+            <Button x:Name="reloadButton" 
+                    Height="50"
+                    Content="{Binding Path=State}"
+                    Command="{Binding ReloadCommand}"/>
+        </DockPanel>    
+        <Grid>
+            <ItemsControl x:Name="minefieldGrid" 
+                          ItemsSource="{Binding Path=Cells}" 
+                          ItemTemplate="{DynamicResource MinefieldRowTemplate}"/>
+        </Grid>
+    </StackPanel>
 </Window>

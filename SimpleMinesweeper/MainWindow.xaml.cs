@@ -29,7 +29,7 @@ namespace SimpleMinesweeper
 
             IMinefield minefield = new Minefield(new CellFactory(), new RandomMinePositionGenerator());
             MinefieldViewModel minefieldViewModel = new MinefieldViewModel(minefield);
-            minefieldGrid.ItemsSource = minefieldViewModel.Cells;
+            DataContext = minefieldViewModel;
 
             minefield.Fill(10, 10, 5);
             

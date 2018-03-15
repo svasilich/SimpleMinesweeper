@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Collections.ObjectModel;
+using System.Windows.Input;
 using SimpleMinesweeper.Core;
 
 namespace SimpleMinesweeper.ViewModel
@@ -12,6 +14,11 @@ namespace SimpleMinesweeper.ViewModel
     class MinefieldViewModel : INotifyPropertyChanged
     {
         IMinefield field;
+        private ReloadFieldCommand reloadCommand;
+
+        private int width = 10;
+        private int height = 10;
+        private int mineCount = 10;
 
         private FieldState state;
         public FieldState State
@@ -29,8 +36,9 @@ namespace SimpleMinesweeper.ViewModel
             field = minefield;
             field.OnStateChanged += Field_OnStateChanged;
             field.OnFilled += Field_OnFilled;
+            reloadCommand = new ReloadFieldCommand(field, width, height, mineCount);
 
-            cells = new List<List<CellViewModel>>();
+            cells = new ObservableCollection<List<CellViewModel>>();
         }
 
         private void Field_OnFilled(object sender, EventArgs e)
@@ -43,8 +51,8 @@ namespace SimpleMinesweeper.ViewModel
             State = field.State;   
         }
 
-        private List<List<CellViewModel>> cells;
-        public List<List<CellViewModel>> Cells
+        private ObservableCollection<List<CellViewModel>> cells;
+        public ObservableCollection<List<CellViewModel>> Cells
         {
             get => cells;
             private set
@@ -53,22 +61,28 @@ namespace SimpleMinesweeper.ViewModel
                 NotifyPropertyChanged();
             }
         }
+
+        public ReloadFieldCommand ReloadCommand => reloadCommand;
+
         
         private void ReloadCells()
         {
+            var cells = Cells;
             cells.Clear();
 
             var modelCells = field.Cells;
             foreach (var row in modelCells)
             {
                 List<CellViewModel> list = new List<CellViewModel>();
-                cells.Add(list);
+                Cells.Add(list);
                 foreach (var cell in row)
                 {
                     CellViewModel cvm = new CellViewModel(cell);
                     list.Add(cvm);
                 }
             }
+
+            Cells = cells;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -77,5 +91,37 @@ namespace SimpleMinesweeper.ViewModel
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
+    }
+}
+
+public class ReloadFieldCommand : ICommand
+{
+    private IMinefield field;
+    private int width;
+    private int height;
+    private int mineCount;
+
+    public event EventHandler CanExecuteChanged
+    {
+        add { CommandManager.RequerySuggested += value; }
+        remove { CommandManager.RequerySuggested -= value; }
+    }
+
+    public ReloadFieldCommand(IMinefield field, int width, int height, int mineCount)
+    {
+        this.field = field;
+        this.width = width;
+        this.height = height;
+        this.mineCount = mineCount;
+    }
+
+    public bool CanExecute(object parameter)
+    {
+        return true;// field.State != FieldState.NotStarted;
+    }
+
+    public void Execute(object parameter)
+    {
+        field.Fill(height, width, mineCount);
     }
 }

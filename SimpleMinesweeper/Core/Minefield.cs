@@ -11,7 +11,7 @@ namespace SimpleMinesweeper.Core
     public class Minefield : IMinefield
     {
         public List<List<ICell>> Cells { get; private set; }
-        private int hight;
+        private int height;
         private int length;
         private int mineCount;
         private int notMinedCellsCount;
@@ -51,7 +51,7 @@ namespace SimpleMinesweeper.Core
             int bottomRihtX = cell.CoordX + 1;
             bottomRihtX = bottomRihtX == length ? length - 1 : bottomRihtX;
             int bottomRightY = cell.CoordY + 1;
-            bottomRightY = bottomRightY == hight ? hight - 1 : bottomRightY;
+            bottomRightY = bottomRightY == height ? height - 1 : bottomRightY;
 
             List<ICell> nearby = new List<ICell>();
             for (int x = topLeftX; x <= bottomRihtX; ++x)
@@ -75,14 +75,14 @@ namespace SimpleMinesweeper.Core
         public void Fill(int fieldHight, int fieldLength, int mineCount)
         {
             CheckFillParameters(fieldHight, fieldLength, mineCount);
-            hight = fieldHight;
+            height = fieldHight;
             length = fieldLength;
             this.mineCount = mineCount;
-            notMinedCellsCount = hight * length - mineCount;
+            notMinedCellsCount = height * length - mineCount;
             openedCellsCount = 0;
 
-            Cells = new List<List<ICell>>(hight);
-            for (int y = 0; y < hight; ++y)
+            Cells = new List<List<ICell>>(height);
+            for (int y = 0; y < height; ++y)
             {
                 List<ICell> row = new List<ICell>(length);
                 for (int x = 0; x < length; ++x)
@@ -97,6 +97,7 @@ namespace SimpleMinesweeper.Core
             MineAField();
 
             OnFilled?.Invoke(this, EventArgs.Empty);
+            State = FieldState.NotStarted;
         }
 
         private void Cell_OnStateChanged(object sender, CellChangeStateEventArgs e)
@@ -237,7 +238,7 @@ namespace SimpleMinesweeper.Core
             while (true)
             {
                 int minePosX = minePositionsGenerator.Next(length);
-                int minePosY = minePositionsGenerator.Next(hight);
+                int minePosY = minePositionsGenerator.Next(height);
 
                 ICell cell = Cells[minePosY][minePosX];
                 if (!cell.Mined)

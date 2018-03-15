@@ -10,6 +10,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace SimpleMinesweeper.View
@@ -17,7 +18,7 @@ namespace SimpleMinesweeper.View
     /// <summary>
     /// Логика взаимодействия для MineFieldView.xaml
     /// </summary>
-    public partial class MineFieldView : Window
+    public partial class MineFieldView : UserControl
     {
         public MineFieldView()
         {

@@ -1,16 +1,33 @@
-﻿<Window x:Class="SimpleMinesweeper.View.MineFieldView"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:SimpleMinesweeper.View"
-        xmlns:core="clr-namespace:SimpleMinesweeper.Core"
-        mc:Ignorable="d"
-        Title="MineFieldView" Height="300" Width="300">
-    <StackPanel Margin="0,0,0,229" Background="Gray">
-        <TabPanel>
-            <Button Content="Кнопка начала игры"/>
-        </TabPanel>
-        <Grid></Grid>
+﻿<UserControl x:Class="SimpleMinesweeper.View.MineFieldView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SimpleMinesweeper.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Control.Resources>
+        <DataTemplate x:Key="CellDataTemplate">
+            <local:CellView Width="100" Height="50"></local:CellView>
+        </DataTemplate>
+
+        <DataTemplate x:Key="MinefieldRowTemplate">
+            <ItemsControl ItemsSource="{Binding Path=Cells}" ItemTemplate="{DynamicResource CellDataTemplate}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </DataTemplate>
+    </Control.Resources>
+    <StackPanel>
+        <DockPanel Height="50">
+            <Button Name="btnReload" Command="{Binding ReloadCommand}"
+                    Content="{Binding Path=State}"/>
+        </DockPanel>
+        <Grid>
+            <ItemsControl x:Name="minefieldGrid" ItemTemplate="{DynamicResource MinefieldRowTemplate}"/>
+        </Grid>
     </StackPanel>
-</Window>
+</UserControl>
