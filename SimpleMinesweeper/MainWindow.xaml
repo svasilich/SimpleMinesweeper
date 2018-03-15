@@ -4,35 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SimpleMinesweeper"
-        xmlns:e="clr-namespace:SimpleMinesweeper.View"
+        xmlns:views="clr-namespace:SimpleMinesweeper.View"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
-    <Window.Resources>
-        <DataTemplate x:Key="CellDataTemplate">
-            <e:CellView Width="100" Height="50"></e:CellView>
-        </DataTemplate>
-
-        <DataTemplate x:Key="MinefieldRowTemplate">
-            <ItemsControl ItemsSource="{Binding}" ItemTemplate="{DynamicResource CellDataTemplate}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal"/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
-        </DataTemplate>
-    </Window.Resources>
     <StackPanel>
-        <DockPanel>
-            <Button x:Name="reloadButton" 
-                    Height="50"
-                    Content="{Binding Path=State}"
-                    Command="{Binding ReloadCommand}"/>
-        </DockPanel>    
-        <Grid>
-            <ItemsControl x:Name="minefieldGrid" 
-                          ItemsSource="{Binding Path=Cells}" 
-                          ItemTemplate="{DynamicResource MinefieldRowTemplate}"/>
-        </Grid>
+        <views:MineFieldView >
+            
+        </views:MineFieldView>
     </StackPanel>
 </Window>

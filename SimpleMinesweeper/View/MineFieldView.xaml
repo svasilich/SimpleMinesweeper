@@ -12,7 +12,7 @@
         </DataTemplate>
 
         <DataTemplate x:Key="MinefieldRowTemplate">
-            <ItemsControl ItemsSource="{Binding Path=Cells}" ItemTemplate="{DynamicResource CellDataTemplate}">
+            <ItemsControl ItemsSource="{Binding}" ItemTemplate="{DynamicResource CellDataTemplate}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Orientation="Horizontal"/>
@@ -22,12 +22,16 @@
         </DataTemplate>
     </Control.Resources>
     <StackPanel>
-        <DockPanel Height="50">
-            <Button Name="btnReload" Command="{Binding ReloadCommand}"
-                    Content="{Binding Path=State}"/>
+        <DockPanel>
+            <Button x:Name="reloadButton" 
+                    Height="50"
+                    Content="{Binding Path=State}"
+                    Command="{Binding ReloadCommand}"/>
         </DockPanel>
         <Grid>
-            <ItemsControl x:Name="minefieldGrid" ItemTemplate="{DynamicResource MinefieldRowTemplate}"/>
+            <ItemsControl x:Name="minefieldGrid" 
+                          ItemsSource="{Binding Path=Cells}" 
+                          ItemTemplate="{DynamicResource MinefieldRowTemplate}"/>
         </Grid>
     </StackPanel>
 </UserControl>
