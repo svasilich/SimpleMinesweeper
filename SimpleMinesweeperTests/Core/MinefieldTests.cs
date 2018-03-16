@@ -135,6 +135,18 @@ namespace SimpleMinesweeperTests.Core
             Assert.AreEqual(FieldState.Win, minefield.State);
         }
 
+        [Test]
+        public void FillMinefield_StateToNotStarted()
+        {
+            IMinefield minefield = SetMineToCenter();
+            minefield.Cells[0][0].Open();
+            minefield.Fill(10, 10, 1);
+
+            Assert.AreEqual(FieldState.NotStarted, minefield.State);
+        }
+
+
+
         private static void WinGame(IMinefield minefield)
         {
             foreach (var row in minefield.Cells)
