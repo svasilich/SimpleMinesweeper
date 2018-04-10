@@ -18,7 +18,7 @@ namespace SimpleMinesweeper.ViewModel
 
         public bool CanExecute(object parameter)
         {
-            return cell.State == CellState.Opened || cell.State == CellState.NotOpened;
+            return true;
         }
 
         public void Execute(object parameter)
@@ -82,11 +82,13 @@ class CellViewModel : INotifyPropertyChanged
         private void ModelCell_OnMinedChanged(object sender, EventArgs e)
         {
             NotifyPropertyChanged(nameof(Mined));
+            NotifyPropertyChanged(nameof(ShowNearby));
         }
 
         private void ModelCell_OnStateChanged(object sender, EventArgs e)
         {
             NotifyPropertyChanged(nameof(State));
+            NotifyPropertyChanged(nameof(ShowNearby));
         }
 
         public CellState State
@@ -97,6 +99,11 @@ class CellViewModel : INotifyPropertyChanged
         public bool Mined
         {
             get => modelCell.Mined;
+        }
+
+        public bool ShowNearby
+        {
+            get => modelCell.State == CellState.Opened && !modelCell.Mined;
         }
 
         public int MinesNearby

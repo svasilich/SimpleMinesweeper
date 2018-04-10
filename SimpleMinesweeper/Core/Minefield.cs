@@ -102,6 +102,9 @@ namespace SimpleMinesweeper.Core
 
         private void Cell_OnStateChanged(object sender, CellChangeStateEventArgs e)
         {
+            if (State == FieldState.GameOver)
+                return;
+
             ICell cell = (ICell)sender;
             switch (cell.State)
             {
@@ -113,6 +116,12 @@ namespace SimpleMinesweeper.Core
                     ++openedCellsCount;
                     if (openedCellsCount == notMinedCellsCount)
                         State = FieldState.Win;
+
+                    // Проверить окружение.
+                    var nearby = GetCellNearby(cell);
+                    if (!IsMineExists(nearby))
+                        foreach (var c in nearby)
+                            c.Open();
 
                     break;
 
@@ -129,67 +138,16 @@ namespace SimpleMinesweeper.Core
             }
         }
 
+        private static bool IsMineExists(IEnumerable<ICell> cells)
+        {
+            return cells.Where(c => c.Mined).Any();
+        }
+
         private void RemoveMineToRendomPosition(ICell from)
         {
             from.Mined = false;
             AddMainToRandomFieldsPosition();
             from.State = CellState.NotOpened;
-        }
-
-        protected virtual void Cell_OnSetFlag(object sender, EventArgs e)
-        {
-            ICell flaggedCell = (ICell)sender;
-
-            switch (flaggedCell.State)
-            {
-                case CellState.NotOpened:
-                    flaggedCell.State = CellState.Flagged;
-                    return;
-
-                case CellState.Flagged:
-                    flaggedCell.State = CellState.NotOpened;
-                    return;
-            }
-        }
-
-        protected virtual void Cell_OnOpen(object sender, EventArgs e)
-        {
-            if (State == FieldState.NotStarted)
-                State = FieldState.InGame;
-
-            ICell openedCell = (ICell)sender;
-
-            if (openedCell.State != CellState.NotOpened)
-                return;
-
-            if (openedCell.Mined)
-            {
-                if (State == FieldState.GameOver)
-                {
-                    openedCell.State = CellState.NoFindedMine;
-                }
-                else
-                {
-                    openedCell.State = CellState.Explosion;
-                    GameOver();
-                }
-                return;
-            }
-
-            openedCell.State = CellState.Opened;
-            int minesNearby = openedCell.MinesNearby;
-            if (minesNearby == 0)
-            {
-                IEnumerable<ICell> cellsNearby = GetCellNearby(openedCell);
-                foreach (var cell in cellsNearby)
-                {
-                    if (cell.State == CellState.NotOpened)
-                        cell.Open();
-                }
-                return;
-            }
-
-            openedCell.State = CellState.Opened;
         }
 
         private void GameOver()

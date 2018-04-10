@@ -56,12 +56,15 @@ namespace SimpleMinesweeperTests.Core
             Assert.AreEqual(0, center.MinesNearby);
         }
 
+        /// <summary>
+        /// При первом нажатии состояние должно стать InGame.
+        /// </summary>
         [Test]        
         public void FirstClick_StateChangeToInGame()
         {
             IMinefield minefield = SetMineToCenter();
 
-            minefield.Cells[0][0].Open();
+            minefield.Cells[4][4].Open();
 
             Assert.AreEqual(FieldState.InGame, minefield.State);
         }
@@ -135,17 +138,44 @@ namespace SimpleMinesweeperTests.Core
             Assert.AreEqual(FieldState.Win, minefield.State);
         }
 
+        /// <summary>
+        /// После заполнения поля его состояние должно стать NotStarted.
+        /// </summary>
         [Test]
         public void FillMinefield_StateToNotStarted()
         {
             IMinefield minefield = SetMineToCenter();
+
             minefield.Cells[0][0].Open();
             minefield.Fill(10, 10, 1);
 
             Assert.AreEqual(FieldState.NotStarted, minefield.State);
         }
 
+        [Test]
+        public void Explosion_StateToLosse()
+        {
+            IMinefield minefield = SetMineToCenter();
 
+            minefield.Cells[4][4].Open();
+            minefield.Cells[5][5].Open();
+
+            Assert.AreEqual(FieldState.GameOver, minefield.State);
+        }
+
+        /// <summary>
+        /// Если вокруг открываемой клетки нет ни одной мины, её соседи должны стать открытыми.
+        /// </summary>
+        [Test]
+        public void OpenCellWithNoAdjacentMine_AllAdjacentCellStateToOpen()
+        {
+            IMinefield minefield = SetMineToCenter();
+            minefield.Cells[0][0].Open();
+
+            Assert.AreEqual(CellState.Opened, minefield.Cells[1][0].State);
+            Assert.AreEqual(CellState.Opened, minefield.Cells[0][1].State);
+            Assert.AreEqual(CellState.Opened, minefield.Cells[1][1].State);
+        }
 
         private static void WinGame(IMinefield minefield)
         {
@@ -154,6 +184,8 @@ namespace SimpleMinesweeperTests.Core
                     if (!cell.Mined)
                         cell.Open();
         }
+
+        
 
         #region Вспомогательные методы
         private static IMinefield SetMineToCenter()

@@ -7,14 +7,33 @@
              xmlns:core="clr-namespace:SimpleMinesweeper.Core"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    
-    
-        <Button Content="{Binding Path=State}"
-                Command="{Binding OpenCellCommand}"
-                >
-            <Button.InputBindings>
-                <MouseBinding MouseAction="RightClick" Command="{Binding SetFlagCellCommand}"/>
-            </Button.InputBindings>
-        </Button>        
-    
+    <Control.Resources>
+        <Style TargetType="Button">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=ShowNearby}" Value="true">
+                    <Setter Property="Content" Value="{Binding Path=MinesNearby}"/>
+                    <Setter Property="Background" Value="Aqua"/>
+                </DataTrigger>
+            </Style.Triggers>
+            <Setter Property="Background" Value="Red"/>
+        </Style>
+    </Control.Resources>
+
+    <Button x:Name="cellBtn" Command="{Binding OpenCellCommand}">
+        <Button.Style>
+            <Style>
+                <Setter Property="Button.Content" Value="{Binding Path=State}"/>
+                <Style.Triggers>
+                    <DataTrigger  Binding="{Binding Path=ShowNearby}" Value="true">
+                        <Setter Property="Button.Background"  Value="Aqua"/>
+                        <Setter Property="Button.Content" Value="{Binding Path=MinesNearby}"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Button.Style>
+        <Button.InputBindings>
+            <MouseBinding MouseAction="RightClick" Command="{Binding SetFlagCellCommand}"/>
+        </Button.InputBindings>
+    </Button>
+
 </UserControl>
