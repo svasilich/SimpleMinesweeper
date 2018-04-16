@@ -25,5 +25,7 @@ namespace SimpleMinesweeper.Core
         int GetCellMineNearbyCount(ICell cell);
 
         void Fill(int height, int length, int mineCount);
+
+        bool CellsStateCanBeChanged { get; }
     }
 }

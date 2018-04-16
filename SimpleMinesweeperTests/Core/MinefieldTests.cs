@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
+using NSubstitute;
 using SimpleMinesweeper.Core;
 
 namespace SimpleMinesweeperTests.Core
@@ -163,6 +164,18 @@ namespace SimpleMinesweeperTests.Core
             Assert.AreEqual(FieldState.GameOver, minefield.State);
         }
 
+        [Test]
+        public void EndGame_CanNotOpenCell()
+        {
+            IMinefield minefield = SetMineToCenter();
+            WinGame(minefield);
+
+            ICell minedCell = minefield.GetCellByCoords(5, 5);
+            minedCell.Open();
+
+            Assert.AreEqual(CellState.NotOpened, minedCell.State);
+        }
+
         /// <summary>
         /// Если вокруг открываемой клетки нет ни одной мины, её соседи должны стать открытыми.
         /// </summary>
@@ -177,6 +190,18 @@ namespace SimpleMinesweeperTests.Core
             Assert.AreEqual(CellState.Opened, minefield.Cells[1][1].State);
         }
 
+        [TestCase(FieldState.GameOver, false)]
+        [TestCase(FieldState.Win, false)]
+        [TestCase(FieldState.NotStarted, true)]
+        [TestCase(FieldState.NotStarted, true)]
+        public void CanCellStateChangedInAllStates(FieldState gameState, bool expected)
+        {
+            var minefield = Substitute.For<Minefield>(new CellFactory(), new RandomMinePositionGenerator());
+            minefield.State.Returns(gameState);
+
+            Assert.AreEqual(expected, minefield.CellsStateCanBeChanged);
+        }
+
         private static void WinGame(IMinefield minefield)
         {
             foreach (var row in minefield.Cells)
@@ -184,9 +209,7 @@ namespace SimpleMinesweeperTests.Core
                     if (!cell.Mined)
                         cell.Open();
         }
-
         
-
         #region Вспомогательные методы
         private static IMinefield SetMineToCenter()
         {

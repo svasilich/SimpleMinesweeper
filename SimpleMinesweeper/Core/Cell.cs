@@ -40,7 +40,7 @@ namespace SimpleMinesweeper.Core
 
         public void Open()
         {
-            if (minefield.State == FieldState.GameOver)
+            if (!minefield.CellsStateCanBeChanged)
                 return;
 
             if (State == CellState.NotOpened)
@@ -58,7 +58,7 @@ namespace SimpleMinesweeper.Core
 
         public void SetFlag()
         {
-            if (minefield.State == FieldState.GameOver)
+            if (!minefield.CellsStateCanBeChanged)
                 return;
 
             if (State == CellState.NotOpened)

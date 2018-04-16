@@ -14,7 +14,9 @@ namespace SimpleMinesweeperTests.Core
     {
         private IMinefield GetFakeField()
         {
-            return Substitute.For<IMinefield>();
+            IMinefield minefield = Substitute.For<IMinefield>();
+            minefield.CellsStateCanBeChanged.Returns(true);
+            return minefield;
         }
 
         [Test]
@@ -124,7 +126,7 @@ namespace SimpleMinesweeperTests.Core
 
             Assert.AreEqual(state, cell.State);
         }
-        
+
         [Test]
         public void TryOpenCellAfterGameOver_StateNoChanged()
         {
@@ -151,24 +153,6 @@ namespace SimpleMinesweeperTests.Core
             cell.SetFlag();
 
             Assert.AreEqual(CellState.NotOpened, cell.State);
-        }
-
-        [Test]
-        public void CellOpen_GetNearby()
-        {
-            IMinefield minefield = Substitute.For<IMinefield>();
-            minefield.State.Returns(FieldState.InGame);
-            minefield.GetCellMineNearbyCount(Arg.Any<ICell>()).Returns(x => 10);
-
-            ICell cell = new Cell(minefield, 0, 0)
-            {
-                State = CellState.NotOpened,
-                Mined = false
-            };
-
-            cell.Open();
-
-            Assert.AreEqual(10, cell.MinesNearby);
         }
 
         private static IMinefield CreateGameOveredMinefield()
@@ -219,6 +203,5 @@ namespace SimpleMinesweeperTests.Core
         {
             flagSetted = true;
         }
-
     }
 }

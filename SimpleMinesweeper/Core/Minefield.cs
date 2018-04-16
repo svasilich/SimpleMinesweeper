@@ -18,13 +18,21 @@ namespace SimpleMinesweeper.Core
         private int openedCellsCount;
 
         private FieldState state;
-        public FieldState State
+        public virtual FieldState State
         {
             get { return state; }
             private set
             {
                 state = value;
                 OnStateChanged?.Invoke(this, new EventArgs());
+            }
+        }
+
+        public bool CellsStateCanBeChanged
+        {
+            get
+            {
+                return State == FieldState.NotStarted || State == FieldState.InGame;
             }
         }
 
@@ -102,7 +110,7 @@ namespace SimpleMinesweeper.Core
 
         private void Cell_OnStateChanged(object sender, CellChangeStateEventArgs e)
         {
-            if (State == FieldState.GameOver)
+            if (!CellsStateCanBeChanged)
                 return;
 
             ICell cell = (ICell)sender;
@@ -128,7 +136,7 @@ namespace SimpleMinesweeper.Core
                 case CellState.Explosion:
                     if (State == FieldState.NotStarted)
                     {
-                        RemoveMineToRendomPosition(cell);
+                        MoveMineToRendomPosition(cell);
                         cell.Open();
                     }
                     else
@@ -143,7 +151,7 @@ namespace SimpleMinesweeper.Core
             return cells.Where(c => c.Mined).Any();
         }
 
-        private void RemoveMineToRendomPosition(ICell from)
+        private void MoveMineToRendomPosition(ICell from)
         {
             from.Mined = false;
             AddMainToRandomFieldsPosition();
@@ -157,6 +165,8 @@ namespace SimpleMinesweeper.Core
             foreach (var row in Cells)
                 foreach (var cell in row)
                 {
+                    cell.OnStateChanged -= Cell_OnStateChanged;
+
                     if (cell.State == CellState.NotOpened)
                     {
                         if (cell.Mined)
@@ -167,6 +177,8 @@ namespace SimpleMinesweeper.Core
 
                     if (cell.State == CellState.Flagged && !cell.Mined)
                         cell.State = CellState.WrongFlag;
+
+                    cell.OnStateChanged += Cell_OnStateChanged;
                 }
         }
 
