@@ -143,6 +143,11 @@ namespace SimpleMinesweeper.Core
                         GameOver();
 
                     break;
+
+                case CellState.Flagged:
+                    if (State == FieldState.NotStarted)
+                        State = FieldState.InGame;
+                    break;
             }
         }
 

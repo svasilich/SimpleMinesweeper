@@ -70,6 +70,19 @@ namespace SimpleMinesweeperTests.Core
             Assert.AreEqual(FieldState.InGame, minefield.State);
         }
 
+        /// <summary>
+        /// При установке флага инра должна начаться.
+        /// </summary>
+        [Test]
+        public void FirstSetFlag_StateChangeToInGame()
+        {
+            IMinefield minefield = SetMineToCenter();
+
+            minefield.Cells[4][4].SetFlag();
+
+            Assert.AreEqual(FieldState.InGame, minefield.State);
+        }
+
         [Test]
         public void FirstClickOnMinedCell_NoExplosion()
         {
