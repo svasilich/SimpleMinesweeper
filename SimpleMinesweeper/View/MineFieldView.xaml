@@ -8,30 +8,42 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Control.Resources>
         <DataTemplate x:Key="CellDataTemplate">
-            <local:CellView Width="100" Height="50"></local:CellView>
+            <local:CellView></local:CellView>
         </DataTemplate>
 
         <DataTemplate x:Key="MinefieldRowTemplate">
-            <ItemsControl ItemsSource="{Binding}" ItemTemplate="{DynamicResource CellDataTemplate}">
+            <ItemsControl ItemsSource="{Binding}"
+                          ItemTemplate="{DynamicResource CellDataTemplate}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal"/>
+                        <UniformGrid Columns="{Binding Count}"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
         </DataTemplate>
     </Control.Resources>
-    <StackPanel>
-        <DockPanel>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0" VerticalAlignment="Stretch">
             <Button x:Name="reloadButton" 
-                    Height="50"
                     Content="{Binding Path=State}"
                     Command="{Binding ReloadCommand}"/>
         </DockPanel>
-        <Grid>
-            <ItemsControl x:Name="minefieldGrid" 
-                          ItemsSource="{Binding Path=Cells}" 
-                          ItemTemplate="{DynamicResource MinefieldRowTemplate}"/>
-        </Grid>
-    </StackPanel>
+        <ItemsControl Grid.Row="1"
+                      Background="Aqua"
+                      ItemsSource="{Binding Path=Cells}" 
+                      ItemTemplate="{DynamicResource MinefieldRowTemplate}" 
+                      HorizontalContentAlignment="Stretch"
+                      VerticalAlignment="Stretch">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Rows="{Binding Cells.Count}" VerticalAlignment="Stretch"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+
+    </Grid>
 </UserControl>
