@@ -1,0 +1,153 @@
+<!-- Created with Ai->XAML Export Plug-In Version 0.2 (PC/64) -->
+<!-- By Mike Swanson (http://blog.mikeswanson.com/)           -->
+
+ 
+<Viewbox Width="233.375" Height="193.747"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Canvas Width="233.375" Height="193.747">
+
+  <Canvas>
+
+  <!-- Основание/<Эллипс> -->
+  <Path StrokeThickness="1.0" Stroke="#ff000000" StrokeMiterLimit="1.0" Data="F1 M 232.875,109.247 C 232.875,155.639 195.267,193.247 148.875,193.247 C 102.483,193.247 64.875,155.639 64.875,109.247 C 64.875,62.855 102.483,25.247 148.875,25.247 C 195.267,25.247 232.875,62.855 232.875,109.247 Z">
+    <Path.Fill>
+      <RadialGradientBrush MappingMode="Absolute" GradientOrigin="185.027,-107.966" Center="158.333,-141.333" RadiusX="102.303" RadiusY="102.303">
+        <RadialGradientBrush.GradientStops>
+          <GradientStop Offset="0.00" Color="#ffffffff"/>
+          <GradientStop Offset="0.44" Color="#ff7f7f7f"/>
+          <GradientStop Offset="0.89" Color="#ff000000"/>
+        </RadialGradientBrush.GradientStops>
+        <RadialGradientBrush.Transform>
+          <MatrixTransform Matrix="1.000,0.000,-0.000,-1.000,-3.125,-39.753" />
+        </RadialGradientBrush.Transform>
+      </RadialGradientBrush>
+    </Path.Fill>
+  </Path>
+
+  </Canvas>
+
+  <Canvas>
+
+  <!-- Голова/<Контур> -->
+  <Path StrokeThickness="1.0" Stroke="#ff000000" StrokeMiterLimit="1.0" Data="F1 M 145.125,6.247"/>
+
+  <!-- Голова/<Контур> -->
+  <Path StrokeThickness="1.0" Stroke="#ff000000" StrokeMiterLimit="1.0" Data="F1 M 121.542,6.247"/>
+
+  <!-- Голова/<Контур> -->
+  <Path StrokeThickness="1.0" Stroke="#ff000000" StrokeMiterLimit="1.0" Data="F1 M 121.125,6.247 L 121.542,6.247"/>
+
+  <!-- Голова/<Контур> -->
+  <Path StrokeThickness="1.0" Stroke="#ff000000" StrokeMiterLimit="1.0" Data="F1 M 168.375,6.247"/>
+
+  <!-- Голова/<Контур> -->
+  <Path StrokeThickness="1.0" Stroke="#ff000000" StrokeMiterLimit="1.0" Data="F1 M 145.125,6.247"/>
+
+  <!-- Голова/<Контур> -->
+  <Path StrokeThickness="1.0" Stroke="#ff000000" StrokeMiterLimit="1.0" Data="F1 M 168.375,56.497"/>
+
+  <Canvas>
+
+  <Canvas>
+
+  <!-- Голова/<Группа>/Быстрая заливка/<Группа>/<Контур> -->
+  <Path Data="F1 M 97.451,57.497 L 89.342,27.636 C 90.166,30.673 102.753,29.896 117.442,25.907 C 132.143,21.914 143.393,16.217 142.569,13.181 L 150.678,43.042 C 151.503,46.079 140.253,51.776 125.552,55.768 C 110.862,59.758 98.276,60.534 97.451,57.497 Z">
+    <Path.Fill>
+      <RadialGradientBrush MappingMode="Absolute" GradientOrigin="141.270,-56.687" Center="141.270,-56.687" RadiusX="77.461" RadiusY="77.461">
+        <RadialGradientBrush.GradientStops>
+          <GradientStop Offset="0.00" Color="#ffffffff"/>
+          <GradientStop Offset="0.42" Color="#ff7f7f7f"/>
+          <GradientStop Offset="1.00" Color="#ff000000"/>
+        </RadialGradientBrush.GradientStops>
+        <RadialGradientBrush.Transform>
+          <MatrixTransform Matrix="1.000,0.000,-0.000,-1.000,-3.125,-39.753" />
+        </RadialGradientBrush.Transform>
+      </RadialGradientBrush>
+    </Path.Fill>
+  </Path>
+
+  <!-- Голова/<Группа>/Быстрая заливка/<Группа>/<Контур> -->
+  <Path Data="F1 M 117.442,25.907 C 102.753,29.896 90.166,30.673 89.342,27.636 C 88.517,24.599 99.767,18.902 114.457,14.913 C 129.157,10.921 141.744,10.144 142.569,13.181 C 143.393,16.217 132.143,21.914 117.442,25.907 Z">
+    <Path.Fill>
+      <RadialGradientBrush MappingMode="Absolute" GradientOrigin="141.270,-56.688" Center="141.270,-56.688" RadiusX="77.459" RadiusY="77.459">
+        <RadialGradientBrush.GradientStops>
+          <GradientStop Offset="0.00" Color="#ffffffff"/>
+          <GradientStop Offset="0.42" Color="#ff7f7f7f"/>
+          <GradientStop Offset="1.00" Color="#ff000000"/>
+        </RadialGradientBrush.GradientStops>
+        <RadialGradientBrush.Transform>
+          <MatrixTransform Matrix="1.000,0.000,-0.000,-1.000,-3.125,-39.753" />
+        </RadialGradientBrush.Transform>
+      </RadialGradientBrush>
+    </Path.Fill>
+  </Path>
+
+  </Canvas>
+
+  <Canvas>
+
+  <!-- Голова/<Группа>/Быстрая заливка/<Группа>/<Контур> -->
+  <Path StrokeThickness="0.5" Stroke="#ff000000" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" Data="F1 M 89.342,27.636 C 88.517,24.599 99.767,18.902 114.457,14.913 C 129.157,10.921 141.744,10.144 142.569,13.181"/>
+
+  <!-- Голова/<Группа>/Быстрая заливка/<Группа>/<Контур> -->
+  <Path StrokeThickness="0.5" Stroke="#ff000000" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" Data="F1 M 142.569,13.181 C 143.393,16.217 132.143,21.914 117.442,25.907"/>
+
+  <!-- Голова/<Группа>/Быстрая заливка/<Группа>/<Контур> -->
+  <Path StrokeThickness="0.5" Stroke="#ff000000" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" Data="F1 M 97.451,57.497 L 89.342,27.636"/>
+
+  <!-- Голова/<Группа>/Быстрая заливка/<Группа>/<Контур> -->
+  <Path StrokeThickness="0.5" Stroke="#ff000000" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" Data="F1 M 142.569,13.181 L 150.678,43.042"/>
+
+  <!-- Голова/<Группа>/Быстрая заливка/<Группа>/<Контур> -->
+  <Path StrokeThickness="0.5" Stroke="#ff000000" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" Data="F1 M 117.442,25.907 C 102.753,29.896 90.166,30.673 89.342,27.636"/>
+
+  <!-- Голова/<Группа>/Быстрая заливка/<Группа>/<Контур> -->
+  <Path StrokeThickness="0.5" Stroke="#ff000000" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" Data="F1 M 150.678,43.042 C 151.503,46.079 140.253,51.776 125.552,55.768 C 110.862,59.758 98.276,60.534 97.451,57.497 C 97.425,57.402 97.411,57.304 97.409,57.209"/>
+
+  </Canvas>
+
+  </Canvas>
+
+  <!-- Голова/<Контур> -->
+  <Path StrokeThickness="1.0" Stroke="#ff000000" StrokeMiterLimit="1.0" Data="F1 M 72.208,37.247"/>
+
+  <!-- Голова/<Контур> -->
+  <Path StrokeThickness="1.0" Stroke="#ff000000" StrokeMiterLimit="1.0" Data="F1 M 85.047,26.828"/>
+
+  <!-- Голова/<Контур> -->
+  <Path StrokeThickness="1.0" Stroke="#ff000000" StrokeMiterLimit="1.0" Data="F1 M 91.441,10.218"/>
+
+  <!-- Голова/<Контур> -->
+  <Path StrokeThickness="1.0" Stroke="#ff000000" StrokeMiterLimit="1.0" Data="F1 M 92.042,7.081"/>
+
+  <!-- Голова/<Контур> -->
+  <Path StrokeThickness="1.0" Stroke="#ff000000" StrokeMiterLimit="1.0" Data="F1 M 145.125,6.247"/>
+
+  </Canvas>
+
+  <Canvas>
+
+  <!-- Фитиль/<Контур> -->
+  <Path StrokeThickness="1.0" Stroke="#ff000000" StrokeMiterLimit="1.0" Data="F1 M 116.148,18.645 C 112.186,5.643 98.643,-1.979 85.799,1.233 C 73.454,4.321 65.171,16.562 66.981,29.489"/>
+
+  <!-- Фитиль/<Контур> -->
+  <Path StrokeThickness="1.0" Stroke="#ff000000" StrokeMiterLimit="1.0" Data="F1 M 66.965,29.248 C 67.947,38.900 62.484,47.916 54.007,51.184 C 44.321,54.918 32.662,50.390 27.703,40.325"/>
+
+  </Canvas>
+
+  <Canvas>
+
+  <Canvas>
+
+  <!-- Взрыв/<Группа>/<Контур> -->
+  <Path StrokeThickness="1.0" Stroke="#ffff0000" StrokeMiterLimit="1.0" Fill="#ffffff00" Data="F1 M 49.167,61.831 L 32.047,60.653 L 21.371,74.088 L 17.201,57.442 L 1.124,51.441 L 15.667,42.331 L 16.406,25.186 L 29.564,36.202 L 46.098,31.608 L 39.688,47.526 L 49.167,61.831 Z"/>
+
+  <!-- Взрыв/<Группа>/<Контур> -->
+  <Path StrokeThickness="1.0" Stroke="#ffffff00" StrokeMiterLimit="1.0" Fill="#ffff0000" Data="F1 M 7.466,69.269 L 14.061,52.201 L 3.740,37.092 L 22.010,38.090 L 33.190,23.605 L 37.887,41.290 L 55.118,47.447 L 39.750,57.379 L 39.219,75.669 L 25.025,64.122 L 7.466,69.269 Z"/>
+
+  </Canvas>
+
+  </Canvas>
+</Canvas>
+</Viewbox>

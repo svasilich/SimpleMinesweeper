@@ -31,7 +31,7 @@ namespace SimpleMinesweeper
             MinefieldViewModel minefieldViewModel = new MinefieldViewModel(minefield);
             DataContext = minefieldViewModel;
 
-            minefield.Fill(10, 10, 5);   
+            minefield.Fill(30, 16, 99);   
         }
 
         private void Cell_OnOpen(object sender, EventArgs e)

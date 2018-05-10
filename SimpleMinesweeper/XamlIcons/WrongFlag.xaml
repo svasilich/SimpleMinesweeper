@@ -1,0 +1,88 @@
+<!-- Created with Ai->XAML Export Plug-In Version 0.2 (PC/64) -->
+<!-- By Mike Swanson (http://blog.mikeswanson.com/)           -->
+
+<Viewbox Width="237.591" Height="266.421"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Canvas Width="237.591" Height="266.421">
+
+  <Canvas>
+
+  <!-- Флаг/<Прямоугольник> -->
+  <Path StrokeThickness="1.0" Stroke="#ff000000" StrokeMiterLimit="1.0" Fill="#ff323232" Data="F1 M 36.591,36.333 L 32.591,36.333 L 32.591,264.333 L 36.591,264.333 L 36.591,36.333 Z"/>
+
+  <!-- Флаг/<Контур> -->
+  <Path StrokeThickness="1.0" Stroke="#ff000000" StrokeMiterLimit="1.0" Fill="#ffffffff" Data="F1 M 36.591,36.333"/>
+
+  <!-- Флаг/<Контур> -->
+  <Path StrokeThickness="1.0" Stroke="#ff000000" StrokeMiterLimit="1.0" Fill="#ffffffff" Data="F1 M 202.257,36.333"/>
+
+  <Canvas>
+
+  <!-- Флаг/Быстрая заливка/<Группа>/<Контур> -->
+  <Path Fill="#ffff0000" Data="F1 M 201.071,108.590 L 37.591,180.670 L 37.591,36.500 L 201.071,108.590 Z"/>
+
+  </Canvas>
+
+  <Canvas>
+
+  <!-- Флаг/Быстрая заливка/<Группа>/<Контур> -->
+  <Path StrokeThickness="1.0" Stroke="#ff950000" StrokeMiterLimit="1.0" Data="F1 M 37.591,180.670 L 201.071,108.590 L 201.261,108.500"/>
+
+  <!-- Флаг/Быстрая заливка/<Группа>/<Контур> -->
+  <Path StrokeThickness="1.0" Stroke="#ff950000" StrokeMiterLimit="1.0" Data="F1 M 37.591,36.500 L 201.071,108.590 L 201.261,108.670"/>
+
+  <!-- Флаг/Быстрая заливка/<Группа>/<Контур> -->
+  <Path StrokeThickness="1.0" Stroke="#ff950000" StrokeMiterLimit="1.0" Data="F1 M 37.591,36.330 L 37.591,36.500 L 37.591,180.670"/>
+
+  </Canvas>
+
+  </Canvas>
+
+  <Canvas>
+
+  <Canvas>
+
+  <Canvas>
+
+  <!-- Крест/<Группа>/Быстрая заливка/<Группа>/<Контур> -->
+  <Path Fill="#ffff0000" Data="F1 M 146.431,151.430 L 114.991,182.870 L 83.551,151.430 L 114.991,119.990 L 146.431,151.430 Z"/>
+
+  <!-- Крест/<Группа>/Быстрая заливка/<Группа>/<Контур> -->
+  <Path Fill="#ffff0000" Data="F1 M 228.921,68.940 L 146.431,151.430 L 114.991,119.990 L 197.481,37.500 L 228.921,68.940 Z"/>
+
+  <!-- Крест/<Группа>/Быстрая заливка/<Группа>/<Контур> -->
+  <Path Fill="#ffff0000" Data="F1 M 228.921,233.920 L 197.481,265.360 L 114.991,182.870 L 146.431,151.430 L 228.921,233.920 Z"/>
+
+  <!-- Крест/<Группа>/Быстрая заливка/<Группа>/<Контур> -->
+  <Path Fill="#ffff0000" Data="F1 M 114.991,119.990 L 83.551,151.430 L 1.061,68.940 L 32.491,37.500 L 114.991,119.990 Z"/>
+
+  <!-- Крест/<Группа>/Быстрая заливка/<Группа>/<Контур> -->
+  <Path Fill="#ffff0000" Data="F1 M 114.991,182.870 L 32.491,265.360 L 1.061,233.920 L 83.551,151.430 L 114.991,182.870 Z"/>
+
+  </Canvas>
+
+  <Canvas>
+
+  <!-- Крест/<Группа>/Быстрая заливка/<Группа>/<Контур> -->
+  <Path StrokeThickness="3.0" Stroke="#ff000000" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Bevel" Data="F1 M 83.551,151.430 L 1.061,233.920 L 32.491,265.360 L 114.991,182.870"/>
+
+  <!-- Крест/<Группа>/Быстрая заливка/<Группа>/<Контур> -->
+  <Path StrokeThickness="3.0" Stroke="#ff000000" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Bevel" Data="F1 M 114.991,119.990 L 197.481,37.500 L 228.921,68.940 L 146.431,151.430"/>
+
+  <!-- Крест/<Группа>/Быстрая заливка/<Группа>/<Контур> -->
+  <Path StrokeThickness="3.0" Stroke="#ff000000" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Bevel" Data="F1 M 146.431,151.430 L 228.921,233.920 L 197.481,265.360 L 114.991,182.870"/>
+
+  <!-- Крест/<Группа>/Быстрая заливка/<Группа>/<Контур> -->
+  <Path StrokeThickness="3.0" Stroke="#ff000000" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Bevel" Data="F1 M 83.551,151.430 L 1.061,68.940 L 32.491,37.500 L 114.991,119.990"/>
+
+  </Canvas>
+
+  </Canvas>
+
+  <!-- Крест/<Контур> -->
+  <Path StrokeThickness="1.0" Stroke="#ff000000" StrokeMiterLimit="1.0" Fill="#ffffffff" Data="F1 M 114.989,119.992"/>
+
+  </Canvas>
+</Canvas>
+</Viewbox>

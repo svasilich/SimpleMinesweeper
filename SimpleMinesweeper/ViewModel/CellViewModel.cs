@@ -2,7 +2,9 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using System.Windows.Data;
 using SimpleMinesweeper.Core;
+using System.Globalization;
 
 namespace SimpleMinesweeper.ViewModel
 {
@@ -59,8 +61,8 @@ namespace SimpleMinesweeper.ViewModel
 
         
     }
-
-class CellViewModel : INotifyPropertyChanged
+    
+    class CellViewModel : INotifyPropertyChanged
     {
         ICell modelCell;
         OpenCellCommand openCommand;

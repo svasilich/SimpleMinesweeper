@@ -8,25 +8,36 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Control.Resources>
-        <Style TargetType="Button">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=ShowNearby}" Value="true">
-                    <Setter Property="Content" Value="{Binding Path=MinesNearby}"/>
-                    <Setter Property="Background" Value="Aqua"/>
-                </DataTrigger>
-            </Style.Triggers>
-            <Setter Property="Background" Value="Red"/>
-        </Style>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="..\XamlIcons\IconDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Control.Resources>
 
-    <Button x:Name="cellBtn" Command="{Binding OpenCellCommand}">
+    <Button x:Name="cellBtn" Command="{Binding OpenCellCommand}" 
+            BorderBrush="Black"
+            BorderThickness="1">
         <Button.Style>
             <Style>
                 <Setter Property="Button.Content" Value="{Binding Path=State}"/>
                 <Style.Triggers>
-                    <DataTrigger  Binding="{Binding Path=ShowNearby}" Value="true">
+                    <DataTrigger Binding="{Binding Path=ShowNearby}" Value="true">
+                        <Setter Property="Button.Content" Value=""/>
                         <Setter Property="Button.Background"  Value="Aqua"/>
                         <Setter Property="Button.Content" Value="{Binding Path=MinesNearby}"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Path=State}" Value="{x:Static core:CellState.Explosion}">
+                        <Setter Property="Button.Content" Value="{StaticResource Explosion}"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Path=State}" Value="{x:Static core:CellState.Flagged}">
+                        <Setter Property="Button.Content" Value="{StaticResource Flag}"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Path=State}" Value="{x:Static core:CellState.WrongFlag}">
+                        <Setter Property="Button.Content" Value="{StaticResource WrongFlag}"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Path=State}" Value="{x:Static core:CellState.NoFindedMine}">
+                        <Setter Property="Button.Content" Value="{StaticResource Bomb}"/>
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
@@ -34,6 +45,7 @@
         <Button.InputBindings>
             <MouseBinding MouseAction="RightClick" Command="{Binding SetFlagCellCommand}"/>
         </Button.InputBindings>
+        <!-- <ContentControl Content="{StaticResource Bomb}"> -->
     </Button>
 
 </UserControl>
