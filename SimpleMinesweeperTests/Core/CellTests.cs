@@ -7,7 +7,7 @@ using NUnit.Framework;
 using NSubstitute;
 using SimpleMinesweeper.Core;
 
-namespace SimpleMinesweeperTests.Core
+namespace SimpleMinesweeperTest.Core
 {
     [TestFixture]
     class CellTests

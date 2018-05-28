@@ -4,24 +4,20 @@ using System.Linq;
 using NUnit.Framework;
 using NSubstitute;
 using SimpleMinesweeper.Core;
+using SimpleMinesweeperTests.Common;
 
-namespace SimpleMinesweeperTests.Core
+namespace SimpleMinesweeperTest.Core
 {
     [TestFixture]
     class MinefieldTests
     {
-        private IMinefield CreateDefaultMineField()
-        {
-            return new Minefield(new CellFactory(), new RandomMinePositionGenerator());
-        }
-
         [TestCase(0, 1, 1, "высота")]
         [TestCase(1, 0, 1, "ширина")]
         [TestCase(1, 1, 0, "количество мин должно быть больше")]
         [TestCase(5, 5, 100, "слишком много")]
         public void SendFillIncorrectParameters_ThrowException(int height, int length, int mineCount, string expected)
         {
-            IMinefield minefield = CreateDefaultMineField();
+            IMinefield minefield = MinefieldTestHelper.CreateDefaultMinefield();
 
             var ex = Assert.Catch<ArgumentException>(() => minefield.Fill(height, length, mineCount));
             StringAssert.Contains(expected.ToUpper(), ex.Message.ToUpper());

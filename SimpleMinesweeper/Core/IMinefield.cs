@@ -16,6 +16,9 @@ namespace SimpleMinesweeper.Core
     {
         FieldState State { get; }
 
+        int Height { get; }
+        int Length { get; }
+
         event EventHandler OnStateChanged;
         event EventHandler OnFilled;
 

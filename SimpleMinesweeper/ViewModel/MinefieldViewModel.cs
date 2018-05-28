@@ -7,18 +7,20 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using System.Windows;
 using SimpleMinesweeper.Core;
 
 namespace SimpleMinesweeper.ViewModel
 {
-    class MinefieldViewModel : INotifyPropertyChanged
+    public class MinefieldViewModel : INotifyPropertyChanged
     {
         IMinefield field;
         private ReloadFieldCommand reloadCommand;
 
-        private int width = 10;
-        private int height = 10;
-        private int mineCount = 10;
+        //TODO: Эти параметры должны уйти в класс настроек.
+        private int width = 16;
+        private int height = 30;
+        private int mineCount = 99;
 
         private FieldState state;
         public FieldState State
@@ -48,7 +50,7 @@ namespace SimpleMinesweeper.ViewModel
 
         private void Field_OnStateChanged(object sender, EventArgs e)
         {
-            State = field.State;   
+            State = field.State;
         }
 
         private ObservableCollection<List<CellViewModel>> cells;
@@ -64,7 +66,6 @@ namespace SimpleMinesweeper.ViewModel
 
         public ReloadFieldCommand ReloadCommand => reloadCommand;
 
-        
         private void ReloadCells()
         {
             var cells = Cells;
@@ -91,7 +92,90 @@ namespace SimpleMinesweeper.ViewModel
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
+
+
+        private double fieldHeightPx;
+        public double FieldHeightPx
+        {
+            get { return fieldHeightPx; }
+            set
+            {
+                fieldHeightPx = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private double fieldWidthPx;
+        public double FieldWidthPx
+        {
+            get { return fieldWidthPx; }
+            set
+            {
+                fieldWidthPx = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public void MainWindow_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            var view = (IDynamicGameFieldSize)sender;
+            ResizeField(view.ContainetWidth, view.ContainerHeight);
+        }
+
+        protected void ResizeField(double containerWidth, double containerHeight)
+        {
+            double newWidth = 0;
+            double newHeight = 0;
+
+            // Определить наибольшую сторону.
+            if (containerWidth > containerHeight)
+            {
+                if (field.Length > field.Height)
+                {
+                    newWidth = containerWidth;
+                    newHeight = containerWidth * field.Height / field.Length;
+
+                    if (newHeight > containerHeight)
+                    {
+                        newWidth = containerHeight * field.Length / field.Height;
+                        newHeight = containerHeight;
+                    }
+                }
+                else
+                {
+                    newWidth = containerHeight * field.Length / field.Height;
+                    newHeight = containerHeight;
+                }
+            }
+            else
+            {
+                if (field.Height > width)
+                {
+                    newWidth = containerHeight * field.Length / field.Height;
+                    newHeight = containerHeight;
+                }
+                else
+                {
+                    newWidth = containerWidth;
+                    newHeight = containerWidth * field.Height / field.Length;
+                }
+            }
+
+            FieldWidthPx = newWidth;
+            FieldHeightPx = newHeight;
+        }
+
+        private void CalculateProportions()
+        {
+
+        }
     }
+}
+
+public interface IDynamicGameFieldSize
+{
+    double ContainerHeight { get; }
+    double ContainetWidth { get; }
 }
 
 public class ReloadFieldCommand : ICommand

@@ -11,8 +11,7 @@ namespace SimpleMinesweeper.Core
     public class Minefield : IMinefield
     {
         public List<List<ICell>> Cells { get; private set; }
-        private int height;
-        private int length;
+
         private int mineCount;
         private int notMinedCellsCount;
         private int openedCellsCount;
@@ -36,6 +35,9 @@ namespace SimpleMinesweeper.Core
             }
         }
 
+        public int Height { get; private set; }
+        public int Length { get; private set; }
+
         private readonly ICellFactory cellFactory;
         private readonly IMinePositionsGenerator minePositionsGenerator;
 
@@ -57,9 +59,9 @@ namespace SimpleMinesweeper.Core
             topLeftY = topLeftY < 0 ? 0 : topLeftY;
 
             int bottomRihtX = cell.CoordX + 1;
-            bottomRihtX = bottomRihtX == length ? length - 1 : bottomRihtX;
+            bottomRihtX = bottomRihtX == Length ? Length - 1 : bottomRihtX;
             int bottomRightY = cell.CoordY + 1;
-            bottomRightY = bottomRightY == height ? height - 1 : bottomRightY;
+            bottomRightY = bottomRightY == Height ? Height - 1 : bottomRightY;
 
             List<ICell> nearby = new List<ICell>();
             for (int x = topLeftX; x <= bottomRihtX; ++x)
@@ -83,17 +85,17 @@ namespace SimpleMinesweeper.Core
         public void Fill(int fieldHight, int fieldLength, int mineCount)
         {
             CheckFillParameters(fieldHight, fieldLength, mineCount);
-            height = fieldHight;
-            length = fieldLength;
+            Height = fieldHight;
+            Length = fieldLength;
             this.mineCount = mineCount;
-            notMinedCellsCount = height * length - mineCount;
+            notMinedCellsCount = Height * Length - mineCount;
             openedCellsCount = 0;
 
-            Cells = new List<List<ICell>>(height);
-            for (int y = 0; y < height; ++y)
+            Cells = new List<List<ICell>>(Height);
+            for (int y = 0; y < Height; ++y)
             {
-                List<ICell> row = new List<ICell>(length);
-                for (int x = 0; x < length; ++x)
+                List<ICell> row = new List<ICell>(Length);
+                for (int x = 0; x < Length; ++x)
                 {
                     ICell cell = cellFactory.CreateCell(this, x, y);
                     cell.OnStateChanged += Cell_OnStateChanged;
@@ -212,8 +214,8 @@ namespace SimpleMinesweeper.Core
         {
             while (true)
             {
-                int minePosX = minePositionsGenerator.Next(length);
-                int minePosY = minePositionsGenerator.Next(height);
+                int minePosX = minePositionsGenerator.Next(Length);
+                int minePosY = minePositionsGenerator.Next(Height);
 
                 ICell cell = Cells[minePosY][minePosX];
                 if (!cell.Mined)

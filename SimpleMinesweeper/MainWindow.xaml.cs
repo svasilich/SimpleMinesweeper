@@ -20,7 +20,7 @@ namespace SimpleMinesweeper
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, IDynamicGameFieldSize
     {
         public MainWindow()
         {
@@ -30,18 +30,13 @@ namespace SimpleMinesweeper
             IMinefield minefield = new Minefield(new CellFactory(), new RandomMinePositionGenerator());
             MinefieldViewModel minefieldViewModel = new MinefieldViewModel(minefield);
             DataContext = minefieldViewModel;
+            this.SizeChanged += minefieldViewModel.MainWindow_SizeChanged;
 
-            minefield.Fill(30, 16, 99);   
+            minefield.Fill(16, 30, 99);   
         }
 
-        private void Cell_OnOpen(object sender, EventArgs e)
-        {
-            ICell cell = (ICell)sender;
-            if (cell.State == CellState.NotOpened)
-                cell.State = CellState.Opened;
-            else
-                cell.State = CellState.NotOpened;
+        public double ContainerHeight => MainView.FieldRow.ActualHeight;
 
-        }
+        public double ContainetWidth => MainView.FieldColumn.ActualWidth;
     }
 }

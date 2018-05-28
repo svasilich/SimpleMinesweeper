@@ -15,17 +15,15 @@
         </ResourceDictionary>
     </Control.Resources>
 
-    <Button x:Name="cellBtn" Command="{Binding OpenCellCommand}" 
-            BorderBrush="Black"
-            BorderThickness="1">
+    <Button x:Name="cellBtn" Command="{Binding OpenCellCommand}">
         <Button.Style>
             <Style>
                 <Setter Property="Button.Content" Value="{Binding Path=State}"/>
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding Path=ShowNearby}" Value="true">
                         <Setter Property="Button.Content" Value=""/>
-                        <Setter Property="Button.Background"  Value="Aqua"/>
                         <Setter Property="Button.Content" Value="{Binding Path=MinesNearby}"/>
+                        <Setter Property="Button.Background" Value="White"/>
                     </DataTrigger>
                     <DataTrigger Binding="{Binding Path=State}" Value="{x:Static core:CellState.Explosion}">
                         <Setter Property="Button.Content" Value="{StaticResource Explosion}"/>
@@ -38,6 +36,9 @@
                     </DataTrigger>
                     <DataTrigger Binding="{Binding Path=State}" Value="{x:Static core:CellState.NoFindedMine}">
                         <Setter Property="Button.Content" Value="{StaticResource Bomb}"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Path=State}" Value="{x:Static core:CellState.NotOpened}">
+                        <Setter Property="Button.Content" Value=""/>
                     </DataTrigger>
                 </Style.Triggers>
             </Style>

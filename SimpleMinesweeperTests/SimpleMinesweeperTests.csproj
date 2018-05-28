@@ -49,10 +49,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\MinefieldTestHelper.cs" />
     <Compile Include="Core\CellFactoryTest.cs" />
     <Compile Include="Core\CellTests.cs" />
     <Compile Include="Core\MinefieldTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModel\MinefieldViewModelTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

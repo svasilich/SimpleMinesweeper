@@ -23,9 +23,12 @@
         </DataTemplate>
     </Control.Resources>
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" x:Name="FieldColumn"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="*" x:Name="FieldRow"/>
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="0" VerticalAlignment="Stretch">
             <Button x:Name="reloadButton" 
@@ -33,17 +36,17 @@
                     Command="{Binding ReloadCommand}"/>
         </DockPanel>
         <ItemsControl Grid.Row="1"
-                      Background="Aqua"
+                      Background="Gray"
                       ItemsSource="{Binding Path=Cells}" 
                       ItemTemplate="{DynamicResource MinefieldRowTemplate}" 
-                      HorizontalContentAlignment="Stretch"
-                      VerticalAlignment="Stretch">
+                      Height="{Binding Path=FieldHeightPx}"
+                      Width="{Binding Path=FieldWidthPx}"
+                      >
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <UniformGrid Rows="{Binding Cells.Count}" VerticalAlignment="Stretch"/>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
-        </ItemsControl>
-
+        </ItemsControl>            
     </Grid>
 </UserControl>

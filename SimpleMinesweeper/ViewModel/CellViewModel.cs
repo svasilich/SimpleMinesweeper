@@ -8,7 +8,7 @@ using System.Globalization;
 
 namespace SimpleMinesweeper.ViewModel
 {
-    class OpenCellCommand : ICommand
+    public class OpenCellCommand : ICommand
     {
         private ICell cell;
 
@@ -34,7 +34,7 @@ namespace SimpleMinesweeper.ViewModel
         }
     }
 
-    class SetFlagCellCommand : ICommand
+    public class SetFlagCellCommand : ICommand
     {
         ICell cell;
         public event EventHandler CanExecuteChanged
@@ -62,7 +62,7 @@ namespace SimpleMinesweeper.ViewModel
         
     }
     
-    class CellViewModel : INotifyPropertyChanged
+    public class CellViewModel : INotifyPropertyChanged
     {
         ICell modelCell;
         OpenCellCommand openCommand;
