@@ -28,7 +28,7 @@ namespace SimpleMinesweeper
 
 
             IMinefield minefield = new Minefield(new CellFactory(), new RandomMinePositionGenerator());
-            MinefieldViewModel minefieldViewModel = new MinefieldViewModel(minefield);
+            MinefieldViewModel minefieldViewModel = new MinefieldViewModel(minefield, this);
             DataContext = minefieldViewModel;
             this.SizeChanged += minefieldViewModel.MainWindow_SizeChanged;
 

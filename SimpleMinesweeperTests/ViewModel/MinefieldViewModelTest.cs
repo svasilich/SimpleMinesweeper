@@ -89,6 +89,10 @@ namespace SimpleMinesweeperTests.ViewModel
             public static int DefaultFieldWidthCell { get { return 30; } }
             public static int DefaultMineCount { get { return 99; } }
 
+            public static IDynamicGameFieldSize FakeMainWindow()
+            {
+                return NSubstitute.Substitute.For<IDynamicGameFieldSize>();
+            }
 
             public static IMinefield DefaultMinefield(int fieldHeightCell, int fieldWidthCell)
             {
@@ -98,18 +102,18 @@ namespace SimpleMinesweeperTests.ViewModel
             }
 
             public TestMinefieldViewModel() : 
-                base(DefaultMinefield(DefaultFieldHeightCell, DefaultFieldWidthCell))
+                base(DefaultMinefield(DefaultFieldHeightCell, DefaultFieldWidthCell), FakeMainWindow())
             {
 
             }
 
             public TestMinefieldViewModel(int height, int width) :
-                base(DefaultMinefield(height, width))
+                base(DefaultMinefield(height, width), FakeMainWindow())
             {
 
             }
 
-            public TestMinefieldViewModel(IMinefield minefield) : base(minefield)
+            public TestMinefieldViewModel(IMinefield minefield) : base(minefield, FakeMainWindow())
             {
             }
 
