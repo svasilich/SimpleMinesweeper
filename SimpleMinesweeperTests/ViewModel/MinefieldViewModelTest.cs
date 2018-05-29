@@ -97,6 +97,35 @@ namespace SimpleMinesweeperTests.ViewModel
 
         }
 
+        [TestCase(16, 30, 16, 30)]
+        [TestCase(16, 30, 30, 16)]
+        [TestCase(16, 30, 16, 16)]
+        [TestCase(16, 30, 16, 18)]
+        [TestCase(16, 30, 18, 16)]
+        [TestCase(16, 30, 100, 1)]
+        [TestCase(16, 30, 1, 100)]
+        [TestCase(30, 16, 16, 30)]
+        [TestCase(30, 16, 30, 16)]
+        [TestCase(30, 16, 16, 16)]
+        [TestCase(30, 16, 16, 18)]
+        [TestCase(30, 16, 18, 16)]
+        [TestCase(16, 30, 100, 1)]
+        [TestCase(16, 30, 1, 100)]
+        public void OneOfSideAllwaysHasMaximum(int fieldHeight, int fieldWidth, double heightRatio, double widthRatio)
+        {
+            TestMinefieldViewModel vm = new TestMinefieldViewModel(fieldHeight, fieldWidth);
+
+            double height = cellSizePx * heightRatio;
+            double width = cellSizePx * widthRatio;
+
+            vm.SetSize(width, height);
+
+            bool widthIsMax = width == vm.FieldWidthPx;
+            bool heightIsMax = height == vm.FieldHeightPx;
+
+            Assert.IsTrue(widthIsMax || heightIsMax);
+        }
+
         class TestMinefieldViewModel : MinefieldViewModel
         {
             public static int DefaultFieldHeightCell { get { return 16; } }

@@ -130,52 +130,38 @@ namespace SimpleMinesweeper.ViewModel
         {
             double newWidth = 0;
             double newHeight = 0;
-
-            // Определить наибольшую сторону.
+            
             if (containerWidth > containerHeight)
-            {
-                if (field.Length > field.Height)
-                {
-                    newWidth = containerWidth;
-                    newHeight = containerWidth * field.Height / field.Length;
-
-                    if (newHeight > containerHeight)
-                    {
-                        newWidth = containerHeight * field.Length / field.Height;
-                        newHeight = containerHeight;
-                    }
-                }
-                else
-                {
-                    newWidth = containerHeight * field.Length / field.Height;
-                    newHeight = containerHeight;
-                }
-            }
+                ScaleSide(containerWidth, containerHeight, field.Length, field.Height, out newWidth, out newHeight);
             else
-            {
-                if (field.Height > field.Length)
-                {
-                    newWidth = containerHeight * field.Length / field.Height;
-                    newHeight = containerHeight;
-
-                    if (newWidth > containerWidth)
-                    {
-                        newWidth = containerWidth;
-                        newHeight = containerWidth * field.Height / field.Length;
-                    }
-                }
-                else
-                {
-                    newWidth = containerWidth;
-                    newHeight = containerWidth * field.Height / field.Length;
-                }
-            }
+                ScaleSide(containerHeight, containerWidth, field.Height, field.Length, out newHeight, out newWidth);
 
             FieldWidthPx = newWidth;
             FieldHeightPx = newHeight;
         }
 
-        
+        private void ScaleSide(double containerSideAMax, double containerSideBMin,  int fieldCellSideA, int fieldCellSideB, 
+            out double fieldSizePxSideA, out double fieldSizePxB)
+        {
+            if (fieldCellSideA > fieldCellSideB)
+            {
+                fieldSizePxSideA = containerSideAMax;
+                fieldSizePxB = containerSideAMax * fieldCellSideB / fieldCellSideA;
+
+                if (fieldSizePxB > containerSideBMin)
+                {
+                    fieldSizePxSideA = containerSideBMin * fieldCellSideA / fieldCellSideB;
+                    fieldSizePxB = containerSideBMin;
+                }
+            }
+            else
+            {
+                fieldSizePxSideA = containerSideBMin * fieldCellSideA / fieldCellSideB; ;
+                fieldSizePxB = containerSideBMin;
+            }
+        }
+
+
     }
 }
 
