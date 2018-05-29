@@ -13,16 +13,23 @@ namespace SimpleMinesweeperTests.ViewModel
     {
         const double cellSizePx = 5;
 
-        [TestCase(16, 30)]
-        [TestCase(30, 16)]
-        [TestCase(16, 16)]
-        [TestCase(16, 18)]
-        [TestCase(18, 16)]
-        [TestCase(100, 1)]
-        [TestCase(1, 100)]
-        public void MinefieldResize_WidthInContainer(double heightRatio, double widthRatio)
+        [TestCase(30, 16, 16, 30)]
+        [TestCase(30, 16, 30, 16)]
+        [TestCase(30, 16, 16, 16)]
+        [TestCase(30, 16, 16, 18)]
+        [TestCase(30, 16, 18, 16)]
+        [TestCase(30, 16, 100, 1)]
+        [TestCase(30, 16, 1, 100)]
+        [TestCase(16, 30, 16, 30)]
+        [TestCase(16, 30, 30, 16)]
+        [TestCase(16, 30, 16, 16)]
+        [TestCase(16, 30, 16, 18)]
+        [TestCase(16, 30, 18, 16)]
+        [TestCase(16, 30, 100, 1)]
+        [TestCase(16, 30, 1, 100)]
+        public void MinefieldResize_WidthInContainer(int fieldHeight, int fieldWidth, double heightRatio, double widthRatio)
         {
-            TestMinefieldViewModel vm = new TestMinefieldViewModel();
+            TestMinefieldViewModel vm = new TestMinefieldViewModel(fieldHeight, fieldWidth);
             double height = cellSizePx * heightRatio;
             double width = cellSizePx * widthRatio;
 
@@ -31,16 +38,23 @@ namespace SimpleMinesweeperTests.ViewModel
             Assert.LessOrEqual(vm.FieldWidthPx, width);
         }
 
-        [TestCase(16, 30)]
-        [TestCase(30, 16)]
-        [TestCase(16, 16)]
-        [TestCase(16, 18)]
-        [TestCase(18, 16)]
-        [TestCase(100, 1)]
-        [TestCase(1, 100)]
-        public void MinefieldResize_HeightInContainer(double heightRatio, double widthRatio)
+        [TestCase(30, 16, 16, 30)]
+        [TestCase(30, 16, 30, 16)]
+        [TestCase(30, 16, 16, 16)]
+        [TestCase(30, 16, 16, 18)]
+        [TestCase(30, 16, 18, 16)]
+        [TestCase(30, 16, 100, 1)]
+        [TestCase(30, 16, 1, 100)]
+        [TestCase(16, 30, 16, 30)]
+        [TestCase(16, 30, 30, 16)]
+        [TestCase(16, 30, 16, 16)]
+        [TestCase(16, 30, 16, 18)]
+        [TestCase(16, 30, 18, 16)]
+        [TestCase(16, 30, 100, 1)]
+        [TestCase(16, 30, 1, 100)]
+        public void MinefieldResize_HeightInContainer(int fieldHeight, int fieldWidth, double heightRatio, double widthRatio)
         {
-            TestMinefieldViewModel vm = new TestMinefieldViewModel();
+            TestMinefieldViewModel vm = new TestMinefieldViewModel(fieldHeight, fieldWidth);
             double height = cellSizePx * heightRatio;
             double width = cellSizePx * widthRatio;
 

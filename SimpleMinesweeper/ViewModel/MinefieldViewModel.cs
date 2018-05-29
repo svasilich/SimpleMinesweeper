@@ -153,10 +153,16 @@ namespace SimpleMinesweeper.ViewModel
             }
             else
             {
-                if (field.Height > width)
+                if (field.Height > field.Length)
                 {
                     newWidth = containerHeight * field.Length / field.Height;
                     newHeight = containerHeight;
+
+                    if (newWidth > containerWidth)
+                    {
+                        newWidth = containerWidth;
+                        newHeight = containerWidth * field.Height / field.Length;
+                    }
                 }
                 else
                 {
@@ -169,10 +175,7 @@ namespace SimpleMinesweeper.ViewModel
             FieldHeightPx = newHeight;
         }
 
-        private void CalculateProportions()
-        {
-
-        }
+        
     }
 }
 
