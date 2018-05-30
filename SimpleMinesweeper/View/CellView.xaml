@@ -12,7 +12,8 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="..\XamlIcons\IconDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-            <local:NearbyColorConverter x:Key="ColorConverter"/>
+            <local:NearbyColorConverter x:Key="NearbyColorConverter"/>
+            <local:NearbyTextConverter x:Key="NearbyTextConverter"/>
         </ResourceDictionary>
     </Control.Resources>
     
@@ -25,9 +26,9 @@
                         <Setter Property="Button.Content">
                             <Setter.Value>
                                 <Viewbox >
-                                    <TextBlock Text="{Binding Path=MinesNearby}"
+                                    <TextBlock Text="{Binding Path=MinesNearby, Converter={StaticResource NearbyTextConverter}}"
                                                FontWeight="DemiBold"
-                                               Foreground="{Binding Path=MinesNearby, Converter={StaticResource ColorConverter}}"/>
+                                               Foreground="{Binding Path=MinesNearby, Converter={StaticResource NearbyColorConverter}}"/>
                                 </Viewbox>
                             </Setter.Value>
                         </Setter>
