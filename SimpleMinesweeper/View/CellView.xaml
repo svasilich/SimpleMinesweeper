@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:SimpleMinesweeper.View"
+             xmlns:local="clr-namespace:SimpleMinesweeper.ViewModel"
              xmlns:core="clr-namespace:SimpleMinesweeper.Core"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
@@ -12,6 +12,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="..\XamlIcons\IconDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            <local:NearbyColorConverter x:Key="ColorConverter"/>
         </ResourceDictionary>
     </Control.Resources>
     
@@ -25,8 +26,8 @@
                             <Setter.Value>
                                 <Viewbox >
                                     <TextBlock Text="{Binding Path=MinesNearby}"
-                                               Foreground="Blue"
-                                               FontWeight="DemiBold"/>
+                                               FontWeight="DemiBold"
+                                               Foreground="{Binding Path=MinesNearby, Converter={StaticResource ColorConverter}}"/>
                                 </Viewbox>
                             </Setter.Value>
                         </Setter>
