@@ -14,15 +14,22 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Control.Resources>
-
+    
     <Button x:Name="cellBtn" Command="{Binding OpenCellCommand}">
         <Button.Style>
             <Style>
                 <Setter Property="Button.Content" Value="{Binding Path=State}"/>
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding Path=ShowNearby}" Value="true">
-                        <Setter Property="Button.Content" Value=""/>
-                        <Setter Property="Button.Content" Value="{Binding Path=MinesNearby}"/>
+                        <Setter Property="Button.Content">
+                            <Setter.Value>
+                                <Viewbox >
+                                    <TextBlock Text="{Binding Path=MinesNearby}"
+                                               Foreground="Blue"
+                                               FontWeight="DemiBold"/>
+                                </Viewbox>
+                            </Setter.Value>
+                        </Setter>
                         <Setter Property="Button.Background" Value="White"/>
                     </DataTrigger>
                     <DataTrigger Binding="{Binding Path=State}" Value="{x:Static core:CellState.Explosion}">
@@ -45,8 +52,7 @@
         </Button.Style>
         <Button.InputBindings>
             <MouseBinding MouseAction="RightClick" Command="{Binding SetFlagCellCommand}"/>
-        </Button.InputBindings>
-        <!-- <ContentControl Content="{StaticResource Bomb}"> -->
+        </Button.InputBindings> 
     </Button>
 
 </UserControl>
