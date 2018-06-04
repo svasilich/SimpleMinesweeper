@@ -8,8 +8,9 @@ using SimpleMinesweeperTests.Common;
 
 namespace SimpleMinesweeperTests.ViewModel
 {
+
     [TestFixture]
-    class MinefieldViewModelTest
+    class MinefieldViewModelResizingTest
     {
         const double cellSizePx = 5;
 
@@ -132,10 +133,7 @@ namespace SimpleMinesweeperTests.ViewModel
             public static int DefaultFieldWidthCell { get { return 30; } }
             public static int DefaultMineCount { get { return 99; } }
 
-            public static IDynamicGameFieldSize FakeMainWindow()
-            {
-                return NSubstitute.Substitute.For<IDynamicGameFieldSize>();
-            }
+            
 
             public static IMinefield DefaultMinefield(int fieldHeightCell, int fieldWidthCell)
             {
@@ -145,18 +143,18 @@ namespace SimpleMinesweeperTests.ViewModel
             }
 
             public TestMinefieldViewModel() : 
-                base(DefaultMinefield(DefaultFieldHeightCell, DefaultFieldWidthCell), FakeMainWindow())
+                base(DefaultMinefield(DefaultFieldHeightCell, DefaultFieldWidthCell), MinefieldTestHelper.FakeMainWindow())
             {
 
             }
 
             public TestMinefieldViewModel(int height, int width) :
-                base(DefaultMinefield(height, width), FakeMainWindow())
+                base(DefaultMinefield(height, width), MinefieldTestHelper.FakeMainWindow())
             {
 
             }
 
-            public TestMinefieldViewModel(IMinefield minefield) : base(minefield, FakeMainWindow())
+            public TestMinefieldViewModel(IMinefield minefield) : base(minefield, MinefieldTestHelper.FakeMainWindow())
             {
             }
 

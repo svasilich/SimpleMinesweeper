@@ -21,6 +21,8 @@
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
         </DataTemplate>
+
+        <FontFamily x:Key="DS-Digital">./../Fonts/#DS-Digital</FontFamily>
     </Control.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -30,11 +32,27 @@
             <RowDefinition Height="50"/>
             <RowDefinition Height="*" x:Name="FieldRow"/>
         </Grid.RowDefinitions>
-        <DockPanel Grid.Row="0" VerticalAlignment="Stretch">
+        <Grid Grid.Row="0" Background="Black">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Viewbox Grid.Column="0" Grid.Row="0">
+                <TextBlock FontFamily="{StaticResource DS-Digital}"
+                           Foreground="GreenYellow"
+                           Text="{Binding GameTime}"/>
+            </Viewbox>
+
             <Button x:Name="reloadButton" 
                     Content="{Binding Path=State}"
-                    Command="{Binding ReloadCommand}"/>
-        </DockPanel>
+                    Command="{Binding ReloadCommand}"
+                    Grid.Row="0" 
+                    Grid.Column="1"/>
+        </Grid>
         <ItemsControl Grid.Row="1"
                       Background="Gray"
                       ItemsSource="{Binding Path=Cells}" 

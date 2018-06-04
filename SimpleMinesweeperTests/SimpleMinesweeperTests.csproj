@@ -54,7 +54,8 @@
     <Compile Include="Core\CellTests.cs" />
     <Compile Include="Core\MinefieldTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModel\MinefieldViewModelTest.cs" />
+    <Compile Include="ViewModel\MinefieldViewModelTimerTests.cs" />
+    <Compile Include="ViewModel\MinefieldViewResizingModelTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

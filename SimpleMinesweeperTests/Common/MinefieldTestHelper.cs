@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using SimpleMinesweeper.Core;
+using SimpleMinesweeper.ViewModel;
 
 namespace SimpleMinesweeperTests.Common
 {
@@ -16,7 +17,20 @@ namespace SimpleMinesweeperTests.Common
         /// <returns></returns>
         public static IMinefield CreateDefaultMinefield()
         {
-            return new Minefield(new CellFactory(), new RandomMinePositionGenerator());
+            return new Minefield(DefaultCellFactory, DefaultMinePositionsGenerator);
         }
+
+        /// <summary>
+        /// Создаёт поддельное окно для MinefieldViewModel.
+        /// </summary>
+        /// <returns></returns>
+        public static IDynamicGameFieldSize FakeMainWindow()
+        {
+            return NSubstitute.Substitute.For<IDynamicGameFieldSize>();
+        }
+
+        public static ICellFactory DefaultCellFactory => new CellFactory();
+
+        public static IMinePositionsGenerator DefaultMinePositionsGenerator => new RandomMinePositionGenerator();
     }
 }

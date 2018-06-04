@@ -29,6 +29,46 @@ namespace SimpleMinesweeper.ViewModel
             set
             {
                 state = value;
+
+                switch (State)
+                {
+                    case FieldState.InGame:
+                        gameTimer = new GameTimer();
+                        gameTimer.OnTimerTick += GameTimer_OnTimerTick;
+                        gameTimer.Start();
+                        break;
+
+                    case FieldState.NotStarted:
+                        gameTimer = null;
+                        break;
+
+                    default:
+                        gameTimer.Stop();
+                        break;
+                }
+
+                NotifyPropertyChanged();
+            }
+        }
+
+        private void GameTimer_OnTimerTick(object sender, EventArgs e)
+        {
+            GameTime = gameTimer.Seconds;
+        }
+
+        protected IGameTimer gameTimer;
+
+        public int GameTime
+        {
+            get
+            {
+                if (gameTimer == null)
+                    return 0;
+
+                return gameTimer.Seconds; ;
+            }
+            private set
+            {
                 NotifyPropertyChanged();
             }
         }
