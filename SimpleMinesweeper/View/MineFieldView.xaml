@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SimpleMinesweeper.View"
+             xmlns:viewModel="clr-namespace:SimpleMinesweeper.ViewModel"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Control.Resources>
@@ -23,6 +24,7 @@
         </DataTemplate>
 
         <FontFamily x:Key="DS-Digital">./../Fonts/#DS-Digital</FontFamily>
+        <viewModel:TimerSecondsConverter x:Key="SecondsCoverter"/>
     </Control.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -44,7 +46,7 @@
             <Viewbox Grid.Column="0" Grid.Row="0">
                 <TextBlock FontFamily="{StaticResource DS-Digital}"
                            Foreground="GreenYellow"
-                           Text="{Binding GameTime}"/>
+                           Text="{Binding GameTime, Converter={StaticResource SecondsCoverter}}"/>
             </Viewbox>
 
             <Button x:Name="reloadButton" 
