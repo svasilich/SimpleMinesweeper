@@ -56,7 +56,8 @@ namespace SimpleMinesweeper.ViewModel
 
         private void GameTimer_OnTimerTick(object sender, EventArgs e)
         {
-            GameTime = gameTimer.Seconds;
+            if (gameTimer != null)
+                GameTime = gameTimer.Seconds;
         }
 
         protected IGameTimer gameTimer;
