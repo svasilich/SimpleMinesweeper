@@ -22,7 +22,7 @@
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
         </DataTemplate>
-        <FontFamily x:Key="MonoDigital">.\..\Fonts\#Digital-7 Mono</FontFamily>
+        <FontFamily x:Key="MonoDigital1">.\..\Fonts\#Digital-7 Mono</FontFamily>
         <viewModel:TimerSecondsConverter x:Key="SecondsCoverter"/>
     </Control.Resources>
     <Grid>
@@ -42,14 +42,13 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-
             <Border Grid.Column="0" Grid.Row="0"
                     BorderThickness="3"
                     BorderBrush="DarkCyan"
                     CornerRadius="8"
                     Background="Black">
                 <Viewbox Margin="3">
-                    <TextBlock FontFamily="{StaticResource MonoDigital}"
+                    <TextBlock FontFamily="{StaticResource MonoDigital1}"
                            Foreground="GreenYellow"
                            Text="{Binding GameTime, Converter={StaticResource SecondsCoverter}}"/>
                 </Viewbox>

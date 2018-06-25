@@ -61,6 +61,9 @@
     <Compile Include="View\CellView.xaml.cs">
       <DependentUpon>CellView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\DigitalScoreboard.xaml.cs">
+      <DependentUpon>DigitalScoreboard.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\MineFieldView.xaml.cs">
       <DependentUpon>MineFieldView.xaml</DependentUpon>
     </Compile>
@@ -83,6 +86,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="View\CellView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DigitalScoreboard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
