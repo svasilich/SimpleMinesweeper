@@ -24,5 +24,29 @@ namespace SimpleMinesweeper.View
         {
             InitializeComponent();
         }
+        
+        public string ScoreboardText
+        {
+            get { return (string)GetValue(ScoreboardTextProperty); }
+            set { SetValue(ScoreboardTextProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for ScoreboardText.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ScoreboardTextProperty =
+            DependencyProperty.Register("ScoreboardText", typeof(string), typeof(DigitalScoreboard), 
+                new UIPropertyMetadata("00:00", new PropertyChangedCallback(ScoreboardTextChanged)),
+                new ValidateValueCallback(ValidateScoreboardText));
+
+        private static void ScoreboardTextChanged(DependencyObject dependency, DependencyPropertyChangedEventArgs args)
+        {
+            DigitalScoreboard board = (DigitalScoreboard)dependency;
+            TextBlock content = board.ContentTextBlock;
+            content.Text = args.NewValue.ToString();
+        }
+
+        private static bool ValidateScoreboardText(object obj)
+        {
+            return true;
+        }
     }
 }

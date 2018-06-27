@@ -68,8 +68,8 @@ namespace SimpleMinesweeper.ViewModel
             {
                 if (gameTimer == null)
                     return 0;
-
-                return gameTimer.Seconds; ;
+                
+                return gameTimer.Seconds;
             }
             private set
             {

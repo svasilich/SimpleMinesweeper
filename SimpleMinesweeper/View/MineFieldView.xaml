@@ -42,17 +42,11 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <Border Grid.Column="0" Grid.Row="0"
-                    BorderThickness="3"
-                    BorderBrush="DarkCyan"
-                    CornerRadius="8"
-                    Background="Black">
-                <Viewbox Margin="3">
-                    <TextBlock FontFamily="{StaticResource MonoDigital1}"
-                           Foreground="GreenYellow"
-                           Text="{Binding GameTime, Converter={StaticResource SecondsCoverter}}"/>
-                </Viewbox>
-            </Border>
+            <local:DigitalScoreboard
+                Grid.Column="0"
+                Grid.Row="0"
+                ScoreboardText="{Binding GameTime, Converter={StaticResource SecondsCoverter}}"
+                />
 
             <Button x:Name="reloadButton" 
                     Content="{Binding Path=State}"

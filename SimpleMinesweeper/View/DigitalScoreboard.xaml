@@ -16,9 +16,10 @@
                     CornerRadius="8"
                     Background="Black">
         <Viewbox Margin="3">
-            <TextBlock FontFamily="{StaticResource MonoDigital}"
-                           Foreground="GreenYellow"
-                           />
+            <TextBlock Name="ContentTextBlock"
+                       FontFamily="{StaticResource MonoDigital}"
+                       Foreground="GreenYellow"
+                       />
         </Viewbox>
     </Border>
 </UserControl>
