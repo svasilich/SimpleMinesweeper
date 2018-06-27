@@ -252,6 +252,7 @@ namespace SimpleMinesweeper.ViewModel
 
             int seconds = tiks % 60;
             int minutes = tiks / 60;
+            string test = string.Format("{0:d2}:{1:d2}", minutes, seconds);
             return string.Format("{0:d2}:{1:d2}", minutes, seconds);
         }
 
