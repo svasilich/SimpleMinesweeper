@@ -11,6 +11,7 @@
     </Control.Resources>
     
     <Border Grid.Column="0" Grid.Row="0"
+            Name="ScoreBorder"
                     BorderThickness="3"
                     BorderBrush="DarkCyan"
                     CornerRadius="8"
