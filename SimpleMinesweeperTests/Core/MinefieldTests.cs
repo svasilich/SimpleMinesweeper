@@ -165,7 +165,7 @@ namespace SimpleMinesweeperTest.Core
         [Test]
         public void Explosion_StateToLosse()
         {
-            IMinefield minefield = SetMineToCenter();
+            IMinefield minefield = SetMineToCenter()    ;
 
             minefield.Cells[4][4].Open();
             minefield.Cells[5][5].Open();
@@ -197,6 +197,74 @@ namespace SimpleMinesweeperTest.Core
             Assert.AreEqual(CellState.Opened, minefield.Cells[1][0].State);
             Assert.AreEqual(CellState.Opened, minefield.Cells[0][1].State);
             Assert.AreEqual(CellState.Opened, minefield.Cells[1][1].State);
+        }
+
+        /// <summary>
+        /// Минное поле должно знать, сколько всего на нём мин.
+        /// </summary>
+        [Test]
+        public void CreateFieldWithMine_CheckMinesCount()
+        {
+            IMinefield minefield = SetMineToCenter(); // Количество мин равно единице.
+
+            Assert.AreEqual(1, minefield.MinesCount);
+        }
+
+        /// <summary>
+        /// Когда установлен флаг, количество флажков должно вырасти на единицу.
+        /// </summary>
+        [Test]
+        public void SetFlag_FlagsCountUp()
+        {
+            IMinefield minefield = SetMineToCenter();
+
+            minefield.Cells[0][0].SetFlag();
+            Assert.AreEqual(1, minefield.FlagsCount);
+
+            minefield.Cells[1][1].SetFlag();
+            Assert.AreEqual(2, minefield.FlagsCount);
+        }
+
+        /// <summary>
+        /// Когда флаг сбрасывается, количество флажков уменьшается на единицу.
+        /// </summary>
+        [Test]
+        public void ResetFlag_FlagsCountDown()
+        {
+            IMinefield minefield = SetMineToCenter();
+
+            minefield.Cells[0][0].SetFlag();
+            minefield.Cells[1][1].SetFlag();
+
+            minefield.Cells[1][1].SetFlag();
+            Assert.AreEqual(1, minefield.FlagsCount);
+        }
+
+        /// <summary>
+        /// Минное опле должно уведомить, что количество мин поменялось.
+        /// </summary>
+        [Test]
+        public void FlaggedCountChanged_MinefieldSignalizedAboutIt()
+        {
+            IMinefield minefield = SetMineToCenter();
+
+            minefield.OnFlagsCountChanged += Minefield_OnFlagsCountChanged;
+
+            onFlagsCountChangedEvendReceaved = false;
+            minefield.Cells[0][0].SetFlag();
+
+            Assert.AreEqual(true, onFlagsCountChangedEvendReceaved);
+
+            onFlagsCountChangedEvendReceaved = false;
+            minefield.Cells[0][0].SetFlag();
+
+            Assert.AreEqual(true, onFlagsCountChangedEvendReceaved);
+        }
+
+        private bool onFlagsCountChangedEvendReceaved;
+        private void Minefield_OnFlagsCountChanged(object sender, EventArgs e)
+        {
+            onFlagsCountChangedEvendReceaved = true;
         }
 
         [TestCase(FieldState.GameOver, false)]

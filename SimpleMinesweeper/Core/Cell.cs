@@ -16,8 +16,10 @@ namespace SimpleMinesweeper.Core
             get => state;
             set
             {
+                var old = state;
                 state = value;
-                OnStateChanged?.Invoke(this, new CellChangeStateEventArgs(state));
+                OnStateChanged?.Invoke(this, new CellChangeStateEventArgs(old, state));
+                
             }
         }
 

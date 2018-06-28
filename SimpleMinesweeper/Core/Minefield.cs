@@ -12,7 +12,6 @@ namespace SimpleMinesweeper.Core
     {
         public List<List<ICell>> Cells { get; private set; }
 
-        private int mineCount;
         private int notMinedCellsCount;
         private int openedCellsCount;
 
@@ -38,11 +37,24 @@ namespace SimpleMinesweeper.Core
         public int Height { get; private set; }
         public int Length { get; private set; }
 
+        public int MinesCount { get; private set; }
+
+        private int flagsCount;
+        public int FlagsCount {
+            get { return flagsCount; }
+            private set
+            {
+                flagsCount = value;
+                OnFlagsCountChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
         private readonly ICellFactory cellFactory;
         private readonly IMinePositionsGenerator minePositionsGenerator;
 
         public event EventHandler OnStateChanged;
         public event EventHandler OnFilled;
+        public event EventHandler OnFlagsCountChanged;
 
         public Minefield(ICellFactory cellFactory, IMinePositionsGenerator minePositionsGenerator)
         {
@@ -87,7 +99,7 @@ namespace SimpleMinesweeper.Core
             CheckFillParameters(fieldHight, fieldLength, mineCount);
             Height = fieldHight;
             Length = fieldLength;
-            this.mineCount = mineCount;
+            MinesCount = mineCount;
             notMinedCellsCount = Height * Length - mineCount;
             openedCellsCount = 0;
 
@@ -149,6 +161,15 @@ namespace SimpleMinesweeper.Core
                 case CellState.Flagged:
                     if (State == FieldState.NotStarted)
                         State = FieldState.InGame;
+
+                    if (e.OldState != CellState.Flagged)
+                        ++FlagsCount;
+
+                    break;
+
+                case CellState.NotOpened:
+                    if (e.OldState == CellState.Flagged)
+                        --FlagsCount;
                     break;
             }
         }
@@ -206,7 +227,7 @@ namespace SimpleMinesweeper.Core
 
         private void MineAField()
         {
-            for (int i = 0; i < mineCount; ++i)
+            for (int i = 0; i < MinesCount; ++i)
                 AddMainToRandomFieldsPosition();
         }
 

@@ -33,13 +33,13 @@ namespace SimpleMinesweeper.Core
 
     public class CellChangeStateEventArgs : EventArgs
     {
-        private CellState newState;
+        public CellState NewState { get; private set; }
+        public CellState OldState { get; private set; }
 
-        public CellChangeStateEventArgs(CellState newState)
+        public CellChangeStateEventArgs(CellState oldState, CellState newState)
         {
-            this.newState = newState;
+            OldState = oldState;
+            NewState = newState;
         }
-
-        public CellState NewState => newState;
     }
 }

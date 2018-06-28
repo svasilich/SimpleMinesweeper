@@ -18,8 +18,6 @@ namespace SimpleMinesweeperTests.ViewModel
         public void GameTimer_TimerObjectNotSet_ReturnZeru()
         {
             var sm = new MinefieldViewModelWithManualTimerObject();
-            sm.SetTimerObject(null);
-
             int ticks = sm.GameTime;
 
             Assert.AreEqual(0, ticks);

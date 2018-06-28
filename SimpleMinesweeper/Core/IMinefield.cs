@@ -18,9 +18,12 @@ namespace SimpleMinesweeper.Core
 
         int Height { get; }
         int Length { get; }
+        int MinesCount { get; }
+        int FlagsCount { get; }
 
         event EventHandler OnStateChanged;
         event EventHandler OnFilled;
+        event EventHandler OnFlagsCountChanged;
 
         List<List<ICell>> Cells { get; }
 
