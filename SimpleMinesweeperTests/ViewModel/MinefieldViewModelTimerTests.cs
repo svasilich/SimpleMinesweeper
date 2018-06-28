@@ -26,7 +26,7 @@ namespace SimpleMinesweeperTests.ViewModel
         }
 
         [Test]
-        public void GameTimer_TimerObjectSetted_ReturnTOTime()
+        public void GameTimer_TimerObjectSetted_ReturnToTime()
         {
             var sm = new MinefieldViewModelWithManualTimerObject();
             IGameTimer gameTimer = Substitute.For<IGameTimer>();

@@ -35,14 +35,11 @@ namespace SimpleMinesweeper.ViewModel
                 switch (State)
                 {
                     case FieldState.InGame:
-                        gameTimer = new GameTimer();
-                        gameTimer.OnTimerTick += GameTimer_OnTimerTick;
                         gameTimer.Start();
                         break;
 
                     case FieldState.NotStarted:
-                        gameTimer = null;
-                        GameTime = 0;
+                        gameTimer.Reset();
                         break;
 
                     default:
@@ -56,8 +53,7 @@ namespace SimpleMinesweeper.ViewModel
 
         private void GameTimer_OnTimerTick(object sender, EventArgs e)
         {
-            if (gameTimer != null)
-                GameTime = gameTimer.Seconds;
+            GameTime = gameTimer.Seconds;
         }
 
         protected IGameTimer gameTimer;
@@ -66,9 +62,6 @@ namespace SimpleMinesweeper.ViewModel
         {
             get
             {
-                if (gameTimer == null)
-                    return 0;
-                
                 return gameTimer.Seconds;
             }
             private set
@@ -124,6 +117,9 @@ namespace SimpleMinesweeper.ViewModel
             cells = new ObservableCollection<List<CellViewModel>>();
 
             this.gameWindow = gameWindow;
+
+            gameTimer = new GameTimer();
+            gameTimer.OnTimerTick += GameTimer_OnTimerTick;
         }        
 
         private void Field_OnStateChanged(object sender, EventArgs e)

@@ -14,6 +14,8 @@ namespace SimpleMinesweeper.Core
 
         void Stop();
 
+        void Reset();
+
         event EventHandler OnTimerTick;
     }
 }

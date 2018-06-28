@@ -10,9 +10,15 @@ namespace SimpleMinesweeper.Core
     {
         private Timer timer;
 
+        private int seconds;
         public int Seconds
         {
-            get; private set;
+            get { return seconds; }
+            private set
+            {
+                seconds = value;
+                OnTimerTick?.Invoke(this, EventArgs.Empty);
+            }
         }
 
         public void Start()
@@ -23,13 +29,18 @@ namespace SimpleMinesweeper.Core
 
         public void Stop()
         {
-            timer.Dispose();
+            timer?.Dispose();
         }
 
         private void TimerTick(object stateInfo)
         {
-            ++Seconds;
-            OnTimerTick?.Invoke(this, EventArgs.Empty);
+            ++Seconds;    
+        }
+
+        public void Reset()
+        {
+            Stop();
+            Seconds = 0;
         }
 
         public event EventHandler OnTimerTick;
