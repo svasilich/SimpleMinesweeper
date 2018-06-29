@@ -58,7 +58,8 @@
 
             <local:DigitalScoreboard
                 Grid.Column="2"
-                Grid.Row="0"/>
+                Grid.Row="0"
+                ScoreboardText="{Binding MinesLeft}"/>
         </Grid>
         <ItemsControl Grid.Row="1"
                       Background="Gray"
