@@ -31,5 +31,22 @@ namespace SimpleMinesweeperTests.ViewModel
 
             Assert.AreEqual(TestMinefieldViewModel.DefaultMineCount - 1, vm.MinesLeft);
         }
+        
+        [Test]
+        public void OpenAllMines_MinenLeftToZero()
+        {
+            var vm = new TestMinefieldViewModel();
+            var cells = vm.Field.Cells;
+
+            for (int i = 0; i < TestMinefieldViewModel.DefaultFieldWidthCell; ++i)
+                for (int j = 0; j < TestMinefieldViewModel.DefaultFieldHeightCell; ++j)
+                {
+                    var cell = cells[j][i];
+                    if (cell.Mined)
+                        cell.SetFlag();
+                }
+
+            Assert.AreEqual(0, vm.MinesLeft);
+        }
     }
 }

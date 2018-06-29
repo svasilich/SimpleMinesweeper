@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using System.Windows;
 using System.Windows.Data;
+using System.Windows.Media;
 using SimpleMinesweeper.Core;
 using System.Globalization;
 
@@ -269,6 +270,23 @@ namespace SimpleMinesweeper.ViewModel
             int minutes = tiks / 60;
             string test = string.Format("{0:d2}:{1:d2}", minutes, seconds);
             return string.Format("{0:d2}:{1:d2}", minutes, seconds);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class MinesLeftTextColorConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            int left = (int)value;
+            if (left >= 0)
+                return Colors.YellowGreen;
+
+            return Colors.Red;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

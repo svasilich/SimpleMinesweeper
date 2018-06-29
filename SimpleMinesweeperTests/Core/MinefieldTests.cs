@@ -261,6 +261,19 @@ namespace SimpleMinesweeperTest.Core
             Assert.AreEqual(true, onFlagsCountChangedEvendReceaved);
         }
 
+        [Test]
+        public void GameRestart_FlagsCountReset()
+        {
+            IMinefield minefield = SetMineToCenter();
+
+            minefield.Cells[0][0].SetFlag();
+            minefield.Cells[1][1].SetFlag();
+
+            minefield.Fill(10, 10, 1);
+
+            Assert.AreEqual(0, minefield.FlagsCount);
+        }
+
         private bool onFlagsCountChangedEvendReceaved;
         private void Minefield_OnFlagsCountChanged(object sender, EventArgs e)
         {

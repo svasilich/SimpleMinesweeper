@@ -100,6 +100,7 @@ namespace SimpleMinesweeper.Core
             Height = fieldHight;
             Length = fieldLength;
             MinesCount = mineCount;
+            FlagsCount = 0;
             notMinedCellsCount = Height * Length - mineCount;
             openedCellsCount = 0;
 

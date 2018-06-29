@@ -43,8 +43,6 @@ namespace SimpleMinesweeper.View
             content.Text = args.NewValue.ToString();
         }
 
-
-
         public Color BorderColor
         {
             get { return (Color)GetValue(BorderColorProperty); }
@@ -62,6 +60,26 @@ namespace SimpleMinesweeper.View
             Border border = board.ScoreBorder;
             border.BorderBrush = new SolidColorBrush((Color)args.NewValue);
         }
+        
+        public Color TextColor
+        {
+            get { return (Color)GetValue(TextColorProperty); }
+            set { SetValue(TextColorProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for TextColor.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty TextColorProperty =
+            DependencyProperty.Register("TextColor", typeof(Color), typeof(DigitalScoreboard), 
+                new PropertyMetadata(Colors.GreenYellow, new PropertyChangedCallback(TextColorChanged)));
+
+        private static void TextColorChanged(DependencyObject dependency, DependencyPropertyChangedEventArgs args)
+        {
+            DigitalScoreboard board = (DigitalScoreboard)dependency;
+            TextBlock content = board.ContentTextBlock;
+            content.Foreground = new SolidColorBrush((Color)args.NewValue);
+        }
+
+
 
 
     }
