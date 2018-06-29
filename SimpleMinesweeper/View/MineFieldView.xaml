@@ -37,6 +37,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="100"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="100"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition/>
@@ -54,6 +55,10 @@
                     Grid.Row="0" 
                     Grid.Column="1"
                     Width="150"/>
+
+            <local:DigitalScoreboard
+                Grid.Column="2"
+                Grid.Row="0"/>
         </Grid>
         <ItemsControl Grid.Row="1"
                       Background="Gray"

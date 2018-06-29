@@ -16,7 +16,7 @@ namespace SimpleMinesweeper.ViewModel
 {
     public class MinefieldViewModel : INotifyPropertyChanged
     {
-        private IMinefield field;
+        protected IMinefield field;
         private IDynamicGameFieldSize gameWindow;
 
         //TODO: Эти параметры должны уйти в класс настроек.
@@ -107,11 +107,24 @@ namespace SimpleMinesweeper.ViewModel
             }
         }
 
+        private int minesLeft;
+        public int MinesLeft
+        {
+            get { return minesLeft; }
+            set
+            {
+                minesLeft = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         public MinefieldViewModel(IMinefield minefield, IDynamicGameFieldSize gameWindow)
         {
             field = minefield;
             field.OnStateChanged += Field_OnStateChanged;
             field.OnFilled += Field_OnFilled;
+            field.OnFlagsCountChanged += Field_OnFlagsCountChanged;
+            minesLeft = field.MinesCount;
             ReloadCommand = new ReloadFieldCommand(field, width, height, mineCount);
 
             cells = new ObservableCollection<List<CellViewModel>>();
@@ -120,7 +133,12 @@ namespace SimpleMinesweeper.ViewModel
 
             gameTimer = new GameTimer();
             gameTimer.OnTimerTick += GameTimer_OnTimerTick;
-        }        
+        }
+
+        private void Field_OnFlagsCountChanged(object sender, EventArgs e)
+        {
+            MinesLeft = field.MinesCount - field.FlagsCount;
+        }
 
         private void Field_OnStateChanged(object sender, EventArgs e)
         {
