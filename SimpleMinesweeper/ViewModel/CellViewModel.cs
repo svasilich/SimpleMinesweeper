@@ -152,7 +152,7 @@ namespace SimpleMinesweeper.ViewModel
                     textColor =  Colors.Brown;
                     break;
                 case 6:
-                    textColor =  Colors.AliceBlue;
+                    textColor = Color.FromRgb(255, 128, 0);
                     break;
                 case 7:
                     textColor =  Colors.Black;
