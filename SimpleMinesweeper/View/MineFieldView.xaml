@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SimpleMinesweeper.View"
              xmlns:viewModel="clr-namespace:SimpleMinesweeper.ViewModel"
+             xmlns:gif="http://wpfanimatedgif.codeplex.com"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Control.Resources>
@@ -51,12 +52,13 @@
                 />
 
             <Button x:Name="reloadButton" 
-                    Content="{Binding Path=State}"
                     Command="{Binding ReloadCommand}"
                     Grid.Row="0" 
                     Grid.Column="1"
-                    Width="150"/>
-
+                    Width="150">
+                <Image gif:ImageBehavior.AnimatedSource="GameGif.gif" />
+            </Button>
+            
             <local:DigitalScoreboard
                 Grid.Column="2"
                 Grid.Row="0"
