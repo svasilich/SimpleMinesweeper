@@ -155,5 +155,8 @@
     <Resource Include="todo.txt" />
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <Resource Include="gifs\GameGif.gif" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
