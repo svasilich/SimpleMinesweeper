@@ -155,12 +155,12 @@
     <Resource Include="todo.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="ButtonIcons\Deth.jpg" />
-    <Resource Include="ButtonIcons\NotStarted.jpg" />
-    <Resource Include="ButtonIcons\win.jpg" />
+    <Resource Include="ButtonIcons\InGame.gif" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="ButtonIcons\GameGif.gif" />
+    <Resource Include="ButtonIcons\GameOver.png" />
+    <Resource Include="ButtonIcons\NotStarted.png" />
+    <Resource Include="ButtonIcons\Win.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
