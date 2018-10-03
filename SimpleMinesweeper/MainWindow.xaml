@@ -7,7 +7,18 @@
         xmlns:views="clr-namespace:SimpleMinesweeper.View"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
-    <views:MineFieldView x:Name="MainView" >
-
-    </views:MineFieldView>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        
+        <Menu Grid.Row="0">
+            <MenuItem Header="Игра" Command="{Binding MenuCommand}">
+            </MenuItem>
+            <MenuItem Header="О программе"></MenuItem>
+        </Menu>
+        <views:MineFieldView Grid.Row="1" x:Name="MainView">
+        </views:MineFieldView>
+    </Grid>
 </Window>

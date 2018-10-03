@@ -211,9 +211,9 @@ namespace SimpleMinesweeper.Core
                 }
         }
 
-        private void CheckFillParameters(int hight, int length, int mineCount)
+        public static void CheckFillParameters(int height, int length, int mineCount)
         {
-            if (hight == 0)
+            if (height == 0)
                 throw new ArgumentException("Высота должна быть ненулевой.");
 
             if (length == 0)
@@ -222,7 +222,7 @@ namespace SimpleMinesweeper.Core
             if (mineCount == 0)
                 throw new ArgumentException("Количество мин должно быть больше нуля.");
 
-            if (hight * length <= mineCount)
+            if (height * length <= mineCount)
                 throw new ArgumentException("Слишком много мин.");
         }
 

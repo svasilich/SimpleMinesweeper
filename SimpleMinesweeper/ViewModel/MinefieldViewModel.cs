@@ -12,6 +12,7 @@ using System.Windows.Data;
 using System.Windows.Media;
 using SimpleMinesweeper.Core;
 using System.Globalization;
+using SimpleMinesweeper.View;
 
 namespace SimpleMinesweeper.ViewModel
 {
@@ -41,6 +42,11 @@ namespace SimpleMinesweeper.ViewModel
 
                     case FieldState.NotStarted:
                         gameTimer.Reset();
+                        break;
+
+                    case FieldState.Win:
+                        gameTimer.Stop();
+                        //TODO: Проверить таблицу рекордов.
                         break;
 
                     default:
@@ -84,6 +90,8 @@ namespace SimpleMinesweeper.ViewModel
 
         public ReloadFieldCommand ReloadCommand { get; }
 
+        public MenuCommand MenuCommand { get; }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private double fieldHeightPx;
@@ -126,6 +134,7 @@ namespace SimpleMinesweeper.ViewModel
             field.OnFilled += Field_OnFilled;
             field.OnFlagsCountChanged += Field_OnFlagsCountChanged;
             ReloadCommand = new ReloadFieldCommand(field, width, height, mineCount);
+            MenuCommand = new MenuCommand(this, gameWindow.MainGameWindow);
 
             cells = new ObservableCollection<List<CellViewModel>>();
 
@@ -224,6 +233,7 @@ namespace SimpleMinesweeper.ViewModel
     {
         double ContainerHeight { get; }
         double ContainetWidth { get; }
+        Window MainGameWindow { get; }
     }
 
     public class ReloadFieldCommand : ICommand
@@ -292,6 +302,39 @@ namespace SimpleMinesweeper.ViewModel
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
+        }
+    }
+
+    public class MenuCommand : ICommand
+    {
+        private MinefieldViewModel mineField;
+        private Window owner;
+
+        public event EventHandler CanExecuteChanged
+        {
+            add { CommandManager.RequerySuggested += value; }
+            remove { CommandManager.RequerySuggested -= value; }
+        }
+
+        public MenuCommand(MinefieldViewModel mineField, Window owner)
+        {
+            this.mineField = mineField;
+            this.owner = owner;
+        }
+
+        public bool CanExecute(object parameter)
+        {
+            return true;
+        }
+
+        public void Execute(object parameter)
+        {
+            SettingsWindow settings = new SettingsWindow();
+            settings.Content = new SettingsMainPage();
+            settings.Owner = owner;
+            settings.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            settings.ShowDialog();
+
         }
     }
 }

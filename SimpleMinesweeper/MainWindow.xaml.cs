@@ -22,21 +22,36 @@ namespace SimpleMinesweeper
     /// </summary>
     public partial class MainWindow : Window, IDynamicGameFieldSize
     {
+        private MinefieldViewModel viewModel;
+
         public MainWindow()
         {
             InitializeComponent();
 
 
             IMinefield minefield = new Minefield(new CellFactory(), new RandomMinePositionGenerator());
-            MinefieldViewModel minefieldViewModel = new MinefieldViewModel(minefield, this);
-            DataContext = minefieldViewModel;
-            this.SizeChanged += minefieldViewModel.MainWindow_SizeChanged;
+            viewModel = new MinefieldViewModel(minefield, this);
+            DataContext = viewModel;
+            this.SizeChanged += viewModel.MainWindow_SizeChanged;
 
             minefield.Fill(16, 30, 99);   
+        }
+
+        public MenuCommand MenuCommand
+        {
+            get
+            {
+                return viewModel.MenuCommand;
+            }
         }
 
         public double ContainerHeight => MainView.FieldRow.ActualHeight;
 
         public double ContainetWidth => MainView.FieldColumn.ActualWidth;
+
+        public Window MainGameWindow
+        {
+            get { return this; }
+        }
     }
 }

@@ -59,6 +59,7 @@
     <Compile Include="Core\CellFactoryTest.cs" />
     <Compile Include="Core\CellTests.cs" />
     <Compile Include="Core\MinefieldTests.cs" />
+    <Compile Include="Core\GameSettings\SettingsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\MinefieldViewModelMinesCountTests.cs" />
     <Compile Include="ViewModel\MinefieldViewModelTimerTests.cs" />

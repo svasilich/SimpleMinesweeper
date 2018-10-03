@@ -24,7 +24,7 @@
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
         </DataTemplate>
-        
+
         <viewModel:TimerSecondsConverter x:Key="SecondsCoverter"/>
         <viewModel:MinesLeftTextColorConverter x:Key="MinesLeftTextColorConverter"/>
     </Control.Resources>
@@ -45,7 +45,6 @@
             <Grid.RowDefinitions>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-
             <local:DigitalScoreboard
                 Grid.Column="0"
                 Grid.Row="0"
@@ -90,7 +89,7 @@
                     </Style>
                 </Button.Style>
             </Button>
-            
+
             <local:DigitalScoreboard
                 Grid.Column="2"
                 Grid.Row="0"
@@ -110,6 +109,6 @@
                     <UniformGrid Rows="{Binding Cells.Count}" VerticalAlignment="Stretch"/>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
-        </ItemsControl>            
+        </ItemsControl>
     </Grid>
 </UserControl>
