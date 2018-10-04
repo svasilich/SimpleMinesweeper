@@ -32,9 +32,7 @@ namespace SimpleMinesweeper
             IMinefield minefield = new Minefield(new CellFactory(), new RandomMinePositionGenerator());
             viewModel = new MinefieldViewModel(minefield, this);
             DataContext = viewModel;
-            this.SizeChanged += viewModel.MainWindow_SizeChanged;
-
-            minefield.Fill(16, 30, 99);   
+            this.SizeChanged += viewModel.MainWindow_SizeChanged;           
         }
 
         public MenuCommand MenuCommand

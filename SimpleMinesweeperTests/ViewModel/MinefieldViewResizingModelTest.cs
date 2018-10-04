@@ -77,7 +77,6 @@ namespace SimpleMinesweeperTests.ViewModel
         {
             // Клетки должны быть примерно квадратными не зависимо от соотношения сторон поля. 
             // Допустимо отклонение в 1-2 пикселя.
-            //Так же нужно не забыть выполнить рефакторинг MinefieldViewModel:ResizeField
 
             TestMinefieldViewModel vm = new TestMinefieldViewModel(fieldHeight, fieldWidth);
             double height = cellSizePx * heightRatio;

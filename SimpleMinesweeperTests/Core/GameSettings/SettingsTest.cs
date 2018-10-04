@@ -51,7 +51,7 @@ namespace SimpleMinesweeperTests.Core.GameSettings
 
             manager.SelectGameType(testType);
 
-            Assert.AreEqual(testType, manager.CurrentSettings.Type);
+            Assert.AreEqual(testType, manager.Current.Type);
         }
 
         // Установить корректные размеры для пользовательской игры и проверить результаты.
@@ -63,9 +63,9 @@ namespace SimpleMinesweeperTests.Core.GameSettings
             manager.SetCustomSize(expectedHeight, expectedWidth, expectedMineCount);
             manager.SelectGameType(GameType.Custom);
 
-            Assert.AreEqual(expectedHeight, manager.CurrentSettings.Height);
-            Assert.AreEqual(expectedWidth, manager.CurrentSettings.Width);
-            Assert.AreEqual(expectedMineCount, manager.CurrentSettings.MineCount);
+            Assert.AreEqual(expectedHeight, manager.Current.Height);
+            Assert.AreEqual(expectedWidth, manager.Current.Width);
+            Assert.AreEqual(expectedMineCount, manager.Current.MineCount);
         }
 
         // Тестирование взаимодействия с файловой системой.
@@ -94,7 +94,7 @@ namespace SimpleMinesweeperTests.Core.GameSettings
             result.Load(fileName);
 
             // Проверить эквивалентность созранённых настроек.
-            Assert.AreEqual(source.CurrentSettings.Type, result.CurrentSettings.Type);
+            Assert.AreEqual(source.Current.Type, result.Current.Type);
 
             SettingsItem sourceCustom = source.GetItemByType(GameType.Custom);
             SettingsItem resultCustom = result.GetItemByType(GameType.Custom);
