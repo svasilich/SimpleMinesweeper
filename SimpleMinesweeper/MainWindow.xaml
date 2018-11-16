@@ -14,7 +14,15 @@
         </Grid.RowDefinitions>
         
         <Menu Grid.Row="0">
-            <MenuItem Header="Игра" Command="{Binding MenuCommand}">
+            <MenuItem Header="Игра">
+                <MenuItem Header="Новичок"/>
+                <MenuItem Header="Любитель"/>
+                <MenuItem Header="Профессионал"/>
+                <Separator/>
+                <MenuItem Header="Настройки" Command="{Binding MenuCommand}"/>
+                <MenuItem Header="Рекорды"/>
+                <Separator/>
+                <MenuItem Header="Выход"/>
             </MenuItem>
             <MenuItem Header="О программе"></MenuItem>
         </Menu>

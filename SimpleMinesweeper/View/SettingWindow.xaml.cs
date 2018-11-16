@@ -22,9 +22,7 @@ namespace SimpleMinesweeper.View
     {
         public SettingsWindow()
         {
-            InitializeComponent();
-            var ns = NavigationService.GetNavigationService(this);
-            ns.Navigate(new SettingsMainPage());
+            InitializeComponent();            
         }
     }
 }

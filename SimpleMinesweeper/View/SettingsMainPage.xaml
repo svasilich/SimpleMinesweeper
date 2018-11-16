@@ -8,7 +8,7 @@
       d:DesignHeight="379.576" d:DesignWidth="382.228"
       Title="SettingsMainPage">
     <StackPanel x:Name="spButtons" HorizontalAlignment="Left" Height="380" VerticalAlignment="Top" Width="382">
-        <Button x:Name="btnSettings" Content="Настройки" VerticalAlignment="Center" Margin="50,50,50,0" MinWidth="50" MinHeight="50"/>
+        <Button x:Name="btnSettings" Content="Настройки" VerticalAlignment="Center" Margin="50,50,50,0" MinWidth="50" MinHeight="50" Click="btnSettings_Click"/>
         <Button x:Name="btnRecords" Content="Рекорды" VerticalAlignment="Center" Margin="50,50,50,0" MinWidth="50" MinHeight="50"/>
     </StackPanel>
 </Page>
