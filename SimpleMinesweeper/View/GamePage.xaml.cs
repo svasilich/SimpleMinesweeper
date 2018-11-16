@@ -18,17 +18,22 @@ using SimpleMinesweeper.ViewModel;
 namespace SimpleMinesweeper.View
 {
     /// <summary>
-    /// Логика взаимодействия для MineFieldView.xaml
+    /// Логика взаимодействия для GamePage.xaml
     /// </summary>
-    public partial class MineFieldView : UserControl, IDynamicGameFieldSize
-    {        
-        public MineFieldView()
+    public partial class GamePage : Page
+    {
+        private MinefieldViewModel viewModel;
+
+        public GamePage()
         {
             InitializeComponent();
+
+            IMinefield minefield = new Minefield(new CellFactory(), new RandomMinePositionGenerator());
+            viewModel = new MinefieldViewModel(minefield, ViewElement);
+            DataContext = viewModel;
+            ViewElement.SizeChanged += viewModel.MainWindow_SizeChanged;
+
+            minefield.Fill(16, 30, 99);
         }
-
-        public double ContainerHeight => FieldRow.ActualHeight;
-
-        public double ContainetWidth => FieldColumn.ActualWidth;
     }
 }

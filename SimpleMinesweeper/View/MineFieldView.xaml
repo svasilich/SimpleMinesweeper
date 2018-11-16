@@ -97,7 +97,8 @@
                 TextColor="{Binding MinesLeft, Converter={StaticResource MinesLeftTextColorConverter}}"
                 ToolTip="Именно столько мин ещё нужно отметить флажками"/>
         </Grid>
-        <ItemsControl Grid.Row="1"
+        <ItemsControl x:Name="MainGrid"
+                      Grid.Row="1"
                       Background="Gray"
                       ItemsSource="{Binding Path=Cells}" 
                       ItemTemplate="{DynamicResource MinefieldRowTemplate}" 

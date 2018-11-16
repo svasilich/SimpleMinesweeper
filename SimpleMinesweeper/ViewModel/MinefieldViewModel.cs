@@ -19,7 +19,7 @@ namespace SimpleMinesweeper.ViewModel
     public class MinefieldViewModel : INotifyPropertyChanged
     {
         protected IMinefield field;
-        private IDynamicGameFieldSize gameWindow;
+        private IDynamicGameFieldSize fieldCOntainer;
 
         //TODO: Эти параметры должны уйти в класс настроек.
         private int width = 30;
@@ -127,18 +127,16 @@ namespace SimpleMinesweeper.ViewModel
             }
         }
 
-        public MinefieldViewModel(IMinefield minefield, IDynamicGameFieldSize gameWindow)
+        public MinefieldViewModel(IMinefield minefield, IDynamicGameFieldSize fieldContainer)
         {
             field = minefield;
             field.OnStateChanged += Field_OnStateChanged;
             field.OnFilled += Field_OnFilled;
             field.OnFlagsCountChanged += Field_OnFlagsCountChanged;
             ReloadCommand = new ReloadFieldCommand(field, width, height, mineCount);
-            MenuCommand = new MenuCommand(this, gameWindow.MainGameWindow);
-
             cells = new ObservableCollection<List<CellViewModel>>();
 
-            this.gameWindow = gameWindow;
+            this.fieldCOntainer = fieldContainer;
 
             gameTimer = new GameTimer();
             gameTimer.OnTimerTick += GameTimer_OnTimerTick;
@@ -159,7 +157,7 @@ namespace SimpleMinesweeper.ViewModel
         private void Field_OnFilled(object sender, EventArgs e)
         {
             ReloadCells();
-            ResizeField(gameWindow.ContainetWidth, gameWindow.ContainerHeight);
+            ResizeField(fieldCOntainer.ContainetWidth, fieldCOntainer.ContainerHeight);
         }
 
         private void ReloadCells()
@@ -233,7 +231,6 @@ namespace SimpleMinesweeper.ViewModel
     {
         double ContainerHeight { get; }
         double ContainetWidth { get; }
-        Window MainGameWindow { get; }
     }
 
     public class ReloadFieldCommand : ICommand

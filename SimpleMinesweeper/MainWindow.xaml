@@ -26,7 +26,6 @@
             </MenuItem>
             <MenuItem Header="О программе"></MenuItem>
         </Menu>
-        <views:MineFieldView Grid.Row="1" x:Name="MainView">
-        </views:MineFieldView>
+        <Frame Source="View\GamePage.xaml" Grid.Row="1"/>
     </Grid>
 </Window>

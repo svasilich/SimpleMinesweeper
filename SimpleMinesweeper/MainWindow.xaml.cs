@@ -45,9 +45,9 @@ namespace SimpleMinesweeper
             }
         }
 
-        public double ContainerHeight => MainView.FieldRow.ActualHeight;
+        public double ContainerHeight => 0; //MainView.FieldRow.ActualHeight;
 
-        public double ContainetWidth => MainView.FieldColumn.ActualWidth;
+        public double ContainetWidth => 0; //MainView.FieldColumn.ActualWidth;
 
         public Window MainGameWindow
         {

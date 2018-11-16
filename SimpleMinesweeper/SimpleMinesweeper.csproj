@@ -71,6 +71,9 @@
     <Compile Include="View\DigitalScoreboard.xaml.cs">
       <DependentUpon>DigitalScoreboard.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\GamePage.xaml.cs">
+      <DependentUpon>GamePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\MineFieldView.xaml.cs">
       <DependentUpon>MineFieldView.xaml</DependentUpon>
     </Compile>
@@ -106,6 +109,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\DigitalScoreboard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\GamePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
