@@ -283,7 +283,6 @@ namespace SimpleMinesweeperTest.Core
         [TestCase(FieldState.GameOver, false)]
         [TestCase(FieldState.Win, false)]
         [TestCase(FieldState.NotStarted, true)]
-        [TestCase(FieldState.NotStarted, true)]
         public void CanCellStateChangedInAllStates(FieldState gameState, bool expected)
         {
             var minefield = Substitute.For<Minefield>(new CellFactory(), new RandomMinePositionGenerator());

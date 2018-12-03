@@ -26,6 +26,6 @@
             </MenuItem>
             <MenuItem Header="О программе"></MenuItem>
         </Menu>
-        <Frame Source="View\GamePage.xaml" Grid.Row="1"/>
+        <Frame Name="WorkArea" Grid.Row="1" NavigationUIVisibility="Hidden"/>
     </Grid>
 </Window>

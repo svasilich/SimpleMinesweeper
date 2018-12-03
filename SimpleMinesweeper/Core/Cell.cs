@@ -8,22 +8,27 @@ namespace SimpleMinesweeper.Core
 {
     public class Cell : ICell
     {
+        #region Fields
         private const int MaxNearBy = 8;
         private IMinefield minefield;
 
         private CellState state;
-        public CellState State {
+        private bool mined;
+        #endregion
+
+        #region Properties
+        public CellState State
+        {
             get => state;
             set
             {
                 var old = state;
                 state = value;
                 OnStateChanged?.Invoke(this, new CellChangeStateEventArgs(old, state));
-                
+
             }
         }
 
-        private bool mined;
         public bool Mined
         {
             get => mined;
@@ -37,9 +42,27 @@ namespace SimpleMinesweeper.Core
         public int CoordX { get; private set; }
 
         public int CoordY { get; private set; }
-        
-        public int MinesNearby { get; set; }
 
+        public int MinesNearby { get; set; }
+        #endregion
+
+        #region Events
+        public event EventHandler<CellChangeStateEventArgs> OnStateChanged;
+
+        public event EventHandler OnMinedChanged;
+        #endregion
+
+        #region Constructor
+        public Cell(IMinefield field, int x, int y)
+        {
+            this.minefield = field;
+            CoordX = x;
+            CoordY = y;
+            State = CellState.NotOpened;
+        }
+        #endregion
+
+        #region Business logic
         public void Open()
         {
             if (!minefield.CellsStateCanBeChanged)
@@ -54,7 +77,7 @@ namespace SimpleMinesweeper.Core
                     MinesNearby = minefield.GetCellMineNearbyCount(this);
                     State = CellState.Opened;
                 }
-                
+
             }
         }
 
@@ -65,10 +88,12 @@ namespace SimpleMinesweeper.Core
 
             if (State == CellState.NotOpened)
                 State = CellState.Flagged;
-            else if (State== CellState.Flagged)
+            else if (State == CellState.Flagged)
                 State = CellState.NotOpened;
         }
+        #endregion
 
+        #region Equals
         public override bool Equals(object obj)
         {
             var cell = obj as Cell;
@@ -86,16 +111,6 @@ namespace SimpleMinesweeper.Core
             hashCode = hashCode * -1521134295 + CoordY.GetHashCode();
             return hashCode;
         }
-
-        public event EventHandler<CellChangeStateEventArgs> OnStateChanged;
-        public event EventHandler OnMinedChanged;
-
-        public Cell(IMinefield field, int x, int y)
-        {
-            this.minefield = field;
-            CoordX = x;
-            CoordY = y;
-            State = CellState.NotOpened;
-        }
+        #endregion
     }
 }

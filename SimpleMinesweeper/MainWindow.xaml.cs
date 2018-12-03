@@ -20,38 +20,16 @@ namespace SimpleMinesweeper
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window, IDynamicGameFieldSize
+    public partial class MainWindow : Window
     {
-        private MinefieldViewModel viewModel;
+        private GameManager GameManager;
 
         public MainWindow()
         {
             InitializeComponent();
 
-
-            IMinefield minefield = new Minefield(new CellFactory(), new RandomMinePositionGenerator());
-            viewModel = new MinefieldViewModel(minefield, this);
-            DataContext = viewModel;
-            this.SizeChanged += viewModel.MainWindow_SizeChanged;
-
-            minefield.Fill(16, 30, 99);   
-        }
-
-        public MenuCommand MenuCommand
-        {
-            get
-            {
-                return viewModel.MenuCommand;
-            }
-        }
-
-        public double ContainerHeight => 0; //MainView.FieldRow.ActualHeight;
-
-        public double ContainetWidth => 0; //MainView.FieldColumn.ActualWidth;
-
-        public Window MainGameWindow
-        {
-            get { return this; }
+            GameManager = new GameManager();
+            WorkArea.Source = new Uri(@"View\GamePage.xaml", UriKind.Relative);
         }
     }
 }

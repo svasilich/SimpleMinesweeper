@@ -70,9 +70,7 @@ namespace SimpleMinesweeperTests.ViewModel
         [TestCase(30, 16, 30, 16)]
         [TestCase(30, 16, 16, 16)]
         [TestCase(30, 16, 16, 18)]
-        [TestCase(30, 16, 18, 16)]        
-        [TestCase(16, 30, 100, 1)]
-        [TestCase(16, 30, 1, 100)]
+        [TestCase(30, 16, 18, 16)]                
         public void CellProportionsMustBeNearSquare(int fieldHeight, int fieldWidth, double heightRatio, double widthRatio)
         {
             // Клетки должны быть примерно квадратными не зависимо от соотношения сторон поля. 
@@ -105,8 +103,6 @@ namespace SimpleMinesweeperTests.ViewModel
         [TestCase(30, 16, 16, 16)]
         [TestCase(30, 16, 16, 18)]
         [TestCase(30, 16, 18, 16)]
-        [TestCase(16, 30, 100, 1)]
-        [TestCase(16, 30, 1, 100)]
         public void OneOfSideAllwaysHasMaximum(int fieldHeight, int fieldWidth, double heightRatio, double widthRatio)
         {
             TestMinefieldViewModel vm = new TestMinefieldViewModel(fieldHeight, fieldWidth);

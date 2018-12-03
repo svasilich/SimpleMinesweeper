@@ -1,16 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 
 namespace SimpleMinesweeper.Core
 {
     public class GameTimer : IGameTimer
     {
+        #region Fields
         private Timer timer;
-
         private int seconds;
+        #endregion
+
+        #region Properties
+
         public int Seconds
         {
             get { return seconds; }
@@ -21,6 +22,22 @@ namespace SimpleMinesweeper.Core
             }
         }
 
+        #endregion
+
+        #region Events
+
+        public event EventHandler OnTimerTick;
+
+        #endregion
+
+        #region Event handlers
+        private void TimerTick(object stateInfo)
+        {
+            ++Seconds;
+        }
+        #endregion
+
+        #region Timer logic
         public void Start()
         {
             Seconds = 0;
@@ -32,17 +49,12 @@ namespace SimpleMinesweeper.Core
             timer?.Dispose();
         }
 
-        private void TimerTick(object stateInfo)
-        {
-            ++Seconds;    
-        }
-
         public void Reset()
         {
             Stop();
             Seconds = 0;
         }
 
-        public event EventHandler OnTimerTick;
+        #endregion
     }
 }
