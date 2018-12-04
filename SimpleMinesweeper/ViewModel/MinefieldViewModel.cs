@@ -35,6 +35,7 @@ namespace SimpleMinesweeper.ViewModel
         private double fieldHeightPx;
         private double fieldWidthPx;
         private int minesLeft;
+        private int seconds;
         #endregion
 
         #region Properties
@@ -73,10 +74,11 @@ namespace SimpleMinesweeper.ViewModel
         {
             get
             {
-                return gameTimer.Seconds;
+                return seconds;
             }
             private set
             {
+                seconds = value;
                 NotifyPropertyChanged();
             }
         }
