@@ -22,13 +22,13 @@ namespace SimpleMinesweeper
     /// </summary>
     public partial class MainWindow : Window
     {
-        private GameManager GameManager;
+        //private GameManager GameManager;
 
         public MainWindow()
         {
             InitializeComponent();
 
-            GameManager = new GameManager();
+          //  GameManager = new GameManager();
             WorkArea.Source = new Uri(@"View\GamePage.xaml", UriKind.Relative);
         }
     }

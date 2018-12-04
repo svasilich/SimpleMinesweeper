@@ -18,8 +18,9 @@ namespace SimpleMinesweeper.ViewModel
 {
     public class MinefieldViewModel : INotifyPropertyChanged
     {
+        #region Fields
         protected IMinefield field;
-        private IDynamicGameFieldSize fieldCOntainer;
+        private IDynamicGameFieldSize fieldContainer;
 
         //TODO: Эти параметры должны уйти в класс настроек.
         private int width = 30;
@@ -27,6 +28,16 @@ namespace SimpleMinesweeper.ViewModel
         private int mineCount = 99;
 
         private FieldState state;
+        protected IGameTimer gameTimer;
+
+        private ObservableCollection<List<CellViewModel>> cells;
+
+        private double fieldHeightPx;
+        private double fieldWidthPx;
+        private int minesLeft;
+        #endregion
+
+        #region Properties
         public FieldState State
         {
             get { return state; }
@@ -58,13 +69,6 @@ namespace SimpleMinesweeper.ViewModel
             }
         }
 
-        private void GameTimer_OnTimerTick(object sender, EventArgs e)
-        {
-            GameTime = gameTimer.Seconds;
-        }
-
-        protected IGameTimer gameTimer;
-
         public int GameTime
         {
             get
@@ -77,7 +81,6 @@ namespace SimpleMinesweeper.ViewModel
             }
         }
 
-        private ObservableCollection<List<CellViewModel>> cells;
         public ObservableCollection<List<CellViewModel>> Cells
         {
             get => cells;
@@ -88,13 +91,6 @@ namespace SimpleMinesweeper.ViewModel
             }
         }
 
-        public ReloadFieldCommand ReloadCommand { get; }
-
-        public MenuCommand MenuCommand { get; }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private double fieldHeightPx;
         public double FieldHeightPx
         {
             get { return fieldHeightPx; }
@@ -105,7 +101,6 @@ namespace SimpleMinesweeper.ViewModel
             }
         }
 
-        private double fieldWidthPx;
         public double FieldWidthPx
         {
             get { return fieldWidthPx; }
@@ -116,7 +111,6 @@ namespace SimpleMinesweeper.ViewModel
             }
         }
 
-        private int minesLeft;
         public int MinesLeft
         {
             get { return minesLeft; }
@@ -127,6 +121,15 @@ namespace SimpleMinesweeper.ViewModel
             }
         }
 
+        #region Commands
+        public ReloadFieldCommand ReloadCommand { get; }
+        public MenuCommand MenuCommand { get; }
+        #endregion
+
+        #endregion
+
+        #region Constructor
+
         public MinefieldViewModel(IMinefield minefield, IDynamicGameFieldSize fieldContainer)
         {
             field = minefield;
@@ -136,12 +139,24 @@ namespace SimpleMinesweeper.ViewModel
             ReloadCommand = new ReloadFieldCommand(field, width, height, mineCount);
             cells = new ObservableCollection<List<CellViewModel>>();
 
-            this.fieldCOntainer = fieldContainer;
+            this.fieldContainer = fieldContainer;
 
             gameTimer = new GameTimer();
             gameTimer.OnTimerTick += GameTimer_OnTimerTick;
 
             MinesLeft = mineCount;
+        }
+
+        #endregion
+
+        #region Events
+        public event PropertyChangedEventHandler PropertyChanged;
+        #endregion
+
+        #region Event handlers
+        private void GameTimer_OnTimerTick(object sender, EventArgs e)
+        {
+            GameTime = gameTimer.Seconds;
         }
 
         private void Field_OnFlagsCountChanged(object sender, EventArgs e)
@@ -157,9 +172,17 @@ namespace SimpleMinesweeper.ViewModel
         private void Field_OnFilled(object sender, EventArgs e)
         {
             ReloadCells();
-            ResizeField(fieldCOntainer.ContainetWidth, fieldCOntainer.ContainerHeight);
+            ResizeField(fieldContainer.ContainetWidth, fieldContainer.ContainerHeight);
         }
 
+        public void MainWindow_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            var view = (IDynamicGameFieldSize)sender;
+            ResizeField(view.ContainetWidth, view.ContainerHeight);
+        }
+        #endregion
+
+        #region Celss logic
         private void ReloadCells()
         {
             var cells = Cells;
@@ -179,23 +202,15 @@ namespace SimpleMinesweeper.ViewModel
 
             Cells = cells;
         }
+        #endregion
 
-        private void NotifyPropertyChanged([CallerMemberName] string property = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
-        }
-
-        public void MainWindow_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            var view = (IDynamicGameFieldSize)sender;
-            ResizeField(view.ContainetWidth, view.ContainerHeight);
-        }
+        #region Resizing
 
         protected void ResizeField(double containerWidth, double containerHeight)
         {
             double newWidth = 0;
             double newHeight = 0;
-            
+
             if (containerWidth > containerHeight)
                 ScaleSide(containerWidth, containerHeight, field.Length, field.Height, out newWidth, out newHeight);
             else
@@ -205,7 +220,7 @@ namespace SimpleMinesweeper.ViewModel
             FieldHeightPx = newHeight;
         }
 
-        private void ScaleSide(double containerSideAMax, double containerSideBMin,  int fieldCellSideA, int fieldCellSideB, 
+        private void ScaleSide(double containerSideAMax, double containerSideBMin, int fieldCellSideA, int fieldCellSideB,
             out double fieldSizePxSideA, out double fieldSizePxB)
         {
             if (fieldCellSideA > fieldCellSideB)
@@ -225,13 +240,26 @@ namespace SimpleMinesweeper.ViewModel
                 fieldSizePxB = containerSideBMin;
             }
         }
+
+        #endregion
+
+        #region NotifiProperty
+        private void NotifyPropertyChanged([CallerMemberName] string property = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
+        }
+
+        #endregion
+
     }
-    
+
     public interface IDynamicGameFieldSize
     {
         double ContainerHeight { get; }
         double ContainetWidth { get; }
     }
+
+    #region Commands implementation
 
     public class ReloadFieldCommand : ICommand
     {
@@ -264,6 +292,43 @@ namespace SimpleMinesweeper.ViewModel
             field.Fill(height, width, mineCount);
         }
     }
+
+    public class MenuCommand : ICommand
+    {
+        private MinefieldViewModel mineField;
+        private Window owner;
+
+        public event EventHandler CanExecuteChanged
+        {
+            add { CommandManager.RequerySuggested += value; }
+            remove { CommandManager.RequerySuggested -= value; }
+        }
+
+        public MenuCommand(MinefieldViewModel mineField, Window owner)
+        {
+            this.mineField = mineField;
+            this.owner = owner;
+        }
+
+        public bool CanExecute(object parameter)
+        {
+            return true;
+        }
+
+        public void Execute(object parameter)
+        {
+            SettingsWindow settings = new SettingsWindow();
+            settings.Content = new SettingsMainPage();
+            settings.Owner = owner;
+            settings.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            settings.ShowDialog();
+
+        }
+    }
+
+    #endregion
+
+    #region Converters
 
     public class TimerSecondsConverter : IValueConverter
     {
@@ -302,36 +367,10 @@ namespace SimpleMinesweeper.ViewModel
         }
     }
 
-    public class MenuCommand : ICommand
-    {
-        private MinefieldViewModel mineField;
-        private Window owner;
+    #endregion
 
-        public event EventHandler CanExecuteChanged
-        {
-            add { CommandManager.RequerySuggested += value; }
-            remove { CommandManager.RequerySuggested -= value; }
-        }
 
-        public MenuCommand(MinefieldViewModel mineField, Window owner)
-        {
-            this.mineField = mineField;
-            this.owner = owner;
-        }
 
-        public bool CanExecute(object parameter)
-        {
-            return true;
-        }
 
-        public void Execute(object parameter)
-        {
-            SettingsWindow settings = new SettingsWindow();
-            settings.Content = new SettingsMainPage();
-            settings.Owner = owner;
-            settings.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            settings.ShowDialog();
 
-        }
-    }
 }

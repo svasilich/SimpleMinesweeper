@@ -65,7 +65,6 @@
     <Compile Include="Core\GameTimer.cs" />
     <Compile Include="Core\ICellFactory.cs" />
     <Compile Include="Core\IGameTimer.cs" />
-    <Compile Include="GameManager.cs" />
     <Compile Include="View\CellView.xaml.cs">
       <DependentUpon>CellView.xaml</DependentUpon>
     </Compile>
