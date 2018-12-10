@@ -156,7 +156,7 @@ namespace SimpleMinesweeper.ViewModel
         #endregion
 
         #region Event handlers
-        private void GameTimer_OnTimerTick(object sender, EventArgs e)
+        protected void GameTimer_OnTimerTick(object sender, EventArgs e)
         {
             GameTime = gameTimer.Seconds;
         }

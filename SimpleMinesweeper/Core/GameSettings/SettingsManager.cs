@@ -5,7 +5,7 @@ using System.Xml.Serialization;
 
 namespace SimpleMinesweeper.Core.GameSettings
 {
-    public class SettingsManager
+    public class SettingsManager : ISettingsManager
     {
         #region Properties
         public List<SettingsItem> AvailableGameTypes { get; }

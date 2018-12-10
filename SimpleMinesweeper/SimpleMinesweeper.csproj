@@ -60,11 +60,13 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Core\CellFactory.cs" />
+    <Compile Include="Core\GameSettings\ISettingsManager.cs" />
     <Compile Include="Core\GameSettings\SettingsItem.cs" />
     <Compile Include="Core\GameSettings\SettingsManager.cs" />
     <Compile Include="Core\GameTimer.cs" />
     <Compile Include="Core\ICellFactory.cs" />
     <Compile Include="Core\IGameTimer.cs" />
+    <Compile Include="Core\IMinesweeperGame.cs" />
     <Compile Include="View\CellView.xaml.cs">
       <DependentUpon>CellView.xaml</DependentUpon>
     </Compile>

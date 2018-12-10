@@ -27,16 +27,14 @@ namespace SimpleMinesweeperTests.ViewModel
         public void GameTimer_TimerObjectSetted_ReturnToTime()
         {
             var sm = new MinefieldViewModelWithManualTimerObject();
-            IGameTimer gameTimer = Substitute.For<IGameTimer>();
-
+            IGameTimer gameTimer = Substitute.For<IGameTimer>();           
+            
             int expectedTicks = 10;
-
             gameTimer.Seconds.Returns(expectedTicks);
             sm.SetTimerObject(gameTimer);
+            gameTimer.OnTimerTick += Raise.Event();
 
             Assert.AreEqual(expectedTicks, sm.GameTime);
-
-
         }
 
         class MinefieldViewModelWithManualTimerObject : MinefieldViewModel
@@ -44,6 +42,7 @@ namespace SimpleMinesweeperTests.ViewModel
             public void SetTimerObject(IGameTimer timerObject)
             {
                 gameTimer = timerObject;
+                gameTimer.OnTimerTick += GameTimer_OnTimerTick;
             }
 
             public MinefieldViewModelWithManualTimerObject() : base(MinefieldTestHelper.CreateDefaultMinefield(), MinefieldTestHelper.FakeMainWindow())
