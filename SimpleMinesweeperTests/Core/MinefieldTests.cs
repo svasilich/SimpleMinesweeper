@@ -4,7 +4,9 @@ using System.Linq;
 using NUnit.Framework;
 using NSubstitute;
 using SimpleMinesweeper.Core;
+using SimpleMinesweeper.Core.GameSettings;
 using SimpleMinesweeperTests.Common;
+
 
 namespace SimpleMinesweeperTest.Core
 {
@@ -21,6 +23,28 @@ namespace SimpleMinesweeperTest.Core
 
             var ex = Assert.Catch<ArgumentException>(() => minefield.Fill(height, length, mineCount));
             StringAssert.Contains(expected.ToUpper(), ex.Message.ToUpper());
+        }
+
+        [Test]
+        public void FillFromSettingsObject()
+        {
+            SettingsItem settings = new SettingsItem()
+            {
+                Height = 10,
+                Width = 11,
+                MineCount = 9,
+                Type = GameType.Custom
+            };
+
+            IMinePositionsGenerator generator = new RandomMinePositionGenerator();
+            IMinefield field = new Minefield(new CellFactory(), generator);
+
+            field.SetGameSettings(settings);
+            field.Fill();
+
+            Assert.AreEqual(10, field.Height);
+            Assert.AreEqual(11, field.Width);
+            Assert.AreEqual(9, field.MinesCount);
         }
         
         [Test]

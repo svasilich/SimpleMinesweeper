@@ -214,9 +214,9 @@ namespace SimpleMinesweeper.ViewModel
             double newHeight = 0;
 
             if (containerWidth > containerHeight)
-                ScaleSide(containerWidth, containerHeight, field.Length, field.Height, out newWidth, out newHeight);
+                ScaleSide(containerWidth, containerHeight, field.Width, field.Height, out newWidth, out newHeight);
             else
-                ScaleSide(containerHeight, containerWidth, field.Height, field.Length, out newHeight, out newWidth);
+                ScaleSide(containerHeight, containerWidth, field.Height, field.Width, out newHeight, out newWidth);
 
             FieldWidthPx = newWidth;
             FieldHeightPx = newHeight;

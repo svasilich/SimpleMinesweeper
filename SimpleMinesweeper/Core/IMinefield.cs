@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using SimpleMinesweeper.Core.GameSettings;
 
 namespace SimpleMinesweeper.Core
 {
@@ -15,22 +16,23 @@ namespace SimpleMinesweeper.Core
     public interface IMinefield
     {
         FieldState State { get; }
-
         int Height { get; }
-        int Length { get; }
+        int Width { get; }
         int MinesCount { get; }
         int FlagsCount { get; }
+        List<List<ICell>> Cells { get; }
 
         event EventHandler OnStateChanged;
         event EventHandler OnFilled;
         event EventHandler OnFlagsCountChanged;
 
-        List<List<ICell>> Cells { get; }
+        void SetGameSettings(SettingsItem settings);
 
         ICell GetCellByCoords(int x, int y);
         int GetCellMineNearbyCount(ICell cell);
 
         void Fill(int height, int length, int mineCount);
+        void Fill();
 
         bool CellsStateCanBeChanged { get; }
     }

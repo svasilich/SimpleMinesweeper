@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using SimpleMinesweeper.Core.GameSettings;
 
 namespace SimpleMinesweeper.Core
 {
@@ -42,7 +42,7 @@ namespace SimpleMinesweeper.Core
         }
 
         public int Height { get; private set; }
-        public int Length { get; private set; }
+        public int Width { get; private set; }
         public int MinesCount { get; private set; }
         public int FlagsCount
         {
@@ -150,23 +150,42 @@ namespace SimpleMinesweeper.Core
 
         #endregion
 
+        #region Settings
+        public void SetGameSettings(SettingsItem settings)
+        {
+            Height = settings.Height;
+            Width = settings.Width;
+            MinesCount = settings.MineCount;
+        }
+        #endregion
+
         #region Filling
 
         public void Fill(int fieldHight, int fieldLength, int mineCount)
         {
             CheckFillParameters(fieldHight, fieldLength, mineCount);
             Height = fieldHight;
-            Length = fieldLength;
+            Width = fieldLength;
             MinesCount = mineCount;
+            Filling();
+        }
+
+        public void Fill()
+        {
+            Filling();
+        }
+
+        private void Filling()
+        {
             FlagsCount = 0;
-            notMinedCellsCount = Height * Length - mineCount;
+            notMinedCellsCount = Height * Width - MinesCount;
             openedCellsCount = 0;
 
             Cells = new List<List<ICell>>(Height);
             for (int y = 0; y < Height; ++y)
             {
-                List<ICell> row = new List<ICell>(Length);
-                for (int x = 0; x < Length; ++x)
+                List<ICell> row = new List<ICell>(Width);
+                for (int x = 0; x < Width; ++x)
                 {
                     ICell cell = cellFactory.CreateCell(this, x, y);
                     cell.OnStateChanged += Cell_OnStateChanged;
@@ -180,6 +199,8 @@ namespace SimpleMinesweeper.Core
             OnFilled?.Invoke(this, EventArgs.Empty);
             State = FieldState.NotStarted;
         }
+
+        
 
         public static void CheckFillParameters(int height, int length, int mineCount)
         {
@@ -213,7 +234,7 @@ namespace SimpleMinesweeper.Core
         {
             while (true)
             {
-                int minePosX = minePositionsGenerator.Next(Length);
+                int minePosX = minePositionsGenerator.Next(Width);
                 int minePosY = minePositionsGenerator.Next(Height);
 
                 ICell cell = Cells[minePosY][minePosX];
@@ -247,7 +268,7 @@ namespace SimpleMinesweeper.Core
             topLeftY = topLeftY < 0 ? 0 : topLeftY;
 
             int bottomRihtX = cell.CoordX + 1;
-            bottomRihtX = bottomRihtX == Length ? Length - 1 : bottomRihtX;
+            bottomRihtX = bottomRihtX == Width ? Width - 1 : bottomRihtX;
             int bottomRightY = cell.CoordY + 1;
             bottomRightY = bottomRightY == Height ? Height - 1 : bottomRightY;
 
