@@ -13,6 +13,7 @@ using System.Windows.Media;
 using SimpleMinesweeper.Core;
 using System.Globalization;
 using SimpleMinesweeper.View;
+using SimpleMinesweeper.Core.GameSettings;
 
 namespace SimpleMinesweeper.ViewModel
 {
@@ -291,7 +292,14 @@ namespace SimpleMinesweeper.ViewModel
 
         public void Execute(object parameter)
         {
-            field.Fill(height, width, mineCount);
+            SettingsItem settings = new SettingsItem()
+            {
+                Height = height,
+                Width = width,
+                MineCount = mineCount
+            };
+            field.SetGameSettings(settings);
+            field.Fill();
         }
     }
 

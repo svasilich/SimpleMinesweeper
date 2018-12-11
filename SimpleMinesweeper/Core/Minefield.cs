@@ -161,22 +161,11 @@ namespace SimpleMinesweeper.Core
 
         #region Filling
 
-        public void Fill(int fieldHight, int fieldLength, int mineCount)
-        {
-            CheckFillParameters(fieldHight, fieldLength, mineCount);
-            Height = fieldHight;
-            Width = fieldLength;
-            MinesCount = mineCount;
-            Filling();
-        }
-
         public void Fill()
         {
-            Filling();
-        }
+            //TODO: Это было бы более уместно на установке настроек. А может и на создании SettingsItem.
+            CheckFillParameters(Height, Width, MinesCount);
 
-        private void Filling()
-        {
             FlagsCount = 0;
             notMinedCellsCount = Height * Width - MinesCount;
             openedCellsCount = 0;
@@ -199,8 +188,6 @@ namespace SimpleMinesweeper.Core
             OnFilled?.Invoke(this, EventArgs.Empty);
             State = FieldState.NotStarted;
         }
-
-        
 
         public static void CheckFillParameters(int height, int length, int mineCount)
         {

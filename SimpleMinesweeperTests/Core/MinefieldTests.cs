@@ -17,25 +17,20 @@ namespace SimpleMinesweeperTest.Core
         [TestCase(1, 0, 1, "ширина")]
         [TestCase(1, 1, 0, "количество мин должно быть больше")]
         [TestCase(5, 5, 100, "слишком много")]
-        public void SendFillIncorrectParameters_ThrowException(int height, int length, int mineCount, string expected)
+        public void SendFillIncorrectParameters_ThrowException(int height, int width, int mineCount, string expected)
         {
             IMinefield minefield = MinefieldTestHelper.CreateDefaultMinefield();
+            SettingsItem settings = CreateCustomSettings(height, width, mineCount);
+            minefield.SetGameSettings(settings);
 
-            var ex = Assert.Catch<ArgumentException>(() => minefield.Fill(height, length, mineCount));
+            var ex = Assert.Catch<ArgumentException>(() => minefield.Fill());
             StringAssert.Contains(expected.ToUpper(), ex.Message.ToUpper());
         }
 
         [Test]
         public void FillFromSettingsObject()
         {
-            SettingsItem settings = new SettingsItem()
-            {
-                Height = 10,
-                Width = 11,
-                MineCount = 9,
-                Type = GameType.Custom
-            };
-
+            SettingsItem settings = CreateCustomSettings(10, 11, 9);
             IMinePositionsGenerator generator = new RandomMinePositionGenerator();
             IMinefield field = new Minefield(new CellFactory(), generator);
 
@@ -59,7 +54,9 @@ namespace SimpleMinesweeperTest.Core
 
             IMinePositionsGenerator generator = new CollectionMinePositionGenerator(coords);
             IMinefield field = new Minefield(new CellFactory(), generator);
-            field.Fill(10, 10, 3);
+            SettingsItem settings = CreateCustomSettings(10, 10, 3);
+            field.SetGameSettings(settings);
+            field.Fill();
 
             int minesCount = field.GetCellMineNearbyCount(field.Cells[0][0]);
 
@@ -136,7 +133,9 @@ namespace SimpleMinesweeperTest.Core
             List<int> coords = new List<int> { 0, 0, 0, 1, 5, 5 };
             IMinePositionsGenerator generator = new CollectionMinePositionGenerator(coords);
             IMinefield field = new Minefield(new CellFactory(), generator);
-            field.Fill(10, 10, 3);
+            SettingsItem settings = CreateCustomSettings(10, 10, 3);
+            field.SetGameSettings(settings);
+            field.Fill();
             ICell cell = field.GetCellByCoords(1, 0);
             cell.Open();
 
@@ -179,9 +178,11 @@ namespace SimpleMinesweeperTest.Core
         public void FillMinefield_StateToNotStarted()
         {
             IMinefield minefield = SetMineToCenter();
+            SettingsItem settings = CreateCustomSettings(10, 10, 1);
+            minefield.SetGameSettings(settings);
 
-            minefield.Cells[0][0].Open();
-            minefield.Fill(10, 10, 1);
+            minefield.Cells[0][0].Open();            
+            minefield.Fill();
 
             Assert.AreEqual(FieldState.NotStarted, minefield.State);
         }
@@ -289,11 +290,13 @@ namespace SimpleMinesweeperTest.Core
         public void GameRestart_FlagsCountReset()
         {
             IMinefield minefield = SetMineToCenter();
+            SettingsItem settings = CreateCustomSettings(10, 10, 1);
+            minefield.SetGameSettings(settings);
 
             minefield.Cells[0][0].SetFlag();
             minefield.Cells[1][1].SetFlag();
 
-            minefield.Fill(10, 10, 1);
+            minefield.Fill();
 
             Assert.AreEqual(0, minefield.FlagsCount);
         }
@@ -350,9 +353,21 @@ namespace SimpleMinesweeperTest.Core
             List<int> coords = new List<int> { x, y };
             IMinePositionsGenerator generator = new CollectionMinePositionGenerator(coords);
             IMinefield field = new Minefield(new CellFactory(), generator);
-
-            field.Fill(10, 10, mineCount);
+            SettingsItem settings = CreateCustomSettings(10, 10, mineCount);
+            field.SetGameSettings(settings);
+            field.Fill();
             return field;
+        }
+
+        private static SettingsItem CreateCustomSettings(int height, int width, int mineCount)
+        {
+            return new SettingsItem()
+            {
+                Height = height,
+                Width = width,
+                MineCount = mineCount,
+                Type = GameType.Custom
+            };
         }
 
         #endregion

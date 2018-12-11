@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using SimpleMinesweeper.Core;
+using SimpleMinesweeper.Core.GameSettings;
 using SimpleMinesweeper.ViewModel;
 
 namespace SimpleMinesweeper.View
@@ -33,7 +34,14 @@ namespace SimpleMinesweeper.View
             DataContext = viewModel;
             ViewElement.SizeChanged += viewModel.MainWindow_SizeChanged;
 
-            minefield.Fill(16, 30, 99);
+            SettingsItem settings = new SettingsItem()
+            {
+                Height = 16,
+                Width = 30,
+                MineCount = 99
+            };
+            minefield.SetGameSettings(settings);
+            minefield.Fill();
         }
     }
 }
