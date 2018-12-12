@@ -163,8 +163,8 @@ namespace SimpleMinesweeper.Core
 
         public void Fill()
         {
-            //TODO: Это было бы более уместно на установке настроек. А может и на создании SettingsItem.
-            CheckFillParameters(Height, Width, MinesCount);
+            if (!SettingsHelper.CheckValidity(Height, Width, MinesCount, out string reason))
+                throw new Exception(reason);            
 
             FlagsCount = 0;
             notMinedCellsCount = Height * Width - MinesCount;
@@ -187,21 +187,6 @@ namespace SimpleMinesweeper.Core
 
             OnFilled?.Invoke(this, EventArgs.Empty);
             State = FieldState.NotStarted;
-        }
-
-        public static void CheckFillParameters(int height, int length, int mineCount)
-        {
-            if (height == 0)
-                throw new ArgumentException("Высота должна быть ненулевой.");
-
-            if (length == 0)
-                throw new ArgumentException("Ширина должна быть ненулевой.");
-
-            if (mineCount == 0)
-                throw new ArgumentException("Количество мин должно быть больше нуля.");
-
-            if (height * length <= mineCount)
-                throw new ArgumentException("Слишком много мин.");
         }
 
         private void MineAField()

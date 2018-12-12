@@ -61,6 +61,7 @@
     </ApplicationDefinition>
     <Compile Include="Core\CellFactory.cs" />
     <Compile Include="Core\GameSettings\ISettingsManager.cs" />
+    <Compile Include="Core\GameSettings\SettingsHelper.cs" />
     <Compile Include="Core\GameSettings\SettingsItem.cs" />
     <Compile Include="Core\GameSettings\SettingsManager.cs" />
     <Compile Include="Core\GameTimer.cs" />

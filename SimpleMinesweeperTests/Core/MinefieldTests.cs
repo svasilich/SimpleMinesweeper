@@ -23,7 +23,7 @@ namespace SimpleMinesweeperTest.Core
             SettingsItem settings = CreateCustomSettings(height, width, mineCount);
             minefield.SetGameSettings(settings);
 
-            var ex = Assert.Catch<ArgumentException>(() => minefield.Fill());
+            var ex = Assert.Catch<Exception>(() => minefield.Fill());
             StringAssert.Contains(expected.ToUpper(), ex.Message.ToUpper());
         }
 
