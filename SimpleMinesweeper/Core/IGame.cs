@@ -5,13 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using SimpleMinesweeper.Core.GameSettings;
 
-
 namespace SimpleMinesweeper.Core
 {
-    public interface IMinesweeperGame
+    public interface IGame
     {
-        IMinefield Minefield { get; }
-
-        SettingsManager Settings { get; }
+        IMinefield GameField { get; }
+        ISettingsManager Settings { get; }
     }
 }

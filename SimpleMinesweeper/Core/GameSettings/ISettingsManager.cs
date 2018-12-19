@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace SimpleMinesweeper.Core.GameSettings
 {
@@ -6,6 +7,8 @@ namespace SimpleMinesweeper.Core.GameSettings
     {
         List<SettingsItem> AvailableGameTypes { get; }
         SettingsItem CurrentSettings { get; }
+
+        event EventHandler OnCurrentGameChanged;
 
         SettingsItem GetItemByType(GameType gameType);
         void Load(string fileName);

@@ -2,15 +2,28 @@
 using System.Linq;
 using System.IO;
 using System.Xml.Serialization;
+using System;
 
 namespace SimpleMinesweeper.Core.GameSettings
 {
     public class SettingsManager : ISettingsManager
     {
+        #region Members
+        private SettingsItem currentSettings;
+        #endregion
+
         #region Properties
         public List<SettingsItem> AvailableGameTypes { get; }
 
-        public SettingsItem CurrentSettings { get; private set; }
+        public SettingsItem CurrentSettings
+        {
+            get => currentSettings;
+            private set
+            {
+                currentSettings = value;
+                OnCurrentGameChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
         
         #endregion
 
@@ -31,6 +44,11 @@ namespace SimpleMinesweeper.Core.GameSettings
 
         #endregion
 
+        #region Events
+        public event EventHandler OnCurrentGameChanged;
+        #endregion
+
+        #region Set and get settings methods.
         public void SelectGameType(GameType gameType)
         {
             CurrentSettings = GetItemByType(gameType);
@@ -42,12 +60,18 @@ namespace SimpleMinesweeper.Core.GameSettings
             custom.Height = height;
             custom.Width = width;
             custom.MineCount = mineCount;
+
+            if (CurrentSettings.Type == GameType.Custom)
+                OnCurrentGameChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public SettingsItem GetItemByType(GameType gameType)
         {
             return AvailableGameTypes.Find(x => x.Type == gameType);
         }
+        #endregion
+
+        #region Save/load logic
 
         public void Save(string fileName)
         {
@@ -55,7 +79,7 @@ namespace SimpleMinesweeper.Core.GameSettings
             {
                 SettingsItem custom = GetItemByType(GameType.Custom);
                 XmlSerializer xmlSerializer = new XmlSerializer(typeof(SaveSettingsData));
-                xmlSerializer.Serialize(settingsFile, 
+                xmlSerializer.Serialize(settingsFile,
                     new SaveSettingsData()
                     {
                         Selected = CurrentSettings.Type,
@@ -82,8 +106,11 @@ namespace SimpleMinesweeper.Core.GameSettings
         {
             public GameType Selected { get; set; }
             public int CustomHeight { get; set; }
-            public int CustomWidth { get; set; }            
+            public int CustomWidth { get; set; }
             public int CustomMineCount { get; set; }
         }
+
+        #endregion
+        
     }
 }

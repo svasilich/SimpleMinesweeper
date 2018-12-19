@@ -102,5 +102,44 @@ namespace SimpleMinesweeperTests.Core.GameSettings
             Assert.AreEqual(sourceCustom.Width, resultCustom.Width);
             Assert.AreEqual(sourceCustom.MineCount, resultCustom.MineCount);
         }
+
+        [Test]
+        public void ChangeGameType_OnCurrentGameChangedEventInvocked()
+        {
+            ISettingsManager settingsManager = new SettingsManager();
+
+            settingsManager.SelectGameType(GameType.Newbie);
+
+            bool eventCalled = false;
+            settingsManager.OnCurrentGameChanged += (o, e) => eventCalled = true;
+
+            settingsManager.SelectGameType(GameType.Professional);
+            Assert.IsTrue(eventCalled);
+        }        
+
+        [Test]
+        public void GameTypeSetCustomAndChangeParameters_OnCurrentGameChangedEventInvocked()
+        {
+            ISettingsManager settingsManager = new SettingsManager();            
+            settingsManager.SelectGameType(GameType.Custom);
+
+            bool eventCalled = false;
+            settingsManager.OnCurrentGameChanged += (o, e) => eventCalled = true;
+            settingsManager.SetCustomSize(11, 11, 10);
+
+            Assert.IsTrue(eventCalled);
+        }
+
+        public void GameTypeNotCustomAndChangeCustomParameters_OnCurrentGameChangedEventNotInvocked()
+        {
+            ISettingsManager settingsManager = new SettingsManager();
+            settingsManager.SelectGameType(GameType.Newbie);
+
+            bool eventCalled = false;
+            settingsManager.OnCurrentGameChanged += (o, e) => eventCalled = true;
+            settingsManager.SetCustomSize(11, 11, 10);
+
+            Assert.IsFalse(eventCalled);
+        }
     }
 }
