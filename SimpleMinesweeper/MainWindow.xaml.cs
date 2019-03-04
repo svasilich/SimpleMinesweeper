@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using SimpleMinesweeper.Core;
+using SimpleMinesweeper.Core.GameSettings;
 using SimpleMinesweeper.ViewModel;
 
 namespace SimpleMinesweeper
@@ -22,13 +23,15 @@ namespace SimpleMinesweeper
     /// </summary>
     public partial class MainWindow : Window
     {
-        //private GameManager GameManager;
+        private GameViewModel gameView;
 
         public MainWindow()
         {
             InitializeComponent();
 
-          //  GameManager = new GameManager();
+            IGame game = Game.GetInstance();            
+            gameView = new GameViewModel(game);
+            DataContext = gameView;
             WorkArea.Source = new Uri(@"View\GamePage.xaml", UriKind.Relative);
         }
     }

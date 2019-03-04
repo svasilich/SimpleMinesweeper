@@ -60,6 +60,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Core\CellFactory.cs" />
+    <Compile Include="Core\Game.cs" />
     <Compile Include="Core\GameSettings\ISettingsManager.cs" />
     <Compile Include="Core\GameSettings\SettingsHelper.cs" />
     <Compile Include="Core\GameSettings\SettingsItem.cs" />
@@ -186,9 +187,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="todo.txt" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="ButtonIcons\InGame.gif" />

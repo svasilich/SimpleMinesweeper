@@ -161,7 +161,7 @@ namespace SimpleMinesweeper.Core
 
         #region Filling
 
-        public void Fill()
+        public virtual void Fill()
         {
             if (!SettingsHelper.CheckValidity(Height, Width, MinesCount, out string reason))
                 throw new Exception(reason);            

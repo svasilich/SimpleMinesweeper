@@ -11,7 +11,7 @@ using SimpleMinesweeperTests.Common;
 
 namespace SimpleMinesweeperTests.ViewModel
 {
-    class TestMinefieldViewModel : MinefieldViewModel
+    class MinefieldViewModelTest : MinefieldViewModel
     {
         public static int DefaultFieldHeightCell { get { return 16; } }
         public static int DefaultFieldWidthCell { get { return 30; } }
@@ -33,19 +33,19 @@ namespace SimpleMinesweeperTests.ViewModel
             return field;
         }
 
-        public TestMinefieldViewModel() :
+        public MinefieldViewModelTest() :
             base(DefaultMinefield(DefaultFieldHeightCell, DefaultFieldWidthCell), MinefieldTestHelper.FakeMainWindow())
         {
 
         }
 
-        public TestMinefieldViewModel(int height, int width) :
+        public MinefieldViewModelTest(int height, int width) :
             base(DefaultMinefield(height, width), MinefieldTestHelper.FakeMainWindow())
         {
 
         }
 
-        public TestMinefieldViewModel(IMinefield minefield) : base(minefield, MinefieldTestHelper.FakeMainWindow())
+        public MinefieldViewModelTest(IMinefield minefield) : base(minefield, MinefieldTestHelper.FakeMainWindow())
         {
         }
 

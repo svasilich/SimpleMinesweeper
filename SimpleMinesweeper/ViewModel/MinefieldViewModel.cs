@@ -139,7 +139,7 @@ namespace SimpleMinesweeper.ViewModel
             field.OnStateChanged += Field_OnStateChanged;
             field.OnFilled += Field_OnFilled;
             field.OnFlagsCountChanged += Field_OnFlagsCountChanged;
-            ReloadCommand = new ReloadFieldCommand(field, width, height, mineCount);
+            ReloadCommand = new ReloadFieldCommand(field);
             cells = new ObservableCollection<List<CellViewModel>>();
 
             this.fieldContainer = fieldContainer;
@@ -148,6 +148,7 @@ namespace SimpleMinesweeper.ViewModel
             gameTimer.OnTimerTick += GameTimer_OnTimerTick;
 
             MinesLeft = mineCount;
+            ReloadCells();
         }
 
         #endregion
@@ -267,9 +268,6 @@ namespace SimpleMinesweeper.ViewModel
     public class ReloadFieldCommand : ICommand
     {
         private IMinefield field;
-        private int width;
-        private int height;
-        private int mineCount;
 
         public event EventHandler CanExecuteChanged
         {
@@ -277,12 +275,9 @@ namespace SimpleMinesweeper.ViewModel
             remove { CommandManager.RequerySuggested -= value; }
         }
 
-        public ReloadFieldCommand(IMinefield field, int width, int height, int mineCount)
+        public ReloadFieldCommand(IMinefield field)
         {
             this.field = field;
-            this.width = width;
-            this.height = height;
-            this.mineCount = mineCount;
         }
 
         public bool CanExecute(object parameter)
@@ -292,13 +287,6 @@ namespace SimpleMinesweeper.ViewModel
 
         public void Execute(object parameter)
         {
-            SettingsItem settings = new SettingsItem()
-            {
-                Height = height,
-                Width = width,
-                MineCount = mineCount
-            };
-            field.SetGameSettings(settings);
             field.Fill();
         }
     }

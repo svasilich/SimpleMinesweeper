@@ -11,7 +11,7 @@ using SimpleMinesweeper.ViewModel;
 namespace SimpleMinesweeperTests.ViewModel
 {
     [TestFixture]
-    class TimerSecundsConverterTests
+    class TimerSecondsConverterTests
     {
         [TestCase(0, "00:00")]
         [TestCase(60, "01:00")]

@@ -25,7 +25,7 @@ namespace SimpleMinesweeperTests.ViewModel
         [TestCase(16, 30, 1, 100)]
         public void MinefieldResize_WidthInContainer(int fieldHeight, int fieldWidth, double heightRatio, double widthRatio)
         {
-            TestMinefieldViewModel vm = new TestMinefieldViewModel(fieldHeight, fieldWidth);
+            MinefieldViewModelTest vm = new MinefieldViewModelTest(fieldHeight, fieldWidth);
             double height = cellSizePx * heightRatio;
             double width = cellSizePx * widthRatio;
 
@@ -50,7 +50,7 @@ namespace SimpleMinesweeperTests.ViewModel
         [TestCase(16, 30, 1, 100)]
         public void MinefieldResize_HeightInContainer(int fieldHeight, int fieldWidth, double heightRatio, double widthRatio)
         {
-            TestMinefieldViewModel vm = new TestMinefieldViewModel(fieldHeight, fieldWidth);
+            MinefieldViewModelTest vm = new MinefieldViewModelTest(fieldHeight, fieldWidth);
             double height = cellSizePx * heightRatio;
             double width = cellSizePx * widthRatio;
 
@@ -77,7 +77,7 @@ namespace SimpleMinesweeperTests.ViewModel
             // Допустимо отклонение в 1-2 пикселя.
             //Так же нужно не забыть выполнить рефакторинг MinefieldViewModel:ResizeField
 
-            TestMinefieldViewModel vm = new TestMinefieldViewModel(fieldHeight, fieldWidth);
+            MinefieldViewModelTest vm = new MinefieldViewModelTest(fieldHeight, fieldWidth);
             double height = cellSizePx * heightRatio;
             double width = cellSizePx * widthRatio;
 
@@ -105,7 +105,7 @@ namespace SimpleMinesweeperTests.ViewModel
         [TestCase(30, 16, 18, 16)]
         public void OneOfSideAllwaysHasMaximum(int fieldHeight, int fieldWidth, double heightRatio, double widthRatio)
         {
-            TestMinefieldViewModel vm = new TestMinefieldViewModel(fieldHeight, fieldWidth);
+            MinefieldViewModelTest vm = new MinefieldViewModelTest(fieldHeight, fieldWidth);
 
             double height = cellSizePx * heightRatio;
             double width = cellSizePx * widthRatio;

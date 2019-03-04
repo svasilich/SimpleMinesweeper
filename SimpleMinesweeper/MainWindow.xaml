@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SimpleMinesweeper"
         xmlns:views="clr-namespace:SimpleMinesweeper.View"
+        xmlns:settings="clr-namespace:SimpleMinesweeper.Core.GameSettings"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
@@ -15,9 +16,9 @@
         
         <Menu Grid.Row="0">
             <MenuItem Header="Игра">
-                <MenuItem Header="Новичок"/>
-                <MenuItem Header="Любитель"/>
-                <MenuItem Header="Профессионал"/>
+                <MenuItem Header="Новичок" Command="{Binding MenuSetGameTypeCommand}" CommandParameter="{x:Static settings:GameType.Newbie}"/>
+                <MenuItem Header="Любитель" Command="{Binding MenuSetGameTypeCommand}" CommandParameter="{x:Static settings:GameType.Advanced}"/>
+                <MenuItem Header="Профессионал" Command="{Binding MenuSetGameTypeCommand}" CommandParameter="{x:Static settings:GameType.Professional}"/>
                 <Separator/>
                 <MenuItem Header="Настройки" Command="{Binding MenuCommand}"/>
                 <MenuItem Header="Рекорды"/>

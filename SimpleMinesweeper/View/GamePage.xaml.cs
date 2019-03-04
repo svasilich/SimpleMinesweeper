@@ -29,19 +29,10 @@ namespace SimpleMinesweeper.View
         {
             InitializeComponent();
 
-            IMinefield minefield = new Minefield(new CellFactory(), new RandomMinePositionGenerator());
-            viewModel = new MinefieldViewModel(minefield, ViewElement);
+            IGame game = Game.GetInstance();
+            viewModel = new MinefieldViewModel(game.GameField, ViewElement);
             DataContext = viewModel;
             ViewElement.SizeChanged += viewModel.MainWindow_SizeChanged;
-
-            SettingsItem settings = new SettingsItem()
-            {
-                Height = 16,
-                Width = 30,
-                MineCount = 99
-            };
-            minefield.SetGameSettings(settings);
-            minefield.Fill();
         }
     }
 }

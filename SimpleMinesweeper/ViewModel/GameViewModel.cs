@@ -1,12 +1,86 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
+using SimpleMinesweeper.Core;
+using SimpleMinesweeper.Core.GameSettings;
+
 
 namespace SimpleMinesweeper.ViewModel
 {
-    class GameViewModel
+    public class GameViewModel
     {
+        #region Fields
+        #endregion
+
+        #region Properties
+
+        public IGame Game { get; private set; }
+
+        #endregion
+
+        #region Constructor
+
+        public GameViewModel(IGame game)
+        {
+            Game = game;
+            MenuSetGameTypeCommand = new MenuSetGameTypeCommand(Game.Settings);
+        }
+
+        #endregion
+
+        #region Commands
+        public MenuSetGameTypeCommand MenuSetGameTypeCommand { get; }
+
+        #endregion
+
+        #region Navigation methods
+        public void ChangeGameTypeFromCommand(GameType gameType)
+        {
+            Game.Settings.SelectGameType(gameType);
+            Game.GameField.Fill();
+        }
+        #endregion
     }
+
+    #region Command types
+    public class MenuSetGameTypeCommand : ICommand
+    {
+        #region Fields
+        private readonly ISettingsManager settings;
+        #endregion
+
+        #region Constructors
+
+        public MenuSetGameTypeCommand(ISettingsManager settingsManager)
+        {
+            settings = settingsManager;
+        }
+
+        #endregion
+
+        public event EventHandler CanExecuteChanged
+        {
+            add { CommandManager.RequerySuggested += value; }
+            remove { CommandManager.RequerySuggested -= value; }
+        }
+
+
+        public bool CanExecute(object parameter)
+        {
+            return true;
+        }
+
+        public void Execute(object parameter)
+        {
+            if (!(parameter is GameType))
+            {
+                MessageBox.Show("Wrong command parameter!!");
+                return;
+            }
+
+            GameType gameType = (GameType)parameter;
+            settings.SelectGameType(gameType);
+        }
+    }
+    #endregion
 }

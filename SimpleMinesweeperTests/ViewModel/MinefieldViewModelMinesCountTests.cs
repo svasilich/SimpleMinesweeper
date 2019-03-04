@@ -17,29 +17,29 @@ namespace SimpleMinesweeperTests.ViewModel
         [Test]
         public void GameStart_AllMinesLeft()
         {
-            var vm = new TestMinefieldViewModel();
+            var vm = new MinefieldViewModelTest();
 
-            Assert.AreEqual(TestMinefieldViewModel.DefaultMineCount, vm.MinesLeft);
+            Assert.AreEqual(MinefieldViewModelTest.DefaultMineCount, vm.MinesLeft);
         }
 
         [Test]
         public void FlagSetted_MinesLeftDown()
         {
-            var vm = new TestMinefieldViewModel();
+            var vm = new MinefieldViewModelTest();
 
             vm.Field.Cells[0][0].SetFlag();
 
-            Assert.AreEqual(TestMinefieldViewModel.DefaultMineCount - 1, vm.MinesLeft);
+            Assert.AreEqual(MinefieldViewModelTest.DefaultMineCount - 1, vm.MinesLeft);
         }
         
         [Test]
         public void OpenAllMines_MinenLeftToZero()
         {
-            var vm = new TestMinefieldViewModel();
+            var vm = new MinefieldViewModelTest();
             var cells = vm.Field.Cells;
 
-            for (int i = 0; i < TestMinefieldViewModel.DefaultFieldWidthCell; ++i)
-                for (int j = 0; j < TestMinefieldViewModel.DefaultFieldHeightCell; ++j)
+            for (int i = 0; i < MinefieldViewModelTest.DefaultFieldWidthCell; ++i)
+                for (int j = 0; j < MinefieldViewModelTest.DefaultFieldHeightCell; ++j)
                 {
                     var cell = cells[j][i];
                     if (cell.Mined)

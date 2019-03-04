@@ -59,14 +59,15 @@
     <Compile Include="Core\CellFactoryTest.cs" />
     <Compile Include="Core\CellTests.cs" />
     <Compile Include="Core\GameSettings\SettingsHelperTests.cs" />
+    <Compile Include="Core\GameTests.cs" />
     <Compile Include="Core\MinefieldTests.cs" />
     <Compile Include="Core\GameSettings\SettingsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\MinefieldViewModelMinesCountTests.cs" />
     <Compile Include="ViewModel\MinefieldViewModelTimerTests.cs" />
     <Compile Include="ViewModel\MinefieldViewResizingModelTest.cs" />
-    <Compile Include="ViewModel\TestMinefieldViewModelcs.cs" />
-    <Compile Include="ViewModel\TimerSecundsConverterTests.cs" />
+    <Compile Include="ViewModel\MinefieldViewModelTests.cs" />
+    <Compile Include="ViewModel\TimerSecondsConverterTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
