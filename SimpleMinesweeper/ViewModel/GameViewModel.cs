@@ -30,16 +30,8 @@ namespace SimpleMinesweeper.ViewModel
 
         #region Commands
         public MenuSetGameTypeCommand MenuSetGameTypeCommand { get; }
-
         #endregion
-
-        #region Navigation methods
-        public void ChangeGameTypeFromCommand(GameType gameType)
-        {
-            Game.Settings.SelectGameType(gameType);
-            Game.GameField.Fill();
-        }
-        #endregion
+        
     }
 
     #region Command types

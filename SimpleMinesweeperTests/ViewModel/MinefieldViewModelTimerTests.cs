@@ -15,7 +15,7 @@ namespace SimpleMinesweeperTests.ViewModel
     class MinefieldViewModelTimerTests
     {
         [Test]
-        public void GameTimer_TimerObjectNotSet_ReturnZeru()
+        public void GameTimer_TimerObjectNotSet_ReturnZero()
         {
             var sm = new MinefieldViewModelWithManualTimerObject();
             int ticks = sm.GameTime;

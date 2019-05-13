@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using SimpleMinesweeper.Core;
 using SimpleMinesweeper.ViewModel;
+using SimpleMinesweeper.Core.GameSettings;
 
 namespace SimpleMinesweeperTests.Common
 {
@@ -17,7 +18,14 @@ namespace SimpleMinesweeperTests.Common
         /// <returns></returns>
         public static IMinefield CreateDefaultMinefield()
         {
-            return new Minefield(DefaultCellFactory, DefaultMinePositionsGenerator);
+            IMinefield field = new Minefield(DefaultCellFactory, DefaultMinePositionsGenerator);
+            SettingsItem settings = new SettingsItem();
+            settings.Height = 10;
+            settings.Width = 10;
+            settings.MineCount = 10;
+            field.SetGameSettings(settings);
+            field.Fill();
+            return field;
         }
 
         /// <summary>

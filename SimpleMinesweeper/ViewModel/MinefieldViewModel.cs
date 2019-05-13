@@ -23,11 +23,6 @@ namespace SimpleMinesweeper.ViewModel
         protected IMinefield field;
         private IDynamicGameFieldSize fieldContainer;
 
-        //TODO: Эти параметры должны уйти в класс настроек.
-        private int width = 30;
-        private int height = 16;
-        private int mineCount = 99;
-
         private FieldState state;
         protected IGameTimer gameTimer;
 
@@ -146,8 +141,7 @@ namespace SimpleMinesweeper.ViewModel
 
             gameTimer = new GameTimer();
             gameTimer.OnTimerTick += GameTimer_OnTimerTick;
-
-            MinesLeft = mineCount;
+            
             ReloadCells();
         }
 
@@ -188,9 +182,8 @@ namespace SimpleMinesweeper.ViewModel
 
         #region Celss logic
         private void ReloadCells()
-        {
-            var cells = Cells;
-            cells.Clear();
+        {            
+            Cells.Clear();
 
             var modelCells = field.Cells;
             foreach (var row in modelCells)
@@ -204,7 +197,7 @@ namespace SimpleMinesweeper.ViewModel
                 }
             }
 
-            Cells = cells;
+            MinesLeft = field.MinesCount;
         }
         #endregion
 
