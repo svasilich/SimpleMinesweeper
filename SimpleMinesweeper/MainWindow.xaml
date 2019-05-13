@@ -20,7 +20,7 @@
                 <MenuItem Header="Любитель" Command="{Binding MenuSetGameTypeCommand}" CommandParameter="{x:Static settings:GameType.Advanced}"/>
                 <MenuItem Header="Профессионал" Command="{Binding MenuSetGameTypeCommand}" CommandParameter="{x:Static settings:GameType.Professional}"/>
                 <Separator/>
-                <MenuItem Header="Настройки" Command="{Binding MenuCommand}"/>
+                <MenuItem Header="Настройки" Command="{Binding MenuOpenSettingsCommand}"/>
                 <MenuItem Header="Рекорды"/>
                 <Separator/>
                 <MenuItem Header="Выход"/>

@@ -30,9 +30,8 @@ namespace SimpleMinesweeper
             InitializeComponent();
 
             IGame game = Game.GetInstance();            
-            gameView = new GameViewModel(game);
-            DataContext = gameView;
-            WorkArea.Source = new Uri(@"View\GamePage.xaml", UriKind.Relative);
+            gameView = new GameViewModel(game, this);
+            gameView.LoadGamePage();
         }
     }
 }
