@@ -31,7 +31,6 @@ namespace SimpleMinesweeper
 
             IGame game = Game.GetInstance();            
             gameView = new GameViewModel(game, this);
-            gameView.LoadGamePage();
         }
     }
 }

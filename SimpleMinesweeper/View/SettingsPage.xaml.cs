@@ -18,11 +18,14 @@ namespace SimpleMinesweeper.View
     /// <summary>
     /// Логика взаимодействия для SettingsPage.xaml
     /// </summary>
-    public partial class SettingsPage : Page
+    public partial class SettingsPage : MinesweeperPage
     {
-        public SettingsPage()
+
+        public SettingsPage() : base()
         {
-            InitializeComponent();
+            InitializeComponent();   
         }
+
+        public override MinesweeperPageType PageType => MinesweeperPageType.Settings;
     }
 }

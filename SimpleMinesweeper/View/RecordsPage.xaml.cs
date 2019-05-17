@@ -16,18 +16,15 @@ using System.Windows.Shapes;
 namespace SimpleMinesweeper.View
 {
     /// <summary>
-    /// Логика взаимодействия для SettingsMainPage.xaml
+    /// Логика взаимодействия для RecordsPage.xaml
     /// </summary>
-    public partial class SettingsMainPage : Page
+    public partial class RecordsPage : MinesweeperPage
     {
-        public SettingsMainPage()
+        public RecordsPage()
         {
             InitializeComponent();
         }
 
-        private void btnSettings_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
+        public override MinesweeperPageType PageType => MinesweeperPageType.Records;
     }
 }

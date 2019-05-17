@@ -123,8 +123,6 @@ namespace SimpleMinesweeper.ViewModel
         {
             cell.SetFlag();
         }
-
-
     }
 
     public class NearbyColorConverter : IValueConverter

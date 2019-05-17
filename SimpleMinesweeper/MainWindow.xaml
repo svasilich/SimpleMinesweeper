@@ -7,7 +7,7 @@
         xmlns:views="clr-namespace:SimpleMinesweeper.View"
         xmlns:settings="clr-namespace:SimpleMinesweeper.Core.GameSettings"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" MinHeight="350" MinWidth="466">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>

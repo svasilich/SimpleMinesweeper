@@ -21,11 +21,11 @@ namespace SimpleMinesweeper.View
     /// <summary>
     /// Логика взаимодействия для GamePage.xaml
     /// </summary>
-    public partial class GamePage : Page
+    public partial class GamePage : MinesweeperPage
     {
         private MinefieldViewModel viewModel;
 
-        public GamePage()
+        public GamePage() : base()
         {
             InitializeComponent();
 
@@ -34,5 +34,7 @@ namespace SimpleMinesweeper.View
             DataContext = viewModel;
             ViewElement.SizeChanged += viewModel.MainWindow_SizeChanged;
         }
+
+        public override MinesweeperPageType PageType => MinesweeperPageType.Game;
     }
 }

@@ -3,6 +3,9 @@ using System.Windows;
 using System.Windows.Input;
 using SimpleMinesweeper.Core;
 using SimpleMinesweeper.Core.GameSettings;
+using SimpleMinesweeper.View;
+
+using System.Windows.Controls;
 
 
 namespace SimpleMinesweeper.ViewModel
@@ -10,7 +13,12 @@ namespace SimpleMinesweeper.ViewModel
     public class GameViewModel
     {
         #region Fields
-        MainWindow mainWindow;
+        private MainWindow mainWindow;
+        private MinesweeperPage currentPage;
+
+        private readonly MinesweeperPage gamePage;
+        private readonly MinesweeperPage recordsPage;
+        private readonly MinesweeperPage settingsPage;
         #endregion
 
         #region Properties
@@ -23,11 +31,16 @@ namespace SimpleMinesweeper.ViewModel
 
         public GameViewModel(IGame game, MainWindow mainWindow)
         {
+            gamePage = new GamePage(); // Контекст установим свой собственный, в конструкторе.
+            settingsPage = new SettingsPage { DataContext = this };
+            recordsPage = new RecordsPage { DataContext = this };
+
             Game = game;
             this.mainWindow = mainWindow;
             this.mainWindow.DataContext = this;
-            MenuSetGameTypeCommand = new MenuSetGameTypeCommand(Game.Settings);
+            MenuSetGameTypeCommand = new MenuSetGameTypeCommand(this);
             MenuOpenSettingsCommand = new MenuOpenSettingsCommand(this);
+            LoadPage(gamePage);
         }
 
         #endregion
@@ -37,15 +50,23 @@ namespace SimpleMinesweeper.ViewModel
         public MenuOpenSettingsCommand MenuOpenSettingsCommand { get; }
         #endregion
 
-        #region Load page logic
-        public void LoadGamePage()
+        #region Navigation and commands logic
+        public void SetGameType(GameType type)
         {
-            mainWindow.WorkArea.Source = new Uri(@"View\GamePage.xaml", UriKind.Relative);
+            Game.Settings.SelectGameType(type);
+            if (currentPage.PageType != MinesweeperPageType.Game)
+                LoadPage(gamePage);
         }
 
         public void LoadSettingsPage()
         {
-            mainWindow.WorkArea.Source = new Uri(@"View\SettingsPage.xaml", UriKind.Relative);
+            LoadPage(settingsPage);
+        }
+
+        private void LoadPage(MinesweeperPage page)
+        {
+            mainWindow.WorkArea.Content = page;
+            currentPage = page;
         }
         #endregion
 
@@ -55,14 +76,14 @@ namespace SimpleMinesweeper.ViewModel
     public class MenuSetGameTypeCommand : ICommand
     {
         #region Fields
-        private readonly ISettingsManager settings;
+        private readonly GameViewModel game;
         #endregion
 
         #region Constructors
 
-        public MenuSetGameTypeCommand(ISettingsManager settingsManager)
+        public MenuSetGameTypeCommand(GameViewModel vm)
         {
-            settings = settingsManager;
+            game = vm;
         }
 
         #endregion
@@ -88,7 +109,7 @@ namespace SimpleMinesweeper.ViewModel
             }
 
             GameType gameType = (GameType)parameter;
-            settings.SelectGameType(gameType);
+            game.SetGameType(gameType);
         }
     }
 
@@ -117,5 +138,8 @@ namespace SimpleMinesweeper.ViewModel
             this.owner = owner;
         }
     }
+
+    
+
     #endregion
 }

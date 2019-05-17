@@ -31,7 +31,8 @@ namespace SimpleMinesweeper.ViewModel
         private double fieldHeightPx;
         private double fieldWidthPx;
         private int minesLeft;
-        private int seconds;
+        private int seconds;        
+        
         #endregion
 
         #region Properties
@@ -121,7 +122,6 @@ namespace SimpleMinesweeper.ViewModel
 
         #region Commands
         public ReloadFieldCommand ReloadCommand { get; }
-        public MenuCommand MenuCommand { get; }
         #endregion
 
         #endregion
@@ -180,7 +180,7 @@ namespace SimpleMinesweeper.ViewModel
         }
         #endregion
 
-        #region Celss logic
+        #region Cels logic
         private void ReloadCells()
         {            
             Cells.Clear();
@@ -281,39 +281,6 @@ namespace SimpleMinesweeper.ViewModel
         public void Execute(object parameter)
         {
             field.Fill();
-        }
-    }
-
-    public class MenuCommand : ICommand
-    {
-        private MinefieldViewModel mineField;
-        private Window owner;
-
-        public event EventHandler CanExecuteChanged
-        {
-            add { CommandManager.RequerySuggested += value; }
-            remove { CommandManager.RequerySuggested -= value; }
-        }
-
-        public MenuCommand(MinefieldViewModel mineField, Window owner)
-        {
-            this.mineField = mineField;
-            this.owner = owner;
-        }
-
-        public bool CanExecute(object parameter)
-        {
-            return true;
-        }
-
-        public void Execute(object parameter)
-        {
-            SettingsWindow settings = new SettingsWindow();
-            settings.Content = new SettingsMainPage();
-            settings.Owner = owner;
-            settings.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            settings.ShowDialog();
-
         }
     }
 
