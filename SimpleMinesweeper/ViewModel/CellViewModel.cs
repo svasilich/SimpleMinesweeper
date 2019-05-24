@@ -12,8 +12,6 @@ namespace SimpleMinesweeper.ViewModel
     public class CellViewModel : INotifyPropertyChanged
     {
         ICell modelCell;
-        OpenCellCommand openCommand;
-        SetFlagCellCommand setFlagCommand;
 
         public CellViewModel(ICell cell)
         {
@@ -21,12 +19,12 @@ namespace SimpleMinesweeper.ViewModel
             modelCell.OnStateChanged += ModelCell_OnStateChanged;
             modelCell.OnMinedChanged += ModelCell_OnMinedChanged;
 
-            openCommand = new OpenCellCommand(modelCell);
-            setFlagCommand = new SetFlagCellCommand(modelCell);
+            OpenCellCommand = new OpenCellCommand(modelCell);
+            SetFlagCellCommand = new SetFlagCellCommand(modelCell);
         }
 
-        public OpenCellCommand OpenCellCommand => openCommand;
-        public SetFlagCellCommand SetFlagCellCommand => setFlagCommand; 
+        public OpenCellCommand OpenCellCommand { get; }
+        public SetFlagCellCommand SetFlagCellCommand { get; }
 
         private void ModelCell_OnMinedChanged(object sender, EventArgs e)
         {
