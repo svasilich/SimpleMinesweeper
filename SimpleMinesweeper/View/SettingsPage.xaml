@@ -22,8 +22,21 @@
             <Setter Property="Margin" Value="5"/>
             <Setter Property="MaxWidth" Value="150"/>
         </Style>
+        <Style x:Key="TextBoxWithValidation" TargetType="TextBox">
+            <Setter Property="Margin" Value="5"/>
+            <EventSetter Event="PreviewTextInput" Handler="TextBoxWithValidation_PreviewTextInput"/>
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="true">
+                    <Setter Property="ToolTip"
+                            Value="{Binding RelativeSource={RelativeSource Mode=Self}, 
+                        Path=(Validation.Errors)[0].ErrorContent}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <viewModel:CustomSettingsCheckboxConverter x:Key="CustomSettingsCheckboxConverter"/>
         <viewModel:CustomSettingsEnableConverter x:Key="CustomSettingsEnableConverter"/>
         <viewModel:CustomGameTypeCommandConverter x:Key="CustomGameTypeCommandConverter"/>
+        <viewModel:ValidErrorMessageVisibilityConverter x:Key="ValidErrorMessageVisibilityConverter"/>
     </Page.Resources>
 
     <StackPanel Orientation="Vertical">
@@ -34,40 +47,74 @@
         <Border BorderBrush="Black" BorderThickness="1" MinHeight="100" MinWidth="150" Margin="50, 20, 50, 30">
             <Grid Margin="5">
                 <Grid.RowDefinitions>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <CheckBox x:Name="UserGameCheckBox" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0" 
-                          IsChecked="{Binding Path=Game.Settings.CurrentSettings.Type, Converter={StaticResource CustomSettingsEnableConverter}}" >
+                          IsChecked="{Binding Path=GameType, Converter={StaticResource CustomSettingsCheckboxConverter}, Mode=OneWay}" >
                     Пользовательский
                 </CheckBox>
                 <StackPanel Grid.Column="0" Grid.Row="1" Style="{StaticResource UserSettingsStackPanel}">
                     <Label>Ширина</Label>
-                    <TextBox x:Name="WidthTextBox" Margin="5" Text="{Binding Path=Game.Settings.CurrentSettings.Width}"/>
+                    <TextBox x:Name="CustomWidthTextBox" Style="{StaticResource TextBoxWithValidation}">
+                        <TextBox.Text>
+                            <Binding Path="CustomWidth" >
+                                <Binding.ValidationRules>
+                                    <DataErrorValidationRule/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
                 </StackPanel>
                 <StackPanel Grid.Column="1" Grid.Row="1" Style="{StaticResource UserSettingsStackPanel}">
                     <Label>Высота</Label>
-                    <TextBox x:Name="HeightTextBox" Margin="5" Text="{Binding Path=Game.Settings.CurrentSettings.Height}" />
+                    <TextBox x:Name="CustomHeightTextBox" Style="{StaticResource TextBoxWithValidation}">
+                        <TextBox.Text>
+                            <Binding Path="CustomHeight">
+                                <Binding.ValidationRules>
+                                    <DataErrorValidationRule/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
                 </StackPanel>
                 <StackPanel Grid.Column="2" Grid.Row="1" Style="{StaticResource UserSettingsStackPanel}">
                     <Label>Количество мин</Label>
-                    <TextBox x:Name="MineCount" Margin="5" Text="{Binding Path=Game.Settings.CurrentSettings.MineCount}" />
+                    <TextBox x:Name="CustomMineCountTextBox" Style="{StaticResource TextBoxWithValidation}">
+                        <TextBox.Text>
+                            <Binding Path="CustomMineCount">
+                                <Binding.ValidationRules>
+                                    <DataErrorValidationRule/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
                 </StackPanel>
-                <Button Grid.Column="1" Grid.Row="2" MaxWidth="200" MinHeight="25" 
-                        IsEnabled="{Binding ElementName=UserGameCheckBox, Path=IsChecked, Mode=OneWay}"
+                <TextBlock Grid.Column="0" Grid.ColumnSpan="3"  Grid.Row="2"                            
+                           Visibility="{Binding Path=Error, Converter={StaticResource ValidErrorMessageVisibilityConverter}}"
+                           Text="{Binding Path=Error}" TextAlignment="Center" Foreground="Red"
+                           />
+                <Button Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="3" MaxWidth="200" MinHeight="25"                         
                         Command="{Binding MenuSetGameTypeCommand}">
                     Ок
+                    <Button.IsEnabled>
+                        <MultiBinding Converter="{StaticResource CustomSettingsEnableConverter}">
+                            <Binding ElementName="UserGameCheckBox" Path="IsChecked" Mode="OneWay"/>
+                            <Binding Path="Error"/>
+                        </MultiBinding>
+                    </Button.IsEnabled>
                     <Button.CommandParameter >
                         <MultiBinding Converter="{StaticResource CustomGameTypeCommandConverter}">
-                            <Binding ElementName="WidthTextBox" Path="Text"/>
-                            <Binding ElementName="HeightTextBox" Path="Text"/>
-                            <Binding ElementName="MineCount" Path="Text"/>
+                            <Binding ElementName="CustomWidthTextBox" Path="Text"/>
+                            <Binding ElementName="CustomHeightTextBox" Path="Text"/>
+                            <Binding ElementName="CustomMineCountTextBox" Path="Text"/>
                         </MultiBinding>
                     </Button.CommandParameter>
                 </Button>

@@ -20,5 +20,12 @@ namespace SimpleMinesweeper.Core.GameSettings
         public int Height { get; set; }
         public int Width { get; set; }
         public int MineCount { get; set; }
+
+        public SettingsItem()
+        {
+            Height = SettingsHelper.MinHeight;
+            Width = SettingsHelper.MinWidth;
+            MineCount = SettingsHelper.MinMineCount;
+        }
     }
 }

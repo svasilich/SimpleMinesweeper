@@ -23,9 +23,16 @@ namespace SimpleMinesweeper.View
 
         public SettingsPage() : base()
         {
-            InitializeComponent();   
+            InitializeComponent();
+            TextBlock b = new TextBlock();
+            b.Visibility = Visibility.Visible;
         }
 
         public override MinesweeperPageType PageType => MinesweeperPageType.Settings;
+
+        private void TextBoxWithValidation_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !int.TryParse(e.Text, out int result);
+        }
     }
 }

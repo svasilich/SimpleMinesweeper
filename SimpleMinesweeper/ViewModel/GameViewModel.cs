@@ -3,15 +3,17 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Data;
 using System.Globalization;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 using SimpleMinesweeper.Core;
 using SimpleMinesweeper.Core.GameSettings;
 using SimpleMinesweeper.View;
-
+using System.Windows.Controls;
 
 namespace SimpleMinesweeper.ViewModel
 {
-    public class GameViewModel
+    public class GameViewModel : INotifyPropertyChanged, IDataErrorInfo
     {
         #region Fields
         private MainWindow mainWindow;
@@ -20,12 +22,77 @@ namespace SimpleMinesweeper.ViewModel
         private readonly MinesweeperPage gamePage;
         private readonly MinesweeperPage recordsPage;
         private readonly MinesweeperPage settingsPage;
-        
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
         #endregion
 
         #region Properties
 
         public IGame Game { get; private set; }
+
+        #region Custom game settings interface
+        // Этот набор полей нужен для успешной валидации вводимых данных.
+        private int customWidth;
+        private int custopmHeight;
+        private int customMineCount;
+
+        public void UpdatePageValuesFromApp()
+        {
+            CustomWidth = Game.Settings.GetItemByType(GameType.Custom).Width;
+            CustomHeight = Game.Settings.GetItemByType(GameType.Custom).Height;
+            CustomMineCount = Game.Settings.GetItemByType(GameType.Custom).MineCount;
+        }
+
+        
+        public int CustomWidth
+        {
+            get
+            {
+                return customWidth;
+            }
+            set
+            {
+                customWidth = value;
+                NotifyPropertyChanged();
+            }
+        }
+        public int CustomHeight
+        {
+            get
+            {
+                return custopmHeight;
+            }
+            set
+            {
+                custopmHeight = value;
+                NotifyPropertyChanged();
+            }
+        }
+        public int CustomMineCount
+        {
+            get
+            {
+                return customMineCount;
+            }
+            set
+            {
+                customMineCount = value;
+                NotifyPropertyChanged();
+            }
+        }
+        #endregion
+
+        public GameType GameType
+        {
+            get => Game.Settings.CurrentSettings.Type;
+        }
+
+        public void UpdateCustomSettings()
+        {
+            Game.Settings.SetCustomSize(CustomHeight, CustomWidth, CustomMineCount);
+        }
+
         #endregion
 
         #region Constructor
@@ -39,16 +106,68 @@ namespace SimpleMinesweeper.ViewModel
             Game = game;            
             this.mainWindow = mainWindow;
             this.mainWindow.DataContext = this;
+            UpdatePageValuesFromApp();
+            Game.Settings.OnCurrentGameChanged += Settings_OnCurrentGameChanged;
+            Game.Settings.OnCustomSizeChanged += Settings_OnCustomSizeChanged;
             MenuSetGameTypeCommand = new MenuSetGameTypeCommand(this);
             MenuOpenSettingsCommand = new MenuOpenSettingsCommand(this);
             LoadPage(gamePage);
         }
 
+        private void Settings_OnCustomSizeChanged(object sender, EventArgs e)
+        {
+            UpdatePageValuesFromApp();
+        }
+
+        private void Settings_OnCurrentGameChanged(object sender, EventArgs e)
+        {
+            NotifyPropertyChanged(nameof(GameType));
+        }
+
+        #endregion        
+
+        #region IDataErorrInfo
+
+        private string validationError;
+        public string Error
+        {
+            get { return validationError; }
+            set
+            {
+                validationError = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public string this[string columnName]
+        {
+            get
+            {
+                switch (columnName)
+                {
+                    case "CustomWidth":
+                    case "CustomHeight":
+                    case "CustomMineCount":
+                        { 
+                            if (!SettingsHelper.CheckValidity(CustomHeight, CustomWidth, CustomMineCount, out string err))
+                                return Error = err;
+                            break;
+                        }
+                }
+                return Error = string.Empty;
+            }
+        }
+
+        private void SettingsTextBox_Error(object sender, ValidationErrorEventArgs e)
+        {
+            Error = e.Error.ErrorContent.ToString();
+        }
         #endregion
 
         #region Commands
         public MenuSetGameTypeCommand MenuSetGameTypeCommand { get; }
         public MenuOpenSettingsCommand MenuOpenSettingsCommand { get; }
+
         #endregion
 
         #region Navigation and commands logic
@@ -68,7 +187,16 @@ namespace SimpleMinesweeper.ViewModel
         {
             mainWindow.WorkArea.Content = page;
             currentPage = page;
+            UpdatePageValuesFromApp();
         }
+        #endregion
+
+        #region NotifiProperty
+        private void NotifyPropertyChanged([CallerMemberName] string property = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
+        }
+
         #endregion
 
     }
@@ -112,7 +240,7 @@ namespace SimpleMinesweeper.ViewModel
             {
                 // На самом деле здесь всегда будет тип игры Custom.
                 var si = (SettingsItem)parameter;
-                game.Game.Settings.SetCustomSize(si.Height, si.Width, si.MineCount);
+                game.UpdateCustomSettings();                
                 game.SetGameType(si.Type);
             }
             else
@@ -120,14 +248,7 @@ namespace SimpleMinesweeper.ViewModel
                 MessageBox.Show("Wrong command parameter!!");
                 return;
             }
-        }
-
-        #region Set game type logic
-        private void SetStandardType(GameType type)
-        {
-            
-        }
-        #endregion
+        }      
     }
 
     public class MenuOpenSettingsCommand : ICommand
@@ -155,13 +276,10 @@ namespace SimpleMinesweeper.ViewModel
             this.owner = owner;
         }
     }
-
-
-
     #endregion
 
     #region Converter types
-    public class CustomSettingsEnableConverter : IValueConverter
+    public class CustomSettingsCheckboxConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -171,11 +289,25 @@ namespace SimpleMinesweeper.ViewModel
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            bool isEnable = (bool)value;
-            if (isEnable)
-                return GameType.Custom;
-            else
-                return GameType.Newbie;
+            throw new NotImplementedException();
+        }
+    }
+
+    public class CustomSettingsEnableConverter : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            bool customGameCheckboxValue = (bool)values[0];
+            if (!customGameCheckboxValue)
+                return false;
+
+            string errText = values[1].ToString();
+            return string.IsNullOrEmpty(errText);
+        }        
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
         }
     }
 
@@ -198,6 +330,24 @@ namespace SimpleMinesweeper.ViewModel
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class ValidErrorMessageVisibilityConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            string errText = (string)value;
+            if (string.IsNullOrWhiteSpace(errText))
+                return Visibility.Hidden;
+            else
+                return Visibility.Visible;
+
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }

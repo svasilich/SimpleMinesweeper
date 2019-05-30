@@ -46,11 +46,12 @@ namespace SimpleMinesweeper.Core.GameSettings
 
         #region Events
         public event EventHandler OnCurrentGameChanged;
+        public event EventHandler OnCustomSizeChanged;
         #endregion
 
         #region Set and get settings methods.
         public void SelectGameType(GameType gameType)
-        {
+        {            
             CurrentSettings = GetItemByType(gameType);
         }
 
@@ -60,6 +61,7 @@ namespace SimpleMinesweeper.Core.GameSettings
             custom.Height = height;
             custom.Width = width;
             custom.MineCount = mineCount;
+            OnCustomSizeChanged?.Invoke(this, EventArgs.Empty);
 
             if (CurrentSettings.Type == GameType.Custom)
                 OnCurrentGameChanged?.Invoke(this, EventArgs.Empty);

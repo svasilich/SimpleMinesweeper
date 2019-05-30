@@ -8,23 +8,27 @@ namespace SimpleMinesweeper.Core.GameSettings
 {
     public static class SettingsHelper
     {
+        public const int MinHeight = 5;
+        public const int MinWidth = 5;
+        public const int MinMineCount = 1;
+
         public static bool CheckValidity(int height, int width, int mineCount, out string reason)
         {
-            if (height == 0)
+            if (height < MinHeight)
             {
-                reason = "Высота должна быть ненулевой.";
+                reason = $"Высота не может быть меньше {MinHeight}.";
                 return false;
             }
 
-            if (width == 0)
+            if (width <= 4)
             {
-                reason = "Ширина должна быть ненулевой.";
+                reason = $"Ширина не может быть меньше {MinWidth}.";
                 return false;
             }
 
-            if (mineCount == 0)
+            if (mineCount <= 0)
             {
-                reason = "Количество мин должно быть больше нуля.";
+                reason = $"Мин на поле не может быть меньше {MinMineCount}.";
                 return false;
             }
 

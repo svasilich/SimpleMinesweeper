@@ -9,6 +9,7 @@ namespace SimpleMinesweeper.Core.GameSettings
         SettingsItem CurrentSettings { get; }
 
         event EventHandler OnCurrentGameChanged;
+        event EventHandler OnCustomSizeChanged;
 
         SettingsItem GetItemByType(GameType gameType);
         void Load(string fileName);
