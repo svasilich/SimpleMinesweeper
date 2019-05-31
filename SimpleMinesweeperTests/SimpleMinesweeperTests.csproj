@@ -64,7 +64,7 @@
     <Compile Include="ViewModel\MinefieldViewModelMinesCountTests.cs" />
     <Compile Include="ViewModel\MinefieldViewModelTimerTests.cs" />
     <Compile Include="ViewModel\MinefieldViewResizingModelTest.cs" />
-    <Compile Include="ViewModel\TestMinefieldViewModel.cs" />
+    <Compile Include="ViewModel\TestMinefieldViewModelcs.cs" />
     <Compile Include="ViewModel\TimerSecundsConverterTests.cs" />
   </ItemGroup>
   <ItemGroup>

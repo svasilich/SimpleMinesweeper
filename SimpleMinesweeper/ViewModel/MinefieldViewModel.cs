@@ -10,40 +10,23 @@ using System.Windows.Input;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
-using System.IO;
 using SimpleMinesweeper.Core;
 using System.Globalization;
 using SimpleMinesweeper.View;
-using SimpleMinesweeper.Core.GameSettings;
-
 
 namespace SimpleMinesweeper.ViewModel
 {
     public class MinefieldViewModel : INotifyPropertyChanged
     {
-        #region Fields
         protected IMinefield field;
         private IDynamicGameFieldSize gameWindow;
 
         //TODO: Эти параметры должны уйти в класс настроек.
-        protected SettingsManager settings;
+        private int width = 30;
+        private int height = 16;
+        private int mineCount = 99;
 
         private FieldState state;
-
-        protected IGameTimer gameTimer;
-
-        private ObservableCollection<List<CellViewModel>> cells;
-
-        private double fieldHeightPx;
-        private double fieldWidthPx;
-
-        private int minesLeft;
-
-        private static string SettingsFile = AppContext.BaseDirectory + "settings.dat";
-        #endregion
-
-        #region Properties
-
         public FieldState State
         {
             get { return state; }
@@ -75,6 +58,13 @@ namespace SimpleMinesweeper.ViewModel
             }
         }
 
+        private void GameTimer_OnTimerTick(object sender, EventArgs e)
+        {
+            GameTime = gameTimer.Seconds;
+        }
+
+        protected IGameTimer gameTimer;
+
         public int GameTime
         {
             get
@@ -87,6 +77,7 @@ namespace SimpleMinesweeper.ViewModel
             }
         }
 
+        private ObservableCollection<List<CellViewModel>> cells;
         public ObservableCollection<List<CellViewModel>> Cells
         {
             get => cells;
@@ -101,6 +92,9 @@ namespace SimpleMinesweeper.ViewModel
 
         public MenuCommand MenuCommand { get; }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private double fieldHeightPx;
         public double FieldHeightPx
         {
             get { return fieldHeightPx; }
@@ -111,6 +105,7 @@ namespace SimpleMinesweeper.ViewModel
             }
         }
 
+        private double fieldWidthPx;
         public double FieldWidthPx
         {
             get { return fieldWidthPx; }
@@ -121,6 +116,7 @@ namespace SimpleMinesweeper.ViewModel
             }
         }
 
+        private int minesLeft;
         public int MinesLeft
         {
             get { return minesLeft; }
@@ -131,19 +127,23 @@ namespace SimpleMinesweeper.ViewModel
             }
         }
 
-        #endregion
-
-        #region Events
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        #endregion
-
-        #region EventHandlers
-
-        private void GameTimer_OnTimerTick(object sender, EventArgs e)
+        public MinefieldViewModel(IMinefield minefield, IDynamicGameFieldSize gameWindow)
         {
-            GameTime = gameTimer.Seconds;
+            field = minefield;
+            field.OnStateChanged += Field_OnStateChanged;
+            field.OnFilled += Field_OnFilled;
+            field.OnFlagsCountChanged += Field_OnFlagsCountChanged;
+            ReloadCommand = new ReloadFieldCommand(field, width, height, mineCount);
+            MenuCommand = new MenuCommand(this, gameWindow.MainGameWindow);
+
+            cells = new ObservableCollection<List<CellViewModel>>();
+
+            this.gameWindow = gameWindow;
+
+            gameTimer = new GameTimer();
+            gameTimer.OnTimerTick += GameTimer_OnTimerTick;
+
+            MinesLeft = mineCount;
         }
 
         private void Field_OnFlagsCountChanged(object sender, EventArgs e)
@@ -161,83 +161,6 @@ namespace SimpleMinesweeper.ViewModel
             ReloadCells();
             ResizeField(gameWindow.ContainetWidth, gameWindow.ContainerHeight);
         }
-
-        public void MainWindow_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            var view = (IDynamicGameFieldSize)sender;
-            ResizeField(view.ContainetWidth, view.ContainerHeight);
-        }
-
-        #endregion
-
-        #region ctor
-
-        public MinefieldViewModel(IMinefield minefield, IDynamicGameFieldSize gameWindow)
-        {
-            this.gameWindow = gameWindow;
-
-            InitSettings();
-
-            field = minefield;
-            field.OnStateChanged += Field_OnStateChanged;
-            field.OnFilled += Field_OnFilled;
-            field.OnFlagsCountChanged += Field_OnFlagsCountChanged;
-            ReloadCommand = new ReloadFieldCommand(field, settings);
-            MenuCommand = new MenuCommand(this, gameWindow.MainGameWindow);
-
-            cells = new ObservableCollection<List<CellViewModel>>();
-
-            gameTimer = new GameTimer();
-            gameTimer.OnTimerTick += GameTimer_OnTimerTick;
-
-            MinesLeft = settings.Current.MineCount;
-
-            ReloadCommand.Execute(null);
-            
-        }
-
-        #endregion
-
-        #region Resizing
-
-        protected void ResizeField(double containerWidth, double containerHeight)
-        {
-            double newWidth = 0;
-            double newHeight = 0;
-
-            if (containerWidth > containerHeight)
-                ScaleSide(containerWidth, containerHeight, field.Length, field.Height, out newWidth, out newHeight);
-            else
-                ScaleSide(containerHeight, containerWidth, field.Height, field.Length, out newHeight, out newWidth);
-
-            FieldWidthPx = newWidth;
-            FieldHeightPx = newHeight;
-        }
-
-        private void ScaleSide(double containerSideAMax, double containerSideBMin, int fieldCellSideA, int fieldCellSideB,
-            out double fieldSizePxSideA, out double fieldSizePxB)
-        {
-            if (fieldCellSideA > fieldCellSideB)
-            {
-                fieldSizePxSideA = containerSideAMax;
-                fieldSizePxB = containerSideAMax * fieldCellSideB / fieldCellSideA;
-
-                if (fieldSizePxB > containerSideBMin)
-                {
-                    fieldSizePxSideA = containerSideBMin * fieldCellSideA / fieldCellSideB;
-                    fieldSizePxB = containerSideBMin;
-                }
-            }
-            else
-            {
-                fieldSizePxSideA = containerSideBMin * fieldCellSideA / fieldCellSideB; ;
-                fieldSizePxB = containerSideBMin;
-            }
-        }
-
-        #endregion
-
-        #region Common
 
         private void ReloadCells()
         {
@@ -264,34 +187,48 @@ namespace SimpleMinesweeper.ViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
 
-        protected virtual void InitSettings()
+        public void MainWindow_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            settings = new SettingsManager();
-
-            try
-            {
-
-                if (File.Exists(SettingsFile))
-                    settings.Load(SettingsFile);
-                else
-                {
-                    // Файл настроек удалён или ещё не создан. Создадим его.
-                    settings.Save(SettingsFile);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(gameWindow.MainGameWindow, 
-                    $"Возникли проблемы с чтением либо созданием файла настроек: {ex.Message}.", 
-                    "Ошибка", 
-                    MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            var view = (IDynamicGameFieldSize)sender;
+            ResizeField(view.ContainetWidth, view.ContainerHeight);
         }
 
-        #endregion
+        protected void ResizeField(double containerWidth, double containerHeight)
+        {
+            double newWidth = 0;
+            double newHeight = 0;
+            
+            if (containerWidth > containerHeight)
+                ScaleSide(containerWidth, containerHeight, field.Length, field.Height, out newWidth, out newHeight);
+            else
+                ScaleSide(containerHeight, containerWidth, field.Height, field.Length, out newHeight, out newWidth);
 
+            FieldWidthPx = newWidth;
+            FieldHeightPx = newHeight;
+        }
+
+        private void ScaleSide(double containerSideAMax, double containerSideBMin,  int fieldCellSideA, int fieldCellSideB, 
+            out double fieldSizePxSideA, out double fieldSizePxB)
+        {
+            if (fieldCellSideA > fieldCellSideB)
+            {
+                fieldSizePxSideA = containerSideAMax;
+                fieldSizePxB = containerSideAMax * fieldCellSideB / fieldCellSideA;
+
+                if (fieldSizePxB > containerSideBMin)
+                {
+                    fieldSizePxSideA = containerSideBMin * fieldCellSideA / fieldCellSideB;
+                    fieldSizePxB = containerSideBMin;
+                }
+            }
+            else
+            {
+                fieldSizePxSideA = containerSideBMin * fieldCellSideA / fieldCellSideB; ;
+                fieldSizePxB = containerSideBMin;
+            }
+        }
     }
-
+    
     public interface IDynamicGameFieldSize
     {
         double ContainerHeight { get; }
@@ -302,7 +239,9 @@ namespace SimpleMinesweeper.ViewModel
     public class ReloadFieldCommand : ICommand
     {
         private IMinefield field;
-        private SettingsManager settings;
+        private int width;
+        private int height;
+        private int mineCount;
 
         public event EventHandler CanExecuteChanged
         {
@@ -310,10 +249,12 @@ namespace SimpleMinesweeper.ViewModel
             remove { CommandManager.RequerySuggested -= value; }
         }
 
-        public ReloadFieldCommand(IMinefield field, SettingsManager settings)
+        public ReloadFieldCommand(IMinefield field, int width, int height, int mineCount)
         {
             this.field = field;
-            this.settings = settings;
+            this.width = width;
+            this.height = height;
+            this.mineCount = mineCount;
         }
 
         public bool CanExecute(object parameter)
@@ -323,7 +264,7 @@ namespace SimpleMinesweeper.ViewModel
 
         public void Execute(object parameter)
         {
-            field.Fill(settings.Current.Height, settings.Current.Width, settings.Current.MineCount);
+            field.Fill(height, width, mineCount);
         }
     }
 

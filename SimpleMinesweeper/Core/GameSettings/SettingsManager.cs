@@ -8,12 +8,12 @@ using System.Xml.Serialization;
 
 namespace SimpleMinesweeper.Core.GameSettings
 {
-    public class SettingsManager 
+    public class SettingsManager
     {
         #region Properties
         public List<SettingsItem> AvailableGameTypes { get; }
 
-        public SettingsItem Current { get; private set; }
+        public SettingsItem CurrentSettings { get; private set; }
         
         #endregion
 
@@ -29,14 +29,14 @@ namespace SimpleMinesweeper.Core.GameSettings
                 new SettingsItem() {Type = GameType.Custom}
             };
 
-            Current = AvailableGameTypes.First();
+            CurrentSettings = AvailableGameTypes.First();
         }
 
         #endregion
 
         public void SelectGameType(GameType gameType)
         {
-            Current = GetItemByType(gameType);
+            CurrentSettings = GetItemByType(gameType);
         }
 
         public void SetCustomSize(int height, int width, int mineCount)
@@ -61,7 +61,7 @@ namespace SimpleMinesweeper.Core.GameSettings
                 xmlSerializer.Serialize(settingsFile, 
                     new SaveSettingsData()
                     {
-                        Selected = Current.Type,
+                        Selected = CurrentSettings.Type,
                         CustomHeight = custom.Height,
                         CustomWidth = custom.Width,
                         CustomMineCount = custom.MineCount
@@ -81,8 +81,6 @@ namespace SimpleMinesweeper.Core.GameSettings
             }
         }
 
-        #region Subtypes
-
         public class SaveSettingsData
         {
             public GameType Selected { get; set; }
@@ -90,7 +88,5 @@ namespace SimpleMinesweeper.Core.GameSettings
             public int CustomWidth { get; set; }            
             public int CustomMineCount { get; set; }
         }
-
-        #endregion
     }
 }
