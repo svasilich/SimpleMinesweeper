@@ -46,9 +46,12 @@ namespace SimpleMinesweeper.Core
         }
 
         private static IGame CreateInstance()
-        {            
+        {
+            var settings = new SettingsManager();
+            settings.Load(Properties.Resources.settingsPath);
+
             return gameInstance = 
-                new Game(new SettingsManager(),
+                new Game(settings,
                     new Minefield(new CellFactory(), 
                     new RandomMinePositionGenerator())); ;
         }

@@ -94,6 +94,9 @@ namespace SimpleMinesweeper.Core.GameSettings
 
         public void Load(string fileName)
         {
+            if (!File.Exists(fileName))
+                return;
+
             using (Stream settingsFile = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.None))
             {
                 XmlSerializer xmlSerializer = new XmlSerializer(typeof(SaveSettingsData));
