@@ -35,6 +35,7 @@ namespace SimpleMinesweeper.Core
         {
             GameField.SetGameSettings(Settings.CurrentSettings);
             GameField.Fill();
+            Settings.Save(Properties.Resources.settingsPath);
         }
 
         #endregion
