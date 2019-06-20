@@ -6,13 +6,7 @@ using System.Threading.Tasks;
 
 namespace SimpleMinesweeper.Core.GameSettings
 {
-    public enum GameType
-    {
-        Newbie,
-        Advanced,
-        Professional,
-        Custom
-    }
+    
     
     public class SettingsItem
     {

@@ -20,9 +20,9 @@ namespace SimpleMinesweeperTests.Core.GameSettings
             Assert.IsTrue(string.IsNullOrEmpty(reason));
         }
 
-        [TestCase(0, 1, 1, "высота")]
-        [TestCase(1, 0, 1, "ширина")]
-        [TestCase(1, 1, 0, "количество мин должно быть больше")]
+        [TestCase(0, 5, 5, "высота")]
+        [TestCase(5, 0, 5, "ширина")]
+        [TestCase(5, 5, 0, "мин на поле не может быть меньше")]
         [TestCase(5, 5, 100, "слишком много")]
         public void CheckValidityWithIncorrectParameters_ReturnFalseWithReason(int height, int width, int mineCount, string expected)
         {

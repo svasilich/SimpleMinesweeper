@@ -13,9 +13,9 @@ namespace SimpleMinesweeperTest.Core
     [TestFixture]
     class MinefieldTests
     {
-        [TestCase(0, 1, 1, "высота")]
-        [TestCase(1, 0, 1, "ширина")]
-        [TestCase(1, 1, 0, "количество мин должно быть больше")]
+        [TestCase(1, 5, 5, "высота")]
+        [TestCase(5, 1, 5, "ширина")]
+        [TestCase(5, 5, 0, "мин на поле не может быть меньше")]
         [TestCase(5, 5, 100, "слишком много")]
         public void SendFillIncorrectParameters_ThrowException(int height, int width, int mineCount, string expected)
         {

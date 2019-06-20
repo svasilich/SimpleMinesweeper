@@ -2,10 +2,8 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:SimpleMinesweeper"
-        xmlns:views="clr-namespace:SimpleMinesweeper.View"
-        xmlns:settings="clr-namespace:SimpleMinesweeper.Core.GameSettings"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"              
+        xmlns:core="clr-namespace:SimpleMinesweeper.Core"
         mc:Ignorable="d"
         Title="MainWindow" MinHeight="350" MinWidth="466">
     <Grid>
@@ -16,9 +14,9 @@
         
         <Menu Grid.Row="0">
             <MenuItem Header="Игра">
-                <MenuItem Header="Новичок" Command="{Binding MenuSetGameTypeCommand}" CommandParameter="{x:Static settings:GameType.Newbie}"/>
-                <MenuItem Header="Любитель" Command="{Binding MenuSetGameTypeCommand}" CommandParameter="{x:Static settings:GameType.Advanced}"/>
-                <MenuItem Header="Профессионал" Command="{Binding MenuSetGameTypeCommand}" CommandParameter="{x:Static settings:GameType.Professional}"/>
+                <MenuItem Header="Новичок" Command="{Binding MenuSetGameTypeCommand}" CommandParameter="{x:Static core:GameType.Newbie}"/>
+                <MenuItem Header="Любитель" Command="{Binding MenuSetGameTypeCommand}" CommandParameter="{x:Static core:GameType.Advanced}"/>
+                <MenuItem Header="Профессионал" Command="{Binding MenuSetGameTypeCommand}" CommandParameter="{x:Static core:GameType.Professional}"/>
                 <Separator/>
                 <MenuItem Header="Настройки" Command="{Binding MenuOpenSettingsCommand}"/>
                 <MenuItem Header="Рекорды"/>

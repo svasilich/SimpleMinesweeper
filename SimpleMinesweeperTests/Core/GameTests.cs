@@ -23,8 +23,15 @@ namespace SimpleMinesweeperTests.Core
             {
 
             }
+
+            #region Event handlers
+            protected override void Settings_OnCurrentGameChanged(object sender, EventArgs e)
+            {
+                
+            }
+            #endregion
         }
-        
+
         class TestGame : Game
         {
             #region Properties
@@ -41,7 +48,7 @@ namespace SimpleMinesweeperTests.Core
             #region Event handlers
             protected override void Settings_OnCurrentGameChanged(object sender, EventArgs e)
             {
-                base.Settings_OnCurrentGameChanged(sender, e);
+                //base.Settings_OnCurrentGameChanged(sender, e);
                 EventWasHandled = true;
             }
             #endregion

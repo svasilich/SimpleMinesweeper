@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:SimpleMinesweeper.View"
       xmlns:settings="clr-namespace:SimpleMinesweeper.Core.GameSettings"
+      xmlns:core="clr-namespace:SimpleMinesweeper.Core"
       xmlns:view="clr-namespace:SimpleMinesweeper.View"  
       xmlns:viewModel="clr-namespace:SimpleMinesweeper.ViewModel"
       mc:Ignorable="d"
@@ -41,9 +42,9 @@
 
     <StackPanel Orientation="Vertical">
         <TextBlock FontSize="24" TextAlignment="Center">Настройки игры</TextBlock>
-        <Button Style="{StaticResource GameTypeButton}" CommandParameter="{x:Static settings:GameType.Newbie}">Новичок</Button>
-        <Button Style="{StaticResource GameTypeButton}" CommandParameter="{x:Static settings:GameType.Advanced}">Любитель</Button>
-        <Button Style="{StaticResource GameTypeButton}" CommandParameter="{x:Static settings:GameType.Professional}">Профессионал</Button>
+        <Button Style="{StaticResource GameTypeButton}" CommandParameter="{x:Static core:GameType.Newbie}">Новичок</Button>
+        <Button Style="{StaticResource GameTypeButton}" CommandParameter="{x:Static core:GameType.Advanced}">Любитель</Button>
+        <Button Style="{StaticResource GameTypeButton}" CommandParameter="{x:Static core:GameType.Professional}">Профессионал</Button>
         <Border BorderBrush="Black" BorderThickness="1" MinHeight="100" MinWidth="150" Margin="50, 20, 50, 30">
             <Grid Margin="5">
                 <Grid.RowDefinitions>

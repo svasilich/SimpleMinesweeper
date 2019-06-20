@@ -80,8 +80,8 @@ namespace SimpleMinesweeper.Core.GameSettings
             using (Stream settingsFile = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.None))
             {
                 SettingsItem custom = GetItemByType(GameType.Custom);
-                XmlSerializer xmlSerializer = new XmlSerializer(typeof(SaveSettingsData));
-                xmlSerializer.Serialize(settingsFile,
+                var serializer = new XmlSerializer(typeof(SaveSettingsData));
+                serializer.Serialize(settingsFile,
                     new SaveSettingsData()
                     {
                         Selected = CurrentSettings.Type,

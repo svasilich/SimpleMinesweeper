@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using SimpleMinesweeper.Core;
 using SimpleMinesweeper.Core.GameSettings;
 
 namespace SimpleMinesweeperTests.Core.GameSettings

@@ -61,11 +61,16 @@
     </ApplicationDefinition>
     <Compile Include="Core\CellFactory.cs" />
     <Compile Include="Core\Game.cs" />
+    <Compile Include="Core\GameRecords\IRecords.cs" />
+    <Compile Include="Core\GameRecords\IRecordItem.cs" />
+    <Compile Include="Core\GameRecords\RecordItem.cs" />
+    <Compile Include="Core\GameRecords\Records.cs" />
     <Compile Include="Core\GameSettings\ISettingsManager.cs" />
     <Compile Include="Core\GameSettings\SettingsHelper.cs" />
     <Compile Include="Core\GameSettings\SettingsItem.cs" />
     <Compile Include="Core\GameSettings\SettingsManager.cs" />
     <Compile Include="Core\GameTimer.cs" />
+    <Compile Include="Core\GameType.cs" />
     <Compile Include="Core\ICellFactory.cs" />
     <Compile Include="Core\IGame.cs" />
     <Compile Include="Core\IGameTimer.cs" />
