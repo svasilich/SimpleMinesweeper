@@ -11,5 +11,7 @@ namespace SimpleMinesweeper.Core
     {
         IMinefield GameField { get; }
         ISettingsManager Settings { get; }
+
+        IGameTimer Timer { get; }
     }
 }

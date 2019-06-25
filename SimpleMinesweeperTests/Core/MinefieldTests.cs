@@ -88,7 +88,7 @@ namespace SimpleMinesweeperTest.Core
         }
 
         /// <summary>
-        /// При установке флага инра должна начаться.
+        /// При установке флага игра должна начаться.
         /// </summary>
         [Test]
         public void FirstSetFlag_StateChangeToInGame()

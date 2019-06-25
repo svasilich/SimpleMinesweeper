@@ -30,7 +30,7 @@ namespace SimpleMinesweeper.View
             InitializeComponent();
 
             IGame game = Game.GetInstance();
-            viewModel = new MinefieldViewModel(game.GameField, ViewElement);
+            viewModel = new MinefieldViewModel(game, ViewElement);
             DataContext = viewModel;
             ViewElement.SizeChanged += viewModel.MainWindow_SizeChanged;
         }

@@ -20,11 +20,9 @@ namespace SimpleMinesweeper.ViewModel
     public class MinefieldViewModel : INotifyPropertyChanged
     {
         #region Fields
-        protected IMinefield field;
+        protected IGame game;
         private IDynamicGameFieldSize fieldContainer;
-
         private FieldState state;
-        protected IGameTimer gameTimer;
 
         private ObservableCollection<List<CellViewModel>> cells;
 
@@ -42,27 +40,6 @@ namespace SimpleMinesweeper.ViewModel
             set
             {
                 state = value;
-
-                switch (State)
-                {
-                    case FieldState.InGame:
-                        gameTimer.Start();
-                        break;
-
-                    case FieldState.NotStarted:
-                        gameTimer.Reset();
-                        break;
-
-                    case FieldState.Win:
-                        gameTimer.Stop();
-                        //TODO: Проверить таблицу рекордов.
-                        break;
-
-                    default:
-                        gameTimer.Stop();
-                        break;
-                }
-
                 NotifyPropertyChanged();
             }
         }
@@ -128,19 +105,18 @@ namespace SimpleMinesweeper.ViewModel
 
         #region Constructor
 
-        public MinefieldViewModel(IMinefield minefield, IDynamicGameFieldSize fieldContainer)
+        public MinefieldViewModel(IGame game, IDynamicGameFieldSize fieldContainer)
         {
-            field = minefield;
-            field.OnStateChanged += Field_OnStateChanged;
-            field.OnFilled += Field_OnFilled;
-            field.OnFlagsCountChanged += Field_OnFlagsCountChanged;
-            ReloadCommand = new ReloadFieldCommand(field);
+            this.game = game;
+            this.game.GameField.OnStateChanged += Field_OnStateChanged;
+            this.game.GameField.OnFilled += Field_OnFilled;
+            this.game.GameField.OnFlagsCountChanged += Field_OnFlagsCountChanged;
+            ReloadCommand = new ReloadFieldCommand(game.GameField);
             cells = new ObservableCollection<List<CellViewModel>>();
 
             this.fieldContainer = fieldContainer;
 
-            gameTimer = new GameTimer();
-            gameTimer.OnTimerTick += GameTimer_OnTimerTick;
+            this.game.Timer.OnTimerTick += GameTimer_OnTimerTick;
             
             ReloadCells();
         }
@@ -154,17 +130,17 @@ namespace SimpleMinesweeper.ViewModel
         #region Event handlers
         protected void GameTimer_OnTimerTick(object sender, EventArgs e)
         {
-            GameTime = gameTimer.Seconds;
+            GameTime = game.Timer.Seconds;
         }
 
         private void Field_OnFlagsCountChanged(object sender, EventArgs e)
         {
-            MinesLeft = field.MinesCount - field.FlagsCount;
+            MinesLeft = game.GameField.MinesCount - game.GameField.FlagsCount;
         }
 
         private void Field_OnStateChanged(object sender, EventArgs e)
         {
-            State = field.State;
+            State = game.GameField.State;
         }
 
         private void Field_OnFilled(object sender, EventArgs e)
@@ -185,7 +161,7 @@ namespace SimpleMinesweeper.ViewModel
         {            
             Cells.Clear();
 
-            var modelCells = field.Cells;
+            var modelCells = game.GameField.Cells;
             foreach (var row in modelCells)
             {
                 List<CellViewModel> list = new List<CellViewModel>();
@@ -197,7 +173,7 @@ namespace SimpleMinesweeper.ViewModel
                 }
             }
 
-            MinesLeft = field.MinesCount;
+            MinesLeft = game.GameField.MinesCount;
         }
         #endregion
 
@@ -209,9 +185,9 @@ namespace SimpleMinesweeper.ViewModel
             double newHeight = 0;
 
             if (containerWidth > containerHeight)
-                ScaleSide(containerWidth, containerHeight, field.Width, field.Height, out newWidth, out newHeight);
+                ScaleSide(containerWidth, containerHeight, game.GameField.Width, game.GameField.Height, out newWidth, out newHeight);
             else
-                ScaleSide(containerHeight, containerWidth, field.Height, field.Width, out newHeight, out newWidth);
+                ScaleSide(containerHeight, containerWidth, game.GameField.Height, game.GameField.Width, out newHeight, out newWidth);
 
             FieldWidthPx = newWidth;
             FieldHeightPx = newHeight;

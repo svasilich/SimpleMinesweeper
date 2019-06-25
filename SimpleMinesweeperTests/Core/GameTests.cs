@@ -112,5 +112,20 @@ namespace SimpleMinesweeperTests.Core
 
             Assert.AreEqual(true, field.FillMethodCalled);
         }
+
+        [Test]
+        public void CheckRecordsOnGameWin()
+        {
+            var field = MinefieldWithCheckFillCalled.CreateDefault();
+            SettingsManager settingsManager = new SettingsManager();
+            settingsManager.SelectGameType(GameType.Advanced);
+            Game game = new GameWithOpenConstructor(settingsManager, field);
+
+            
+        }
+
+        #region Тесты таймера
+
+        #endregion
     }
 }

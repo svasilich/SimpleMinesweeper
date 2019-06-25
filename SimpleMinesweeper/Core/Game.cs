@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SimpleMinesweeper.Core.GameSettings;
+using SimpleMinesweeper.Core.GameRecords;
 
 namespace SimpleMinesweeper.Core
 {
@@ -16,6 +17,10 @@ namespace SimpleMinesweeper.Core
         #region Fields
         public IMinefield GameField { get; private set; }
         public ISettingsManager Settings { get; private set; }
+
+        public IGameTimer Timer { get; private set; }
+
+        public IRecords Records { get; private set; }
         #endregion
 
         #region Constructors
@@ -23,10 +28,16 @@ namespace SimpleMinesweeper.Core
         {
             Settings = settings;
             Settings.OnCurrentGameChanged += Settings_OnCurrentGameChanged;
+
+            Timer = new GameTimer();
+
             GameField = gameField;
             GameField.SetGameSettings(Settings.CurrentSettings);
             GameField.Fill();
-        }
+            GameField.OnStateChanged += GameField_OnStateChanged;
+
+            
+        }        
         #endregion
 
         #region Events
@@ -38,6 +49,29 @@ namespace SimpleMinesweeper.Core
             Settings.Save(Properties.Resources.settingsPath);
         }
 
+        private void GameField_OnStateChanged(object sender, EventArgs e)
+        {            
+            switch (GameField.State)
+            {
+                case FieldState.InGame:
+                    Timer.Start();
+                    break;
+
+                case FieldState.NotStarted:
+                    Timer.Reset();
+                    break;
+
+                case FieldState.Win:
+                    Timer.Stop();
+                    //TODO: Проверить таблицу рекордов.
+                    //Records.IsRecord(Settings.CurrentSettings.Type, Timer.Seconds);
+                    break;
+
+                default:
+                    Timer.Stop();
+                    break;
+            }
+        }
         #endregion
 
         #region Get default instance logic (static)

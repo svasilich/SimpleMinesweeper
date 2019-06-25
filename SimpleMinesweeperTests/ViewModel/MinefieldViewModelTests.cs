@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NSubstitute;
 
 using SimpleMinesweeper.Core;
 using SimpleMinesweeper.Core.GameSettings;
@@ -17,6 +18,26 @@ namespace SimpleMinesweeperTests.ViewModel
         public static int DefaultFieldWidthCell { get { return 30; } }
         public static int DefaultMineCount { get { return 99; } }
 
+
+        public static IGame GameWithDefaultMIneField(int fieldHeightCell, int fieldWidthCell)
+        {
+            ISettingsManager settingsManager = Substitute.For<ISettingsManager>();
+            settingsManager.CurrentSettings.Returns(
+                new SettingsItem()
+                {
+                    Height = fieldHeightCell,
+                    Width = fieldWidthCell,
+                    MineCount = DefaultMineCount
+                });
+            return new GameWithOpenConstructor(settingsManager, DefaultMinefield(fieldHeightCell, fieldWidthCell));
+        }
+
+        class GameWithOpenConstructor : Game
+        {
+            public GameWithOpenConstructor(ISettingsManager settings, IMinefield gameField) : base(settings, gameField)
+            {
+            }
+        }
 
         public static IMinefield DefaultMinefield(int fieldHeightCell, int fieldWidthCell)
         {
@@ -34,18 +55,18 @@ namespace SimpleMinesweeperTests.ViewModel
         }
 
         public MinefieldViewModelTest() :
-            base(DefaultMinefield(DefaultFieldHeightCell, DefaultFieldWidthCell), MinefieldTestHelper.FakeMainWindow())
+            base(GameWithDefaultMIneField(DefaultFieldHeightCell, DefaultFieldWidthCell), MinefieldTestHelper.FakeMainWindow())
         {
 
         }
 
         public MinefieldViewModelTest(int height, int width) :
-            base(DefaultMinefield(height, width), MinefieldTestHelper.FakeMainWindow())
+            base(GameWithDefaultMIneField(height, width), MinefieldTestHelper.FakeMainWindow())
         {
 
         }
 
-        public MinefieldViewModelTest(IMinefield minefield) : base(minefield, MinefieldTestHelper.FakeMainWindow())
+        public MinefieldViewModelTest(IGame game) : base(game, MinefieldTestHelper.FakeMainWindow())
         {
         }
 
@@ -54,6 +75,6 @@ namespace SimpleMinesweeperTests.ViewModel
             ResizeField(widthPx, heightPx);
         }
 
-        public IMinefield Field { get { return field; } }
+        public IMinefield Field { get { return game.GameField; } }
     }
 }
