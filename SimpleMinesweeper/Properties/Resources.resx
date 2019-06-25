@@ -129,9 +129,13 @@
   </data>
   <data name="settingsPath" xml:space="preserve">
     <value>settings.dat</value>
-    <comment>Путь для сохранения настроек</comment>
+    <comment>Имя файла для сохранения настроек</comment>
   </data>
   <data name="Win" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\ButtonIcons\Win.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="recordsPath" xml:space="preserve">
+    <value>records.dat</value>
+    <comment>Имя файла с информацией о рекордах</comment>
   </data>
 </root>

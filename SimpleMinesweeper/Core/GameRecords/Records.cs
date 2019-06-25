@@ -28,11 +28,11 @@ namespace SimpleMinesweeper.Core.GameRecords
         public bool IsRecord(GameType gameType, int seconds)
         {
             if (records == null)
-                return false;
+                return true;
 
             IRecordItem ri = records.FirstOrDefault(r => r.GameType == gameType);
             if (ri == null)
-                return false;
+                return true;
 
             return ri.Time > seconds;
         }

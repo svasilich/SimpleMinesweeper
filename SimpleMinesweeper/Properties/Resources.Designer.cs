@@ -91,6 +91,15 @@ namespace SimpleMinesweeper.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на records.dat.
+        /// </summary>
+        internal static string recordsPath {
+            get {
+                return ResourceManager.GetString("recordsPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на settings.dat.
         /// </summary>
         internal static string settingsPath {

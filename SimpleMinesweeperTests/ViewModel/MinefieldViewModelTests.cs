@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using NSubstitute;
 
 using SimpleMinesweeper.Core;
+using SimpleMinesweeper.Core.GameRecords;
 using SimpleMinesweeper.Core.GameSettings;
 using SimpleMinesweeper.ViewModel;
 using SimpleMinesweeperTests.Common;
@@ -29,12 +30,12 @@ namespace SimpleMinesweeperTests.ViewModel
                     Width = fieldWidthCell,
                     MineCount = DefaultMineCount
                 });
-            return new GameWithOpenConstructor(settingsManager, DefaultMinefield(fieldHeightCell, fieldWidthCell));
+            return new GameWithOpenConstructor(settingsManager, MinefieldTestHelper.GetDefaultRecords(), DefaultMinefield(fieldHeightCell, fieldWidthCell));
         }
 
         class GameWithOpenConstructor : Game
         {
-            public GameWithOpenConstructor(ISettingsManager settings, IMinefield gameField) : base(settings, gameField)
+            public GameWithOpenConstructor(ISettingsManager settings, IRecords records, IMinefield gameField) : base(settings, records, gameField)
             {
             }
         }

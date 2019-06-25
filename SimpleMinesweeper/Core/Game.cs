@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SimpleMinesweeper.Core.GameSettings;
 using SimpleMinesweeper.Core.GameRecords;
+using System.Windows;
 
 namespace SimpleMinesweeper.Core
 {
@@ -24,10 +25,12 @@ namespace SimpleMinesweeper.Core
         #endregion
 
         #region Constructors
-        protected Game(ISettingsManager settings, IMinefield gameField)
+        protected Game(ISettingsManager settings, IRecords records, IMinefield gameField)
         {
             Settings = settings;
             Settings.OnCurrentGameChanged += Settings_OnCurrentGameChanged;
+
+            Records = records;
 
             Timer = new GameTimer();
 
@@ -64,7 +67,11 @@ namespace SimpleMinesweeper.Core
                 case FieldState.Win:
                     Timer.Stop();
                     //TODO: Проверить таблицу рекордов.
-                    //Records.IsRecord(Settings.CurrentSettings.Type, Timer.Seconds);
+                    if (Records.IsRecord(Settings.CurrentSettings.Type, Timer.Seconds))
+                        MessageBox.Show("Рекорд!");
+                    else
+                        MessageBox.Show("Не рекород!");
+
                     break;
 
                 default:
@@ -83,10 +90,14 @@ namespace SimpleMinesweeper.Core
         private static IGame CreateInstance()
         {
             var settings = new SettingsManager();
-            settings.Load(Properties.Resources.settingsPath);
+            settings.Load(AppContext.BaseDirectory + Properties.Resources.settingsPath);
+
+            var records = new Records();
+            records.Load(AppContext.BaseDirectory + Properties.Resources.recordsPath);
 
             return gameInstance = 
                 new Game(settings,
+                    records,
                     new Minefield(new CellFactory(), 
                     new RandomMinePositionGenerator())); ;
         }

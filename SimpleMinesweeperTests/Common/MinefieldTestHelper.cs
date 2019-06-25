@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using SimpleMinesweeper.Core;
 using SimpleMinesweeper.ViewModel;
 using SimpleMinesweeper.Core.GameSettings;
+using SimpleMinesweeper.Core.GameRecords;
 
 namespace SimpleMinesweeperTests.Common
 {
@@ -36,6 +37,13 @@ namespace SimpleMinesweeperTests.Common
         {
             return NSubstitute.Substitute.For<IDynamicGameFieldSize>();
         }
+
+        public static IRecords GetDefaultRecords()
+        {
+            return new Records();
+        }
+
+        public static string RecordsPath => AppContext.BaseDirectory + "records_test.dat";
 
         public static ICellFactory DefaultCellFactory => new CellFactory();
 

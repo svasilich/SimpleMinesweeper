@@ -10,7 +10,7 @@ using System.IO;
 
 namespace SimpleMinesweeperTests.Core
 {
-    
+
     [TestFixture]
     class RecordsTest
     {
@@ -84,7 +84,7 @@ namespace SimpleMinesweeperTests.Core
             int recordTime = 10;
             string playerName = "Вася Пупкин";
             records.UpdateRecord(gameType, recordTime, playerName);
-            
+
             int anotherTime = 5;
             string anotherName = "Иванов";
             records.UpdateRecord(gameType, anotherTime, anotherName);
@@ -109,6 +109,33 @@ namespace SimpleMinesweeperTests.Core
 
             Assert.AreEqual(expected, result);
         }
+
+        [TestCase(GameType.Newbie)]
+        [TestCase(GameType.Advanced)]
+        [TestCase(GameType.Professional)]
+        public void CheckRecordWithEmptyList_AlwaysRecord(GameType gameType)
+        {
+            IRecords records = new Records();
+
+            bool result = records.IsRecord(gameType, 1);
+
+            Assert.IsTrue(result);
+        }
+
+        [TestCase(new GameType[] { GameType.Newbie, GameType.Advanced }, GameType.Professional)]
+        [TestCase(new GameType[] { GameType.Professional, GameType.Advanced }, GameType.Newbie)]
+        [TestCase(new GameType[] { GameType.Newbie, GameType.Professional }, GameType.Advanced)]
+        public void CheckRecord_WithNoExistsGameType(GameType[] exists, GameType newType)
+        {
+            IRecords records = new Records();
+            foreach (var t in exists)
+                records.UpdateRecord(t, 1, "testPlayer");
+
+            bool result = records.IsRecord(newType, 1);
+
+            Assert.IsTrue(result);
+        }
+
 
         [Test]
         public void AddCustomGameRecord_ThrowException()

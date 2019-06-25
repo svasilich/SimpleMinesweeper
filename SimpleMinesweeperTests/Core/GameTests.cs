@@ -9,7 +9,7 @@ using NSubstitute;
 using SimpleMinesweeper.Core;
 using SimpleMinesweeper.Core.GameSettings;
 using SimpleMinesweeperTests.Common;
-
+using SimpleMinesweeper.Core.GameRecords;
 
 namespace SimpleMinesweeperTests.Core
 {
@@ -19,7 +19,7 @@ namespace SimpleMinesweeperTests.Core
         #region Test types
         class GameWithOpenConstructor : Game
         {
-            public GameWithOpenConstructor(ISettingsManager settings, IMinefield gameField) : base(settings, gameField)
+            public GameWithOpenConstructor(ISettingsManager settings, IRecords records, IMinefield gameField) : base(settings, records, gameField)
             {
 
             }
@@ -39,7 +39,7 @@ namespace SimpleMinesweeperTests.Core
             #endregion
 
             #region Constructors
-            public TestGame(ISettingsManager settings, IMinefield gameField) : base(settings, gameField)
+            public TestGame(ISettingsManager settings, IRecords records, IMinefield gameField) : base(settings, records, gameField)
             {
                 EventWasHandled = false;
             }
@@ -93,7 +93,7 @@ namespace SimpleMinesweeperTests.Core
             SettingsManager settingsManager = new SettingsManager();
             settingsManager.SelectGameType(GameType.Advanced);
 
-            TestGame game = new TestGame(settingsManager, minefield);
+            TestGame game = new TestGame(settingsManager, MinefieldTestHelper.GetDefaultRecords(), minefield);
 
             game.Settings.SelectGameType(GameType.Newbie);
 
@@ -106,7 +106,7 @@ namespace SimpleMinesweeperTests.Core
             var field = MinefieldWithCheckFillCalled.CreateDefault();
             SettingsManager settingsManager = new SettingsManager();
             settingsManager.SelectGameType(GameType.Advanced);
-            Game game = new GameWithOpenConstructor(settingsManager, field);
+            Game game = new GameWithOpenConstructor(settingsManager, MinefieldTestHelper.GetDefaultRecords(), field);
 
             game.Settings.SelectGameType(GameType.Newbie);
 
@@ -119,7 +119,7 @@ namespace SimpleMinesweeperTests.Core
             var field = MinefieldWithCheckFillCalled.CreateDefault();
             SettingsManager settingsManager = new SettingsManager();
             settingsManager.SelectGameType(GameType.Advanced);
-            Game game = new GameWithOpenConstructor(settingsManager, field);
+            Game game = new GameWithOpenConstructor(settingsManager, MinefieldTestHelper.GetDefaultRecords(), field);
 
             
         }
