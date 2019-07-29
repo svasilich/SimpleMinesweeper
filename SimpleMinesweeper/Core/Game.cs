@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using SimpleMinesweeper.Core.GameSettings;
 using SimpleMinesweeper.Core.GameRecords;
-using System.Windows;
+using SimpleMinesweeper.DialogWindows;
+
 
 namespace SimpleMinesweeper.Core
 {
@@ -66,9 +68,8 @@ namespace SimpleMinesweeper.Core
 
                 case FieldState.Win:
                     Timer.Stop();
-                    //TODO: Проверить таблицу рекордов.
                     if (Records.IsRecord(Settings.CurrentSettings.Type, Timer.Seconds))
-                        MessageBox.Show("Рекорд!");
+                        HandleRecord(Settings.CurrentSettings.Type, Timer.Seconds);
                     else
                         MessageBox.Show("Не рекород!");
 
@@ -78,6 +79,14 @@ namespace SimpleMinesweeper.Core
                     Timer.Stop();
                     break;
             }
+        }
+
+        private void HandleRecord(GameType gameType, int winnerTime)
+        {
+            var recordWindow = new NewRecordWindow(Settings.CurrentSettings.Type, winnerTime);            
+
+            if (recordWindow.ShowDialog() == true)
+                Records.UpdateRecord(gameType, winnerTime, recordWindow.WinnerName);
         }
         #endregion
 

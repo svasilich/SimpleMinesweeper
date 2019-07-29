@@ -74,6 +74,9 @@
     <Compile Include="Core\ICellFactory.cs" />
     <Compile Include="Core\IGame.cs" />
     <Compile Include="Core\IGameTimer.cs" />
+    <Compile Include="DialogWindows\NewRecordWindow.xaml.cs">
+      <DependentUpon>NewRecordWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModel\GameViewModel.cs" />
     <Compile Include="View\CellView.xaml.cs">
       <DependentUpon>CellView.xaml</DependentUpon>
@@ -94,6 +97,10 @@
     <Compile Include="View\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
+    <Page Include="DialogWindows\NewRecordWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
