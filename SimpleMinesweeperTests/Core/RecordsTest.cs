@@ -160,6 +160,16 @@ namespace SimpleMinesweeperTests.Core
         }
 
         [Test]
+        public void CleareRecords()
+        {
+            IRecords records = GetStandardRecordsTable();
+
+            records.Clear();
+
+            Assert.AreEqual(0, records.GetRecords().Count);
+        }
+
+        [Test]
         public void LoadRecords_EventHandled()
         {
             IRecords records = GetStandardRecordsTable();

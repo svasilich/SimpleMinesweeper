@@ -15,6 +15,8 @@ namespace SimpleMinesweeper.Core.GameRecords
 
         void UpdateRecord(GameType gameType, int seconds, string player);
 
+        void Clear();
+
         event EventHandler OnRecordChanged;
 
         void Load(string fileName);

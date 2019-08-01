@@ -18,6 +18,14 @@ namespace SimpleMinesweeper.Core.GameRecords
         private List<IRecordItem> records;
         #endregion
 
+        #region Constructor
+        public Records()
+        {
+            records = new List<IRecordItem>();
+        }
+
+        #endregion
+
         public event EventHandler OnRecordChanged;
 
         public List<IRecordItem> GetRecords()
@@ -35,6 +43,11 @@ namespace SimpleMinesweeper.Core.GameRecords
                 return true;
 
             return ri.Time > seconds;
+        }
+
+        public void Clear()
+        {
+            records.Clear();
         }
 
         public void Load(string fileName)
