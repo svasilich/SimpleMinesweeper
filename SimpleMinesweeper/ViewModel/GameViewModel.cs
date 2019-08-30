@@ -100,19 +100,30 @@ namespace SimpleMinesweeper.ViewModel
 
         public GameViewModel(IGame game, MainWindow mainWindow)
         {
+            Game = game;
+            game.OnRecord += Game_OnRecord;
+
             gamePage = new GamePage(); // Контекст установим свой собственный, в конструкторе.
             settingsPage = new SettingsPage { DataContext = this };
-            recordsPage = new RecordsPage { DataContext = this };
-
-            Game = game;            
+            recordsPage = new RecordsPage { DataContext = new RecordsViewModel(this) };
+            
             this.mainWindow = mainWindow;
             this.mainWindow.DataContext = this;
             UpdatePageValuesFromApp();
+
             Game.Settings.OnCurrentGameChanged += Settings_OnCurrentGameChanged;
             Game.Settings.OnCustomSizeChanged += Settings_OnCustomSizeChanged;
+
             MenuSetGameTypeCommand = new MenuSetGameTypeCommand(this);
             MenuOpenSettingsCommand = new MenuOpenSettingsCommand(this);
+            MenuOpenRecordsCommand = new MenuOpenRecordsCommand(this);
+
             LoadPage(gamePage);
+        }
+
+        private void Game_OnRecord(object sender, EventArgs e)
+        {
+            LoadRecordsPage();
         }
 
         private void Settings_OnCustomSizeChanged(object sender, EventArgs e)
@@ -168,7 +179,7 @@ namespace SimpleMinesweeper.ViewModel
         #region Commands
         public MenuSetGameTypeCommand MenuSetGameTypeCommand { get; }
         public MenuOpenSettingsCommand MenuOpenSettingsCommand { get; }
-
+        public MenuOpenRecordsCommand MenuOpenRecordsCommand { get; }
         #endregion
 
         #region Navigation and commands logic
@@ -182,6 +193,16 @@ namespace SimpleMinesweeper.ViewModel
         public void LoadSettingsPage()
         {
             LoadPage(settingsPage);
+        }
+
+        public void LoadRecordsPage()
+        {
+            LoadPage(recordsPage);
+        }
+
+        internal void LoadCurrentGamePage()
+        {
+            LoadPage(gamePage);
         }
 
         private void LoadPage(MinesweeperPage page)
@@ -275,6 +296,32 @@ namespace SimpleMinesweeper.ViewModel
         public MenuOpenSettingsCommand(GameViewModel owner)
         {
             this.owner = owner;
+        }
+    }
+
+    public class MenuOpenRecordsCommand : ICommand
+    {
+        private GameViewModel owner;
+
+        public event EventHandler CanExecuteChanged
+        {
+            add { CommandManager.RequerySuggested += value; }
+            remove { CommandManager.RequerySuggested -= value; }
+        }
+
+        public MenuOpenRecordsCommand(GameViewModel owner)
+        {
+            this.owner = owner;
+        }
+
+        public bool CanExecute(object parameter)
+        {
+            return true;
+        }
+
+        public void Execute(object parameter)
+        {
+            owner.LoadRecordsPage();
         }
     }
     #endregion

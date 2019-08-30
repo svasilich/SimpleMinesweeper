@@ -4,11 +4,107 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:SimpleMinesweeper.View"
+      xmlns:viewModel="clr-namespace:SimpleMinesweeper.ViewModel"                 
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="RecordsPage">
+      d:DesignHeight="450" d:DesignWidth="650"
+      Title="RecordsPage"      >
 
-    <Grid>
-        
+    <Page.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="Image">
+            <Setter Property="Margin" Value="10"/>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="MaxHeight" Value="75"/>
+            <Setter Property="MaxWidth" Value="225"/>
+
+        </Style>
+        <viewModel:RecordTimeConverter x:Key="RecordTimeConverter"/>
+        <Style TargetType="Border">
+            <Setter Property="BorderBrush" Value="White"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+        <Style x:Key="TableHeaderText" TargetType="TextBlock">
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Foreground" Value="Black"/>
+        </Style>
+        <Style x:Key="TableHeaderBorder" TargetType="Border" BasedOn="{StaticResource {x:Type Border}}">
+            <Setter Property="Background" Value="LightGray"/>
+            <Setter Property="BorderThickness" Value="1 0 1 1"/>
+        </Style>
+    </Page.Resources>
+
+    <Grid Margin="20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" 
+                   TextAlignment="Center" VerticalAlignment="Center"
+                   FontSize="50">Рекорды</TextBlock>
+        <Border Grid.Row="1" Grid.Column="0" BorderThickness="0 0 1 1" Style="{StaticResource TableHeaderBorder}"/>
+        <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource TableHeaderBorder}">
+            <TextBlock Style="{StaticResource TableHeaderText}">Режим игры</TextBlock>
+        </Border>
+        <Border Grid.Row="1" Grid.Column="2" Style="{StaticResource TableHeaderBorder}">
+            <TextBlock Style="{StaticResource TableHeaderText}">Имя чемпиона</TextBlock>
+        </Border>
+        <Border Grid.Row="1" Grid.Column="3" Style="{StaticResource TableHeaderBorder}" BorderThickness="1 0 0 1">
+            <TextBlock Style="{StaticResource TableHeaderText}">Время (секунд)</TextBlock>
+        </Border>
+        <Border Grid.Row="2" Grid.Column="0" BorderThickness="0 1 1 1" Style="{StaticResource TableHeaderBorder}">
+            <Image Source="pack://application:,,,/Icons/bronze.png"/>
+        </Border>
+        <Border Grid.Row="2" Grid.Column="1">
+            <TextBlock>Новичок</TextBlock>
+        </Border>
+        <Border Grid.Row="2" Grid.Column="2">
+            <TextBlock Text="{Binding NewbieName}"/>
+        </Border>
+        <Border Grid.Row="2" Grid.Column="3" BorderThickness="1 1 0 1">
+            <TextBlock Text="{Binding NewbieTime, Converter={StaticResource RecordTimeConverter}}"/>
+        </Border>
+        <Border Grid.Row="3" Grid.Column="0"  BorderThickness="0 1 1 1" Style="{StaticResource TableHeaderBorder}">
+            <Image Source="pack://application:,,,/Icons/silver.png"/>
+        </Border>
+        <Border Grid.Row="3" Grid.Column="1">
+            <TextBlock>Любитель</TextBlock>
+        </Border>
+        <Border Grid.Row="3" Grid.Column="2">
+            <TextBlock Text="{Binding AdvancedName}"/>
+        </Border>
+        <Border Grid.Row="3" Grid.Column="3" BorderThickness="1 1 0 1">
+            <TextBlock Text="{Binding AdvancedTime, Converter={StaticResource RecordTimeConverter}}"/>
+        </Border>
+        <Border Grid.Row="4" Grid.Column="0" BorderThickness="0 1 1 0" Style="{StaticResource TableHeaderBorder}">
+            <Image Source="pack://application:,,,/Icons/gold.png"/>
+        </Border>
+        <Border Grid.Row="4" Grid.Column="1" BorderThickness="1 1 1 0">
+            <TextBlock>Профессионал</TextBlock>
+        </Border>
+        <Border Grid.Row="4" Grid.Column="2" BorderThickness="1 1 1 0">
+            <TextBlock Text="{Binding ProfessionalName}"/>
+        </Border>
+        <Border Grid.Row="4" Grid.Column="3" BorderThickness="1 1 0 0">
+            <TextBlock Text="{Binding ProfessionalTime, Converter={StaticResource RecordTimeConverter}}"/>
+        </Border>
+        <Button Grid.Row="5" Grid.Column="1" Margin="25" Command="{Binding CleareRecordsCommand}">Очистить таблицу</Button>
+        <Button Grid.Row="5" Grid.Column="2" Margin="25" Command="{Binding CloseRecordsCommand}" >Назад</Button>
     </Grid>
 </local:MinesweeperPage>

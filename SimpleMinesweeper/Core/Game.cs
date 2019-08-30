@@ -32,7 +32,7 @@ namespace SimpleMinesweeper.Core
             Settings = settings;
             Settings.OnCurrentGameChanged += Settings_OnCurrentGameChanged;
 
-            Records = records;
+            Records = records;            
 
             Timer = new GameTimer();
 
@@ -42,10 +42,12 @@ namespace SimpleMinesweeper.Core
             GameField.OnStateChanged += GameField_OnStateChanged;
 
             
-        }        
+        }
         #endregion
 
         #region Events
+
+        public event EventHandler OnRecord;
 
         protected virtual void Settings_OnCurrentGameChanged(object sender, EventArgs e)
         {
@@ -70,9 +72,6 @@ namespace SimpleMinesweeper.Core
                     Timer.Stop();
                     if (Records.IsRecord(Settings.CurrentSettings.Type, Timer.Seconds))
                         HandleRecord(Settings.CurrentSettings.Type, Timer.Seconds);
-                    else
-                        MessageBox.Show("Не рекород!");
-
                     break;
 
                 default:
@@ -83,10 +82,15 @@ namespace SimpleMinesweeper.Core
 
         private void HandleRecord(GameType gameType, int winnerTime)
         {
-            var recordWindow = new NewRecordWindow(Settings.CurrentSettings.Type, winnerTime);            
+            OnRecord?.Invoke(this, EventArgs.Empty);
+
+            var recordWindow = new NewRecordWindow(Settings.CurrentSettings.Type, winnerTime);
 
             if (recordWindow.ShowDialog() == true)
+            {
                 Records.UpdateRecord(gameType, winnerTime, recordWindow.WinnerName);
+                Records.Save(AppContext.BaseDirectory + Properties.Resources.recordsPath);
+            }
         }
         #endregion
 

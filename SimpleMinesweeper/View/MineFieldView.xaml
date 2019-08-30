@@ -60,28 +60,28 @@
                     <Style>
                         <Setter Property="Button.Content">
                             <Setter.Value>
-                                <Image Source="pack://application:,,,/ButtonIcons/NotStarted.png"/>
+                                <Image Source="pack://application:,,,/Icons/NotStarted.png"/>
                             </Setter.Value>
                         </Setter>
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding Path=State}" Value="{x:Static core:FieldState.InGame}">
                                 <Setter Property="Button.Content">
                                     <Setter.Value>
-                                        <Image gif:ImageBehavior.AnimatedSource="pack://application:,,,/ButtonIcons/InGame.gif"/>
+                                        <Image gif:ImageBehavior.AnimatedSource="pack://application:,,,/Icons/InGame.gif"/>
                                     </Setter.Value>
                                 </Setter>
                             </DataTrigger>
                             <DataTrigger Binding="{Binding Path=State}" Value="{x:Static core:FieldState.GameOver}">
                                 <Setter Property="Button.Content">
                                     <Setter.Value>
-                                        <Image Source="pack://application:,,,/ButtonIcons/GameOver.png"/>
+                                        <Image Source="pack://application:,,,/Icons/GameOver.png"/>
                                     </Setter.Value>
                                 </Setter>
                             </DataTrigger>
                             <DataTrigger Binding="{Binding Path=State}" Value="{x:Static core:FieldState.Win}">
                                 <Setter Property="Button.Content">
                                     <Setter.Value>
-                                        <Image Source="pack://application:,,,/ButtonIcons/Win.png"/>
+                                        <Image Source="pack://application:,,,/Icons/Win.png"/>
                                     </Setter.Value>
                                 </Setter>
                             </DataTrigger>
