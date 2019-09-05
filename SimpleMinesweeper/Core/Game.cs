@@ -89,7 +89,7 @@ namespace SimpleMinesweeper.Core
             if (recordWindow.ShowDialog() == true)
             {
                 Records.UpdateRecord(gameType, winnerTime, recordWindow.WinnerName);
-                Records.Save(AppContext.BaseDirectory + Properties.Resources.recordsPath);
+                Records.Save();
             }
         }
         #endregion
@@ -105,8 +105,8 @@ namespace SimpleMinesweeper.Core
             var settings = new SettingsManager();
             settings.Load(AppContext.BaseDirectory + Properties.Resources.settingsPath);
 
-            var records = new Records();
-            records.Load(AppContext.BaseDirectory + Properties.Resources.recordsPath);
+            var records = new Records(AppContext.BaseDirectory + Properties.Resources.recordsPath);
+            records.Load();
 
             return gameInstance = 
                 new Game(settings,

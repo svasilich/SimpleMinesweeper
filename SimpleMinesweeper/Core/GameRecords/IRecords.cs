@@ -19,7 +19,7 @@ namespace SimpleMinesweeper.Core.GameRecords
 
         event EventHandler OnRecordChanged;
 
-        void Load(string fileName);
-        void Save(string fileName);
+        void Load();
+        void Save();
     }
 }

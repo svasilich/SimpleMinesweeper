@@ -123,6 +123,7 @@ namespace SimpleMinesweeper.ViewModel
         public void ClearRecords()
         {
             records.Clear();
+            records.Save();
         }
 
         public void CloseRecordsPage()
@@ -147,16 +148,16 @@ namespace SimpleMinesweeper.ViewModel
         {
             var recordsList = records.GetRecords();
             IRecordItem ri = recordsList.FirstOrDefault(x => x.GameType == GameType.Newbie);
-            NewbieName = ri?.Player ?? "Вася";
-            NewbieTime = ri?.Time ?? 11;
+            NewbieName = ri?.Player ?? "Аноним";
+            NewbieTime = ri?.Time ?? 0;
 
             ri = recordsList.FirstOrDefault(x => x.GameType == GameType.Advanced);
-            AdvancedName = ri?.Player ?? "Петя";
-            AdvancedTime = ri?.Time ?? 66;
+            AdvancedName = ri?.Player ?? "Аноним";
+            AdvancedTime = ri?.Time ?? 0;
 
             ri = recordsList.FirstOrDefault(x => x.GameType == GameType.Professional);
-            ProfessionalName = ri?.Player ?? "Коля";
-            ProfessionalTime = ri?.Time ?? 999;
+            ProfessionalName = ri?.Player ?? "Аноним";
+            ProfessionalTime = ri?.Time ?? 0;
         }
 
         #endregion

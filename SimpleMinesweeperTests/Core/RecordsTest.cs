@@ -173,22 +173,44 @@ namespace SimpleMinesweeperTests.Core
         public void LoadRecords_EventHandled()
         {
             IRecords records = GetStandardRecordsTable();
-            records.Save(RecordsPath);
+            records.Save();
 
             var registrator = new EventRegistrator();
             records.OnRecordChanged += registrator.Records_OnRecordChanged;
 
-            records.Load(RecordsPath);
+            records.Load();
 
             Assert.IsTrue(registrator.IsHandled);
             File.Delete(RecordsPath);
+        }
+
+        [Test]
+        public void LoadRecord_PathNotSetted_GetException()
+        {
+            Records records = (Records)GetStandardRecordsTable();
+
+            records.FilePath = string.Empty;
+
+            var ex = Assert.Catch<Exception>(() => records.Load());
+            StringAssert.Contains("не указав адрес файла храннения".ToLower(), ex.Message.ToLower());
+        }
+
+        [Test]
+        public void SaveRecord_PathNotSetted_GetException()
+        {
+            Records records = (Records)GetStandardRecordsTable();
+
+            records.FilePath = string.Empty;
+
+            var ex = Assert.Catch<Exception>(() => records.Save());
+            StringAssert.Contains("не указав адрес файла храннения".ToLower(), ex.Message.ToLower());
         }
 
         #region Help methods
 
         public static IRecords GetStandardRecordsTable()
         {
-            Records result = new Records();
+            Records result = new Records(RecordsPath);
 
             result.UpdateRecord(GameType.Newbie, 10, "Newbie");
             result.UpdateRecord(GameType.Advanced, 60, "Advanced");

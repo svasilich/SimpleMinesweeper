@@ -15,6 +15,7 @@ namespace SimpleMinesweeper.Core.GameRecords
         #endregion
 
         #region Fields
+        public string FilePath { get; set; }
         private List<IRecordItem> records;
         #endregion
 
@@ -22,6 +23,11 @@ namespace SimpleMinesweeper.Core.GameRecords
         public Records()
         {
             records = new List<IRecordItem>();
+        }
+
+        public Records(string saveLoasPath) : this()
+        {
+            FilePath = saveLoasPath;
         }
 
         #endregion
@@ -48,14 +54,18 @@ namespace SimpleMinesweeper.Core.GameRecords
         public void Clear()
         {
             records.Clear();
+            OnRecordChanged?.Invoke(this, EventArgs.Empty);
         }
 
-        public void Load(string fileName)
+        public void Load()
         {
-            if (!File.Exists(fileName))
+            if (string.IsNullOrWhiteSpace(FilePath))
+                throw new Exception("Попытка вызвать загрузку таблицы рекордов не указав адрес файла храннения.");
+
+            if (!File.Exists(FilePath))
                 return;
 
-            using (Stream recordsFile = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.None))
+            using (Stream recordsFile = new FileStream(FilePath, FileMode.Open, FileAccess.Read, FileShare.None))
             {
                 records.Clear();
                 var serializer = new XmlSerializer(typeof(List<RecordItem>));
@@ -67,9 +77,12 @@ namespace SimpleMinesweeper.Core.GameRecords
             OnRecordChanged?.Invoke(this, EventArgs.Empty);
         }
 
-        public void Save(string fileName)
+        public void Save()
         {
-            using (Stream recordsFile = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.None))
+            if (string.IsNullOrWhiteSpace(FilePath))
+                throw new Exception("Попытка вызвать сохранение таблицы рекордов не указав адрес файла храннения.");
+
+            using (Stream recordsFile = new FileStream(FilePath, FileMode.Create, FileAccess.Write, FileShare.None))
             {                
                 var serializeData = new List<RecordItem>(records.Count);
                 foreach (var ri in records)
