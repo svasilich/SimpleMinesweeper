@@ -1,43 +1,24 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Windows.Input;
 using System.Windows.Data;
 using System.Windows.Media;
-using SimpleMinesweeper.Core;
 using System.Globalization;
+
+using SimpleMinesweeper.Core;
+using SimpleMinesweeper.CommonMVVM;
 
 namespace SimpleMinesweeper.ViewModel
 {    
     public class CellViewModel : INotifyPropertyChanged
     {
+        #region Fields
+
         ICell modelCell;
 
-        public CellViewModel(ICell cell)
-        {
-            modelCell = cell;
-            modelCell.OnStateChanged += ModelCell_OnStateChanged;
-            modelCell.OnMinedChanged += ModelCell_OnMinedChanged;
+        #endregion
 
-            OpenCellCommand = new OpenCellCommand(modelCell);
-            SetFlagCellCommand = new SetFlagCellCommand(modelCell);
-        }
-
-        public OpenCellCommand OpenCellCommand { get; }
-        public SetFlagCellCommand SetFlagCellCommand { get; }
-
-        private void ModelCell_OnMinedChanged(object sender, EventArgs e)
-        {
-            NotifyPropertyChanged(nameof(Mined));
-            NotifyPropertyChanged(nameof(ShowNearby));
-        }
-
-        private void ModelCell_OnStateChanged(object sender, EventArgs e)
-        {
-            NotifyPropertyChanged(nameof(State));
-            NotifyPropertyChanged(nameof(ShowNearby));
-        }
-
+        #region Properties
         public CellState State
         {
             get => modelCell.State;
@@ -59,6 +40,49 @@ namespace SimpleMinesweeper.ViewModel
             set => modelCell.MinesNearby = value;
         }
 
+        #endregion
+
+        #region Constructor
+
+        public CellViewModel(ICell cell)
+        {
+            modelCell = cell;
+            modelCell.OnStateChanged += ModelCell_OnStateChanged;
+            modelCell.OnMinedChanged += ModelCell_OnMinedChanged;
+
+            OpenCellCommand = new RelayCommand(o => modelCell.Open());
+            SetFlagCellCommand = new RelayCommand(o => modelCell.SetFlag(), CanSetFlagCommandExecute);
+        }
+
+        #endregion
+
+        #region Commands
+        public RelayCommand OpenCellCommand { get; }
+
+        public RelayCommand SetFlagCellCommand { get; }
+
+
+        private bool CanSetFlagCommandExecute(object parameter)
+        {
+            return modelCell.State == CellState.Flagged ||
+                modelCell.State == CellState.NotOpened;
+        }
+        #endregion
+
+        #region Event handlers
+        private void ModelCell_OnMinedChanged(object sender, EventArgs e)
+        {
+            NotifyPropertyChanged(nameof(Mined));
+            NotifyPropertyChanged(nameof(ShowNearby));
+        }
+
+        private void ModelCell_OnStateChanged(object sender, EventArgs e)
+        {
+            NotifyPropertyChanged(nameof(State));
+            NotifyPropertyChanged(nameof(ShowNearby));
+        }
+        #endregion
+
         #region Поддержка INotifyPropertyChanged 
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -69,60 +93,9 @@ namespace SimpleMinesweeper.ViewModel
         }
 
         #endregion
-    }
+    }    
 
-    public class OpenCellCommand : ICommand
-    {
-        private ICell cell;
-
-        public event EventHandler CanExecuteChanged
-        {
-            add { CommandManager.RequerySuggested += value; }
-            remove { CommandManager.RequerySuggested -= value; }
-        }
-
-        public bool CanExecute(object parameter)
-        {
-            return true;
-        }
-
-        public void Execute(object parameter)
-        {
-            cell.Open();
-        }
-
-        public OpenCellCommand(ICell cell)
-        {
-            this.cell = cell;
-        }
-    }
-
-    public class SetFlagCellCommand : ICommand
-    {
-        ICell cell;
-        public event EventHandler CanExecuteChanged
-        {
-            add { CommandManager.RequerySuggested += value; }
-            remove { CommandManager.RequerySuggested += value; }
-        }
-
-        public SetFlagCellCommand(ICell cell)
-        {
-            this.cell = cell;
-        }
-
-        public bool CanExecute(object parameter)
-        {
-            return cell.State == CellState.Flagged ||
-                cell.State == CellState.NotOpened;
-        }
-
-        public void Execute(object parameter)
-        {
-            cell.SetFlag();
-        }
-    }
-
+    #region Converter types
     public class NearbyColorConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -187,4 +160,6 @@ namespace SimpleMinesweeper.ViewModel
             throw new NotImplementedException();
         }
     }
+
+    #endregion
 }
