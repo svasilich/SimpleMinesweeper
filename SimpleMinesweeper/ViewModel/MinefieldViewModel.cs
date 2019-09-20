@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Data;
@@ -14,7 +12,7 @@ using SimpleMinesweeper.CommonMVVM;
 
 namespace SimpleMinesweeper.ViewModel
 {
-    public class MinefieldViewModel : INotifyPropertyChanged
+    public class MinefieldViewModel : ViewModelBase
     {
         #region Fields
         protected IGame game;
@@ -120,10 +118,6 @@ namespace SimpleMinesweeper.ViewModel
 
         #endregion
 
-        #region Events
-        public event PropertyChangedEventHandler PropertyChanged;
-        #endregion
-
         #region Event handlers
         protected void GameTimer_OnTimerTick(object sender, EventArgs e)
         {
@@ -211,16 +205,7 @@ namespace SimpleMinesweeper.ViewModel
             }
         }
 
-        #endregion
-
-        #region NotifiProperty
-        private void NotifyPropertyChanged([CallerMemberName] string property = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
-        }
-
-        #endregion
-
+        #endregion  
     }
 
     #region Converter types

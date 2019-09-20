@@ -1,10 +1,7 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Linq;
 using System.Windows.Data;
 using System.Globalization;
-using System.Windows.Input;
 using System.Windows;
 using SimpleMinesweeper.Core;
 using SimpleMinesweeper.Core.GameRecords;
@@ -12,7 +9,7 @@ using SimpleMinesweeper.CommonMVVM;
 
 namespace SimpleMinesweeper.ViewModel
 {
-    public class RecordsViewModel : INotifyPropertyChanged
+    public class RecordsViewModel : ViewModelBase
     {
         #region Fields
 
@@ -166,15 +163,6 @@ namespace SimpleMinesweeper.ViewModel
             ProfessionalTime = ri?.Time ?? 0;
         }
 
-        #endregion
-
-        #region INotifyPropertyChanged    
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void NotifyPropertyChanged([CallerMemberName] string property = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
-        }
         #endregion
     }
 

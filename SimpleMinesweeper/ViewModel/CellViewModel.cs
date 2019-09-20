@@ -1,6 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Windows.Data;
 using System.Windows.Media;
 using System.Globalization;
@@ -10,7 +8,7 @@ using SimpleMinesweeper.CommonMVVM;
 
 namespace SimpleMinesweeper.ViewModel
 {    
-    public class CellViewModel : INotifyPropertyChanged
+    public class CellViewModel : ViewModelBase
     {
         #region Fields
 
@@ -81,17 +79,6 @@ namespace SimpleMinesweeper.ViewModel
             NotifyPropertyChanged(nameof(State));
             NotifyPropertyChanged(nameof(ShowNearby));
         }
-        #endregion
-
-        #region Поддержка INotifyPropertyChanged 
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void NotifyPropertyChanged([CallerMemberName] string property = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
-        }
-
         #endregion
     }    
 

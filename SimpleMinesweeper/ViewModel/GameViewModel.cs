@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Input;
 using System.Windows.Data;
 using System.Globalization;
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Windows.Controls;
 
 using SimpleMinesweeper.Core;
@@ -15,7 +13,7 @@ using SimpleMinesweeper.View;
 
 namespace SimpleMinesweeper.ViewModel
 {
-    public class GameViewModel : INotifyPropertyChanged, IDataErrorInfo
+    public class GameViewModel : ViewModelBase, IDataErrorInfo
     {
         #region Fields
         private MainWindow mainWindow;
@@ -23,9 +21,7 @@ namespace SimpleMinesweeper.ViewModel
 
         private readonly MinesweeperPage gamePage;
         private readonly MinesweeperPage recordsPage;
-        private readonly MinesweeperPage settingsPage;
-
-        public event PropertyChangedEventHandler PropertyChanged;
+        private readonly MinesweeperPage settingsPage;        
 
         // Этот набор полей нужен для успешной валидации вводимых данных.
         private int customWidth;
@@ -247,15 +243,7 @@ namespace SimpleMinesweeper.ViewModel
             Application.Current.MainWindow.Close();            
         }
         #endregion
-
-        #region NotifiProperty
-        private void NotifyPropertyChanged([CallerMemberName] string property = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
-        }
-
-        #endregion
-
+        
     }
 
     #region Converter types
