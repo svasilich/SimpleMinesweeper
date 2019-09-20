@@ -1,19 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Collections.ObjectModel;
-using System.Windows.Input;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
-using SimpleMinesweeper.Core;
 using System.Globalization;
-using SimpleMinesweeper.View;
-using SimpleMinesweeper.Core.GameSettings;
+using SimpleMinesweeper.Core;
+using SimpleMinesweeper.CommonMVVM;
+
+
 
 namespace SimpleMinesweeper.ViewModel
 {
@@ -96,11 +93,11 @@ namespace SimpleMinesweeper.ViewModel
                 NotifyPropertyChanged();
             }
         }
-
-        #region Commands
-        public ReloadFieldCommand ReloadCommand { get; }
+        
         #endregion
 
+        #region Commands
+        public RelayCommand ReloadCommand { get; }
         #endregion
 
         #region Constructor
@@ -111,7 +108,7 @@ namespace SimpleMinesweeper.ViewModel
             this.game.GameField.OnStateChanged += Field_OnStateChanged;
             this.game.GameField.OnFilled += Field_OnFilled;
             this.game.GameField.OnFlagsCountChanged += Field_OnFlagsCountChanged;
-            ReloadCommand = new ReloadFieldCommand(game.GameField);
+            ReloadCommand = new RelayCommand(o => game.GameField.Fill());
             cells = new ObservableCollection<List<CellViewModel>>();
 
             this.fieldContainer = fieldContainer;
@@ -226,43 +223,7 @@ namespace SimpleMinesweeper.ViewModel
 
     }
 
-    public interface IDynamicGameFieldSize
-    {
-        double ContainerHeight { get; }
-        double ContainetWidth { get; }
-    }
-
-    #region Commands implementation
-
-    public class ReloadFieldCommand : ICommand
-    {
-        private IMinefield field;
-
-        public event EventHandler CanExecuteChanged
-        {
-            add { CommandManager.RequerySuggested += value; }
-            remove { CommandManager.RequerySuggested -= value; }
-        }
-
-        public ReloadFieldCommand(IMinefield field)
-        {
-            this.field = field;
-        }
-
-        public bool CanExecute(object parameter)
-        {
-            return true;// field.State != FieldState.NotStarted;
-        }
-
-        public void Execute(object parameter)
-        {
-            field.Fill();
-        }
-    }
-
-    #endregion
-
-    #region Converters
+    #region Converter types
 
     public class TimerSecondsConverter : IValueConverter
     {

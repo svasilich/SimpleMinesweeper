@@ -79,6 +79,7 @@
       <DependentUpon>NewRecordWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\GameViewModel.cs" />
+    <Compile Include="ViewModel\IDynamicGameFieldSize.cs" />
     <Compile Include="ViewModel\RecordsViewModel.cs" />
     <Compile Include="View\CellView.xaml.cs">
       <DependentUpon>CellView.xaml</DependentUpon>
