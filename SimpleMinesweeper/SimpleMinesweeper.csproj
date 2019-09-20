@@ -59,6 +59,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CommonMVVM\RelayCommand.cs" />
     <Compile Include="Core\CellFactory.cs" />
     <Compile Include="Core\Game.cs" />
     <Compile Include="Core\GameRecords\IRecords.cs" />
@@ -98,6 +99,7 @@
     <Compile Include="View\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WindowClosingBehavior\WindowClosingBehavior.cs" />
     <Page Include="DialogWindows\NewRecordWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

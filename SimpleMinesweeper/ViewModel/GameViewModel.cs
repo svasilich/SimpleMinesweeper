@@ -5,11 +5,13 @@ using System.Windows.Data;
 using System.Globalization;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows.Controls;
 
 using SimpleMinesweeper.Core;
 using SimpleMinesweeper.Core.GameSettings;
+using SimpleMinesweeper.CommonMVVM;
 using SimpleMinesweeper.View;
-using System.Windows.Controls;
+
 
 namespace SimpleMinesweeper.ViewModel
 {
@@ -118,6 +120,9 @@ namespace SimpleMinesweeper.ViewModel
             MenuOpenSettingsCommand = new MenuOpenSettingsCommand(this);
             MenuOpenRecordsCommand = new MenuOpenRecordsCommand(this);
 
+            // Все данные уже сохранены. Action для закрытия не нужен.
+            ClosingCommand = new RelayCommand(null, o => CanExecuteClosing());
+            MenuExitCommand = new RelayCommand(o => Exit());
             LoadPage(gamePage);
         }
 
@@ -180,6 +185,10 @@ namespace SimpleMinesweeper.ViewModel
         public MenuSetGameTypeCommand MenuSetGameTypeCommand { get; }
         public MenuOpenSettingsCommand MenuOpenSettingsCommand { get; }
         public MenuOpenRecordsCommand MenuOpenRecordsCommand { get; }
+
+        public RelayCommand MenuExitCommand { get; }
+
+        public RelayCommand ClosingCommand { get; }
         #endregion
 
         #region Navigation and commands logic
@@ -200,7 +209,7 @@ namespace SimpleMinesweeper.ViewModel
             LoadPage(recordsPage);
         }
 
-        internal void LoadCurrentGamePage()
+        public void LoadCurrentGamePage()
         {
             LoadPage(gamePage);
         }
@@ -210,6 +219,17 @@ namespace SimpleMinesweeper.ViewModel
             mainWindow.WorkArea.Content = page;
             currentPage = page;
             UpdatePageValuesFromApp();
+        }
+
+        private bool CanExecuteClosing()
+        {
+            return MessageBox.Show("OK to close?", "Confirm",
+                MessageBoxButton.YesNo) == MessageBoxResult.Yes;
+        }
+
+        private void Exit()
+        {
+            Application.Current.MainWindow.Close();            
         }
         #endregion
 
