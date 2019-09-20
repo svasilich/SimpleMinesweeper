@@ -1,16 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SimpleMinesweeper.Core;
-using SimpleMinesweeper.Core.GameRecords;
 using System.Windows.Data;
 using System.Globalization;
 using System.Windows.Input;
 using System.Windows;
+using SimpleMinesweeper.Core;
+using SimpleMinesweeper.Core.GameRecords;
+using SimpleMinesweeper.CommonMVVM;
 
 namespace SimpleMinesweeper.ViewModel
 {
@@ -32,9 +30,7 @@ namespace SimpleMinesweeper.ViewModel
         #endregion
 
         #region Properties
-        public CleareRecordsCommand CleareRecordsCommand { get; }
-        public CloseRecordsCommand CloseRecordsCommand { get; }
-
+        
         public string NewbieName
         {
             get => newbieName;
@@ -112,25 +108,35 @@ namespace SimpleMinesweeper.ViewModel
 
             records.OnRecordChanged += Records_OnRecordChanged;
 
-            CleareRecordsCommand = new CleareRecordsCommand(this);
-            CloseRecordsCommand = new CloseRecordsCommand(this);
+            CleareRecordsCommand = new RelayCommand(CleareRecordsExecute);
+            CloseRecordsCommand = new RelayCommand(CloseRecordsCommandExecute);
         }
 
         #endregion
 
-        #region public methods
+        #region Commands
+        public RelayCommand CleareRecordsCommand { get; }
+        public RelayCommand CloseRecordsCommand { get; }
 
-        public void ClearRecords()
+        private void CleareRecordsExecute(object parameter)
+        {
+            var result = MessageBox.Show("Будет очищена таблица рекордов. Продолжить?",
+                "Рекорды", MessageBoxButton.OKCancel, MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.OK)
+                ClearRecords();
+        }
+
+        private void ClearRecords()
         {
             records.Clear();
             records.Save();
         }
 
-        public void CloseRecordsPage()
+        private void CloseRecordsCommandExecute(object parameter)
         {
             gameViewModel.LoadCurrentGamePage();
         }
-
         #endregion
 
         #region Event handlers
@@ -172,6 +178,8 @@ namespace SimpleMinesweeper.ViewModel
         #endregion
     }
 
+    #region Converter types
+        
     public class RecordTimeConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -190,60 +198,5 @@ namespace SimpleMinesweeper.ViewModel
         }
     }
 
-    public class CleareRecordsCommand : ICommand
-    {
-        private RecordsViewModel rvm;
-
-        public event EventHandler CanExecuteChanged
-        {
-            add { CommandManager.RequerySuggested += value; }
-            remove { CommandManager.RequerySuggested -= value; }
-        }
-
-        public CleareRecordsCommand(RecordsViewModel recordsViewModel)
-        {
-            rvm = recordsViewModel;
-        }
-
-        public bool CanExecute(object parameter)
-        {
-            return true;
-        }
-
-        public void Execute(object parameter)
-        {
-            var result = MessageBox.Show("Будет очищена таблица рекордов. Продолжить?",
-                "Рекорды", MessageBoxButton.OKCancel, MessageBoxImage.Question);
-
-            if (result == MessageBoxResult.OK)
-                rvm.ClearRecords();
-        }
-    }
-
-    public class CloseRecordsCommand : ICommand
-    {
-        private RecordsViewModel rvm;
-
-        public event EventHandler CanExecuteChanged
-        {
-            add { CommandManager.RequerySuggested += value; }
-            remove { CommandManager.RequerySuggested -= value; }
-        }
-
-        public CloseRecordsCommand(RecordsViewModel recordsViewModel)
-        {
-            rvm = recordsViewModel;
-        }
-
-        public bool CanExecute(object parameter)
-        {
-            return true;
-        }
-
-        public void Execute(object parameter)
-        {
-            rvm.CloseRecordsPage();
-        }
-    }
-
+    #endregion
 }
