@@ -9,6 +9,7 @@ using SimpleMinesweeper.Core;
 using SimpleMinesweeper.Core.GameSettings;
 using SimpleMinesweeper.CommonMVVM;
 using SimpleMinesweeper.View;
+using SimpleMinesweeper.DialogWindows;
 
 
 namespace SimpleMinesweeper.ViewModel
@@ -21,7 +22,9 @@ namespace SimpleMinesweeper.ViewModel
 
         private readonly MinesweeperPage gamePage;
         private readonly MinesweeperPage recordsPage;
-        private readonly MinesweeperPage settingsPage;        
+        private readonly MinesweeperPage settingsPage;
+
+        private readonly IGameViewModelDialogProvider dialogProvider;
 
         // Этот набор полей нужен для успешной валидации вводимых данных.
         private int customWidth;
@@ -95,7 +98,7 @@ namespace SimpleMinesweeper.ViewModel
 
         #region Constructor
 
-        public GameViewModel(IGame game, MainWindow mainWindow)
+        public GameViewModel(IGame game, MainWindow mainWindow, IGameViewModelDialogProvider dialogProvider)
         {
             Game = game;
             game.OnRecord += Game_OnRecord;
@@ -103,6 +106,8 @@ namespace SimpleMinesweeper.ViewModel
             gamePage = new GamePage(); // Контекст установим свой собственный, в конструкторе.
             settingsPage = new SettingsPage { DataContext = this };
             recordsPage = new RecordsPage { DataContext = new RecordsViewModel(this) };
+
+            this.dialogProvider = dialogProvider;
             
             this.mainWindow = mainWindow;
             this.mainWindow.DataContext = this;
@@ -116,7 +121,7 @@ namespace SimpleMinesweeper.ViewModel
             MenuOpenRecordsCommand = new RelayCommand(o => LoadPage(recordsPage));
 
             // Все данные уже сохранены. Action для закрытия не нужен.
-            ClosingCommand = new RelayCommand(null, o => CanExecuteClosing());
+            ClosingCommand = new RelayCommand(null, o => dialogProvider.AskUserBeforeQuit());
             MenuExitCommand = new RelayCommand(o => Exit());
             LoadPage(gamePage);
         }
@@ -230,12 +235,6 @@ namespace SimpleMinesweeper.ViewModel
             mainWindow.WorkArea.Content = page;
             currentPage = page;
             UpdatePageValuesFromApp();
-        }
-
-        private bool CanExecuteClosing()
-        {
-            return MessageBox.Show("OK to close?", "Confirm",
-                MessageBoxButton.YesNo) == MessageBoxResult.Yes;
         }
 
         private void Exit()

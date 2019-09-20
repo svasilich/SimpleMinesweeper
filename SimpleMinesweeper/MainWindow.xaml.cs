@@ -13,8 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using SimpleMinesweeper.Core;
-using SimpleMinesweeper.Core.GameSettings;
 using SimpleMinesweeper.ViewModel;
+using SimpleMinesweeper.DialogWindows;
 
 namespace SimpleMinesweeper
 {
@@ -30,7 +30,7 @@ namespace SimpleMinesweeper
             InitializeComponent();
 
             IGame game = Game.GetInstance();            
-            gameView = new GameViewModel(game, this);
+            gameView = new GameViewModel(game, this, new SimpleGameViewModelDialogProvider());
         }
     }
 }
