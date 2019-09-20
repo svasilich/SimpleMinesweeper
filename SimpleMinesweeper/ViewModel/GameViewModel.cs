@@ -27,6 +27,10 @@ namespace SimpleMinesweeper.ViewModel
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        // Этот набор полей нужен для успешной валидации вводимых данных.
+        private int customWidth;
+        private int custopmHeight;
+        private int customMineCount;
         #endregion
 
         #region Properties
@@ -34,18 +38,13 @@ namespace SimpleMinesweeper.ViewModel
         public IGame Game { get; private set; }
 
         #region Custom game settings interface
-        // Этот набор полей нужен для успешной валидации вводимых данных.
-        private int customWidth;
-        private int custopmHeight;
-        private int customMineCount;
-
+        
         public void UpdatePageValuesFromApp()
         {
             CustomWidth = Game.Settings.GetItemByType(GameType.Custom).Width;
             CustomHeight = Game.Settings.GetItemByType(GameType.Custom).Height;
             CustomMineCount = Game.Settings.GetItemByType(GameType.Custom).MineCount;
         }
-
         
         public int CustomWidth
         {
@@ -116,19 +115,23 @@ namespace SimpleMinesweeper.ViewModel
             Game.Settings.OnCurrentGameChanged += Settings_OnCurrentGameChanged;
             Game.Settings.OnCustomSizeChanged += Settings_OnCustomSizeChanged;
 
-            MenuSetGameTypeCommand = new MenuSetGameTypeCommand(this);
-            MenuOpenSettingsCommand = new MenuOpenSettingsCommand(this);
-            MenuOpenRecordsCommand = new MenuOpenRecordsCommand(this);
+            MenuSetGameTypeCommand = new RelayCommand(SetGameTypeExecute);
+            MenuOpenSettingsCommand = new RelayCommand(o => LoadPage(settingsPage));
+            MenuOpenRecordsCommand = new RelayCommand(o => LoadPage(recordsPage));
 
             // Все данные уже сохранены. Action для закрытия не нужен.
             ClosingCommand = new RelayCommand(null, o => CanExecuteClosing());
             MenuExitCommand = new RelayCommand(o => Exit());
             LoadPage(gamePage);
         }
+        
+        #endregion
+
+        #region Event handlers
 
         private void Game_OnRecord(object sender, EventArgs e)
         {
-            LoadRecordsPage();
+            MenuOpenRecordsCommand.Execute(null);
         }
 
         private void Settings_OnCustomSizeChanged(object sender, EventArgs e)
@@ -141,7 +144,7 @@ namespace SimpleMinesweeper.ViewModel
             NotifyPropertyChanged(nameof(GameType));
         }
 
-        #endregion        
+        #endregion
 
         #region IDataErorrInfo
 
@@ -182,9 +185,9 @@ namespace SimpleMinesweeper.ViewModel
         #endregion
 
         #region Commands
-        public MenuSetGameTypeCommand MenuSetGameTypeCommand { get; }
-        public MenuOpenSettingsCommand MenuOpenSettingsCommand { get; }
-        public MenuOpenRecordsCommand MenuOpenRecordsCommand { get; }
+        public RelayCommand MenuSetGameTypeCommand { get; }
+        public RelayCommand MenuOpenSettingsCommand { get; }
+        public RelayCommand MenuOpenRecordsCommand { get; }
 
         public RelayCommand MenuExitCommand { get; }
 
@@ -192,23 +195,35 @@ namespace SimpleMinesweeper.ViewModel
         #endregion
 
         #region Navigation and commands logic
-        public void SetGameType(GameType type)
+
+        private void SetGameTypeExecute(object parameter)
+        {
+            if (parameter is GameType)
+            {
+                GameType gameType = (GameType)parameter;
+                SetGameType(gameType);
+            }
+            else if (parameter is SettingsItem)
+            {
+                // На самом деле здесь всегда будет тип игры Custom.
+                var settingsItem = (SettingsItem)parameter;
+                UpdateCustomSettings();
+                SetGameType(settingsItem.Type);
+            }
+            else
+            {
+                MessageBox.Show("Wrong command parameter!!");
+                return;
+            }
+        }
+
+        private void SetGameType(GameType type)
         {
             Game.Settings.SelectGameType(type);
             if (currentPage.PageType != MinesweeperPageType.Game)
                 LoadPage(gamePage);            
         }
-
-        public void LoadSettingsPage()
-        {
-            LoadPage(settingsPage);
-        }
-
-        public void LoadRecordsPage()
-        {
-            LoadPage(recordsPage);
-        }
-
+    
         public void LoadCurrentGamePage()
         {
             LoadPage(gamePage);
@@ -242,109 +257,6 @@ namespace SimpleMinesweeper.ViewModel
         #endregion
 
     }
-
-    #region Command types
-    public class MenuSetGameTypeCommand : ICommand
-    {
-        #region Fields
-        private readonly GameViewModel game;
-        #endregion
-
-        #region Constructors
-
-        public MenuSetGameTypeCommand(GameViewModel vm)
-        {
-            game = vm;
-        }
-
-        #endregion
-
-        public event EventHandler CanExecuteChanged
-        {
-            add { CommandManager.RequerySuggested += value; }
-            remove { CommandManager.RequerySuggested -= value; }
-        }
-
-
-        public bool CanExecute(object parameter)
-        {
-            return true;
-        }
-
-        public void Execute(object parameter)
-        {
-            if (parameter is GameType)
-            {
-                GameType gameType = (GameType)parameter;
-                game.SetGameType(gameType);
-            }
-            else if (parameter is SettingsItem)
-            {
-                // На самом деле здесь всегда будет тип игры Custom.
-                var si = (SettingsItem)parameter;
-                game.UpdateCustomSettings();                
-                game.SetGameType(si.Type);
-            }
-            else
-            {
-                MessageBox.Show("Wrong command parameter!!");
-                return;
-            }
-        }      
-    }
-
-    public class MenuOpenSettingsCommand : ICommand
-    {
-        private GameViewModel owner;
-
-        public event EventHandler CanExecuteChanged
-        {
-            add { CommandManager.RequerySuggested += value; }
-            remove { CommandManager.RequerySuggested -= value; }
-        }
-
-        public bool CanExecute(object parameter)
-        {
-            return true;
-        }
-
-        public void Execute(object parameter)
-        {
-            owner.LoadSettingsPage();
-        }
-
-        public MenuOpenSettingsCommand(GameViewModel owner)
-        {
-            this.owner = owner;
-        }
-    }
-
-    public class MenuOpenRecordsCommand : ICommand
-    {
-        private GameViewModel owner;
-
-        public event EventHandler CanExecuteChanged
-        {
-            add { CommandManager.RequerySuggested += value; }
-            remove { CommandManager.RequerySuggested -= value; }
-        }
-
-        public MenuOpenRecordsCommand(GameViewModel owner)
-        {
-            this.owner = owner;
-        }
-
-        public bool CanExecute(object parameter)
-        {
-            return true;
-        }
-
-        public void Execute(object parameter)
-        {
-            owner.LoadRecordsPage();
-        }
-    }
-    #endregion
 
     #region Converter types
     public class CustomSettingsCheckboxConverter : IValueConverter
