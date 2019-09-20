@@ -76,6 +76,8 @@
     <Compile Include="Core\ICellFactory.cs" />
     <Compile Include="Core\IGame.cs" />
     <Compile Include="Core\IGameTimer.cs" />
+    <Compile Include="DialogWindows\GetRecordsmanNameProvider.cs" />
+    <Compile Include="DialogWindows\IGetRecordsmanNameProvider.cs" />
     <Compile Include="DialogWindows\NewRecordWindow.xaml.cs">
       <DependentUpon>NewRecordWindow.xaml</DependentUpon>
     </Compile>

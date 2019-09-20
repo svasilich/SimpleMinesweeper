@@ -13,11 +13,12 @@ namespace SimpleMinesweeper.Core
 {
     public class Game : IGame
     {
-        #region Members
+        #region Fields
         private static IGame gameInstance;
+        private readonly IGetRecordsmanNameProvider getRecordsmanNameProvider;
         #endregion
 
-        #region Fields
+        #region Properties
         public IMinefield GameField { get; private set; }
         public ISettingsManager Settings { get; private set; }
 
@@ -27,7 +28,7 @@ namespace SimpleMinesweeper.Core
         #endregion
 
         #region Constructors
-        protected Game(ISettingsManager settings, IRecords records, IMinefield gameField)
+        protected Game(ISettingsManager settings, IRecords records, IMinefield gameField, IGetRecordsmanNameProvider getRecordsmanNameProvider = null)
         {
             Settings = settings;
             Settings.OnCurrentGameChanged += Settings_OnCurrentGameChanged;
@@ -41,7 +42,7 @@ namespace SimpleMinesweeper.Core
             GameField.Fill();
             GameField.OnStateChanged += GameField_OnStateChanged;
 
-            
+            this.getRecordsmanNameProvider = getRecordsmanNameProvider;
         }
         #endregion
 
@@ -84,11 +85,10 @@ namespace SimpleMinesweeper.Core
         {
             OnRecord?.Invoke(this, EventArgs.Empty);
 
-            var recordWindow = new NewRecordWindow(Settings.CurrentSettings.Type, winnerTime);
-
-            if (recordWindow.ShowDialog() == true)
+            string winnerName = getRecordsmanNameProvider?.GetRecordsmanName(Settings.CurrentSettings.Type, winnerTime);
+            if (!string.IsNullOrEmpty(winnerName))
             {
-                Records.UpdateRecord(gameType, winnerTime, recordWindow.WinnerName);
+                Records.UpdateRecord(gameType, winnerTime, winnerName);
                 Records.Save();
             }
         }
@@ -112,7 +112,8 @@ namespace SimpleMinesweeper.Core
                 new Game(settings,
                     records,
                     new Minefield(new CellFactory(), 
-                    new RandomMinePositionGenerator())); ;
+                    new RandomMinePositionGenerator()),
+                    new GetRecordsmanNameProvider()); ;
         }
         #endregion
 
