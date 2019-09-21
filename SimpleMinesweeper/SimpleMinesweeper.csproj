@@ -34,6 +34,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>MineIcon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -223,6 +226,9 @@
     <Resource Include="Icons\bronze.png" />
     <Resource Include="Icons\gold.png" />
     <Resource Include="Icons\silver.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="MineIcon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
