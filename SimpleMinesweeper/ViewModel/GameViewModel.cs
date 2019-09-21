@@ -98,16 +98,16 @@ namespace SimpleMinesweeper.ViewModel
 
         #region Constructor
 
-        public GameViewModel(IGame game, MainWindow mainWindow, IGameViewModelDialogProvider dialogProvider)
+        public GameViewModel(IGame game, MainWindow mainWindow, IDialogProviderFactory dialogProviderFactory)
         {
             Game = game;
             game.OnRecord += Game_OnRecord;
 
             gamePage = new GamePage(); // Контекст установим свой собственный, в конструкторе.
             settingsPage = new SettingsPage { DataContext = this };
-            recordsPage = new RecordsPage { DataContext = new RecordsViewModel(this) };
+            recordsPage = new RecordsPage { DataContext = new RecordsViewModel(this, dialogProviderFactory.GetRecordViewModelDialogProvider()) };
 
-            this.dialogProvider = dialogProvider;
+            dialogProvider = dialogProviderFactory.GetGameViewModelDialogProvider();
             
             this.mainWindow = mainWindow;
             this.mainWindow.DataContext = this;

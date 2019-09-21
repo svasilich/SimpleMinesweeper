@@ -30,7 +30,7 @@ namespace SimpleMinesweeper
             InitializeComponent();
 
             IGame game = Game.GetInstance();            
-            gameView = new GameViewModel(game, this, new SimpleGameViewModelDialogProvider());
+            gameView = new GameViewModel(game, this, new SimpleDialogProviderFactory());
         }
     }
 }

@@ -77,11 +77,15 @@
     <Compile Include="Core\IGame.cs" />
     <Compile Include="Core\IGameTimer.cs" />
     <Compile Include="DialogWindows\GetRecordsmanNameProvider.cs" />
+    <Compile Include="DialogWindows\IDialogProviderFactory.cs" />
     <Compile Include="DialogWindows\IGameViewModelDialogProvider.cs" />
     <Compile Include="DialogWindows\IGetRecordsmanNameProvider.cs" />
+    <Compile Include="DialogWindows\IRecordViewModelDialogProvider.cs" />
     <Compile Include="DialogWindows\NewRecordWindow.xaml.cs">
       <DependentUpon>NewRecordWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DialogWindows\SimpleDialogProviderFactory.cs" />
+    <Compile Include="DialogWindows\SimpleRecordViewModelDialogProvider.cs" />
     <Compile Include="DialogWindows\SimpleGameViewModelDialogProvider.cs" />
     <Compile Include="ViewModel\GameViewModel.cs" />
     <Compile Include="ViewModel\IDynamicGameFieldSize.cs" />

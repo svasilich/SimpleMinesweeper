@@ -6,6 +6,7 @@ using System.Windows;
 using SimpleMinesweeper.Core;
 using SimpleMinesweeper.Core.GameRecords;
 using SimpleMinesweeper.CommonMVVM;
+using SimpleMinesweeper.DialogWindows;
 
 namespace SimpleMinesweeper.ViewModel
 {
@@ -15,6 +16,7 @@ namespace SimpleMinesweeper.ViewModel
 
         private GameViewModel gameViewModel;
         private IRecords records;
+        private IRecordViewModelDialogProvider dialogProvider;
 
         private string newbieName;
         private int? newbieTime;
@@ -97,9 +99,11 @@ namespace SimpleMinesweeper.ViewModel
 
         #region Constructor
 
-        public RecordsViewModel(GameViewModel gameViewModel)
+        public RecordsViewModel(GameViewModel gameViewModel, IRecordViewModelDialogProvider dialogProvider)
         {
             this.gameViewModel = gameViewModel;
+            this.dialogProvider = dialogProvider;
+
             records = gameViewModel.Game.Records;
             UpdateRecords();            
 
@@ -117,10 +121,7 @@ namespace SimpleMinesweeper.ViewModel
 
         private void CleareRecordsExecute(object parameter)
         {
-            var result = MessageBox.Show("Будет очищена таблица рекордов. Продолжить?",
-                "Рекорды", MessageBoxButton.OKCancel, MessageBoxImage.Question);
-
-            if (result == MessageBoxResult.OK)
+            if (dialogProvider?.AskUserBeforeCleareRecord() ?? false)
                 ClearRecords();
         }
 
