@@ -9,7 +9,6 @@ namespace SimpleMinesweeper.Core
     public class Cell : ICell
     {
         #region Fields
-        private const int MaxNearBy = 8;
         private IMinefield minefield;
 
         private CellState state;
@@ -44,6 +43,8 @@ namespace SimpleMinesweeper.Core
         public int CoordY { get; private set; }
 
         public int MinesNearby { get; set; }
+
+        public IMinefield Owner => minefield;
         #endregion
 
         #region Events
@@ -55,7 +56,7 @@ namespace SimpleMinesweeper.Core
         #region Constructor
         public Cell(IMinefield field, int x, int y)
         {
-            this.minefield = field;
+            minefield = field;
             CoordX = x;
             CoordY = y;
             State = CellState.NotOpened;

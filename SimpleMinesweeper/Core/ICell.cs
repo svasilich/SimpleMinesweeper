@@ -24,6 +24,8 @@ namespace SimpleMinesweeper.Core
         int CoordY { get; }
         int MinesNearby { get; set; }
 
+        IMinefield Owner { get; }
+
         void Open();
         void SetFlag();
         

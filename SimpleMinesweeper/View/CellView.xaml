@@ -32,8 +32,14 @@
                                 </Viewbox>
                             </Setter.Value>
                         </Setter>
-                        <Setter Property="Button.Background" Value="White"/>
                     </DataTrigger>
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding Path=ShowNearby}" Value="true"/>
+                            <Condition Binding="{Binding Path=GameIsOver}" Value="false"/>
+                        </MultiDataTrigger.Conditions>
+                        <Setter Property="Button.Background" Value="White"/>
+                    </MultiDataTrigger>
                     <DataTrigger Binding="{Binding Path=State}" Value="{x:Static core:CellState.Explosion}">
                         <Setter Property="Button.Content" Value="{StaticResource Explosion}"/>
                     </DataTrigger>

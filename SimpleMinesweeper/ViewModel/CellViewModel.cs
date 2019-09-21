@@ -38,6 +38,16 @@ namespace SimpleMinesweeper.ViewModel
             set => modelCell.MinesNearby = value;
         }
 
+        public bool GameIsOver
+        {
+            get
+            {
+                if (modelCell == null)
+                    return false;
+                else
+                    return modelCell.Owner.State == FieldState.GameOver;
+            }
+        }
         #endregion
 
         #region Constructor
@@ -78,6 +88,7 @@ namespace SimpleMinesweeper.ViewModel
         {
             NotifyPropertyChanged(nameof(State));
             NotifyPropertyChanged(nameof(ShowNearby));
+            NotifyPropertyChanged(nameof(GameIsOver));
         }
         #endregion
     }    
