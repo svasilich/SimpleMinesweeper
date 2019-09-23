@@ -21,14 +21,22 @@ namespace SimpleMinesweeper.View
     /// Логика взаимодействия для MineFieldView.xaml
     /// </summary>
     public partial class MineFieldView : UserControl, IDynamicGameFieldSize
-    {        
+    {
+        #region Properties
+
+        public double ContainerHeight => FieldRow.ActualHeight;
+
+        public double ContainetWidth => FieldColumn.ActualWidth;
+
+        #endregion
+
+        #region Constructor
+
         public MineFieldView()
         {
             InitializeComponent();
         }
 
-        public double ContainerHeight => FieldRow.ActualHeight;
-
-        public double ContainetWidth => FieldColumn.ActualWidth;
+        #endregion        
     }
 }

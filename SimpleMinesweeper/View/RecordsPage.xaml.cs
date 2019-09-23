@@ -20,11 +20,19 @@ namespace SimpleMinesweeper.View
     /// </summary>
     public partial class RecordsPage : MinesweeperPage
     {
+        #region Properties
+
+        public override MinesweeperPageType PageType => MinesweeperPageType.Records;
+
+        #endregion
+
+        #region Constructor
+
         public RecordsPage()
         {
             InitializeComponent();
         }
 
-        public override MinesweeperPageType PageType => MinesweeperPageType.Records;
+        #endregion
     }
 }

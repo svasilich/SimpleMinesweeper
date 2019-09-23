@@ -1,27 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace SimpleMinesweeper.DialogWindows
 {
     public class AskUserBeforeQuitDialogModel : BasePrettyDialogModel
     {
         #region Fields
+
         private static Random random = new Random();
+
         #endregion
 
         #region Constructor
+
         public AskUserBeforeQuitDialogModel() : base(PrettyDialogType.YesNo)
         {
             Caption = "Завершение игры";
             GenerateContent();
         }
+
         #endregion
 
-        #region Business logic
+        #region Public methods
+
         public void GenerateContent()
         {
             int type = random.Next(3);
@@ -42,6 +42,7 @@ namespace SimpleMinesweeper.DialogWindows
                     break;
             }
         }
+
         #endregion
     }
 }

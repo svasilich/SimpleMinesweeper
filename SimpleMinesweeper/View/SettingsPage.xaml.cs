@@ -20,6 +20,13 @@ namespace SimpleMinesweeper.View
     /// </summary>
     public partial class SettingsPage : MinesweeperPage
     {
+        #region Properties
+
+        public override MinesweeperPageType PageType => MinesweeperPageType.Settings;
+
+        #endregion
+
+        #region Constructor
 
         public SettingsPage() : base()
         {
@@ -28,11 +35,16 @@ namespace SimpleMinesweeper.View
             b.Visibility = Visibility.Visible;
         }
 
-        public override MinesweeperPageType PageType => MinesweeperPageType.Settings;
+        #endregion
+
+        #region Event handlers
 
         private void TextBoxWithValidation_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             e.Handled = !int.TryParse(e.Text, out int result);
         }
+
+        #endregion
+
     }
 }

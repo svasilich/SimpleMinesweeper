@@ -2,19 +2,15 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
-using System.Windows.Data;
-using System.Windows.Media;
-using System.Globalization;
 using SimpleMinesweeper.Core;
 using SimpleMinesweeper.CommonMVVM;
-
-
 
 namespace SimpleMinesweeper.ViewModel
 {
     public class MinefieldViewModel : ViewModelBase
     {
         #region Fields
+
         protected IGame game;
         private IDynamicGameFieldSize fieldContainer;
         private FieldState state;
@@ -29,6 +25,7 @@ namespace SimpleMinesweeper.ViewModel
         #endregion
 
         #region Properties
+
         public FieldState State
         {
             get { return state; }
@@ -93,11 +90,7 @@ namespace SimpleMinesweeper.ViewModel
         }
         
         #endregion
-
-        #region Commands
-        public RelayCommand ReloadCommand { get; }
-        #endregion
-
+        
         #region Constructor
 
         public MinefieldViewModel(IGame game, IDynamicGameFieldSize fieldContainer)
@@ -118,7 +111,14 @@ namespace SimpleMinesweeper.ViewModel
 
         #endregion
 
+        #region Commands
+
+        public RelayCommand ReloadCommand { get; }
+
+        #endregion
+
         #region Event handlers
+
         protected void GameTimer_OnTimerTick(object sender, EventArgs e)
         {
             GameTime = game.Timer.Seconds;
@@ -145,9 +145,11 @@ namespace SimpleMinesweeper.ViewModel
             var view = (IDynamicGameFieldSize)sender;
             ResizeField(view.ContainetWidth, view.ContainerHeight);
         }
+
         #endregion
 
         #region Cels logic
+
         private void ReloadCells()
         {            
             Cells.Clear();
@@ -166,6 +168,7 @@ namespace SimpleMinesweeper.ViewModel
 
             MinesLeft = game.GameField.MinesCount;
         }
+
         #endregion
 
         #region Resizing
@@ -207,49 +210,4 @@ namespace SimpleMinesweeper.ViewModel
 
         #endregion  
     }
-
-    #region Converter types
-
-    public class TimerSecondsConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            int tiks = (int)value;
-            if (tiks >= 60000) // 100 * 60
-                tiks = 999 * 60 + 59; // "999:59"
-
-            int seconds = tiks % 60;
-            int minutes = tiks / 60;
-            return string.Format("{0:d2}:{1:d2}", minutes, seconds);
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    public class MinesLeftTextColorConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            int left = (int)value;
-            if (left >= 0)
-                return Colors.YellowGreen;
-
-            return Colors.Red;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    #endregion
-
-
-
-
-
 }

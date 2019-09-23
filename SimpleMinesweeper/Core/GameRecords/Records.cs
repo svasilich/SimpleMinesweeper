@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 using System.Xml.Serialization;
 
@@ -11,15 +9,21 @@ namespace SimpleMinesweeper.Core.GameRecords
     public class Records : IRecords
     {
         #region Consts
+
         private const int RecordListSize = 3;
+
         #endregion
 
         #region Fields
+
         public string FilePath { get; set; }
+
         private List<IRecordItem> records;
+
         #endregion
 
         #region Constructor
+
         public Records()
         {
             records = new List<IRecordItem>();
@@ -32,7 +36,7 @@ namespace SimpleMinesweeper.Core.GameRecords
 
         #endregion
 
-        public event EventHandler OnRecordChanged;
+        #region Public methods
 
         public List<IRecordItem> GetRecords()
         {
@@ -83,7 +87,7 @@ namespace SimpleMinesweeper.Core.GameRecords
                 throw new Exception("Попытка вызвать сохранение таблицы рекордов не указав адрес файла храннения.");
 
             using (Stream recordsFile = new FileStream(FilePath, FileMode.Create, FileAccess.Write, FileShare.None))
-            {                
+            {
                 var serializeData = new List<RecordItem>(records.Count);
                 foreach (var ri in records)
                 {
@@ -127,5 +131,13 @@ namespace SimpleMinesweeper.Core.GameRecords
 
             OnRecordChanged?.Invoke(this, EventArgs.Empty);
         }
+
+        #endregion
+
+        #region Events
+
+        public event EventHandler OnRecordChanged;
+
+        #endregion
     }
 }

@@ -64,7 +64,10 @@
     </ApplicationDefinition>
     <Compile Include="CommonMVVM\RelayCommand.cs" />
     <Compile Include="CommonMVVM\ViewModelBase.cs" />
+    <Compile Include="Core\CellChangeStateEventArgs.cs" />
     <Compile Include="Core\CellFactory.cs" />
+    <Compile Include="Core\CellState.cs" />
+    <Compile Include="Core\FieldState.cs" />
     <Compile Include="Core\Game.cs" />
     <Compile Include="Core\GameRecords\IRecords.cs" />
     <Compile Include="Core\GameRecords\IRecordItem.cs" />
@@ -84,17 +87,18 @@
     <Compile Include="DialogWindows\CleareRecordDialogModel.cs" />
     <Compile Include="DialogWindows\CommonPrettyAskDialogProvider.cs" />
     <Compile Include="DialogWindows\IPrettyDialogWindowModel.cs" />
+    <Compile Include="DialogWindows\PrettyDialogType.cs" />
     <Compile Include="DialogWindows\PrettyDialogWindowViewModel.cs" />
     <Compile Include="DialogWindows\GetRecordsmanNameProvider.cs" />
     <Compile Include="DialogWindows\IDialogProviderFactory.cs" />
     <Compile Include="DialogWindows\IGameViewModelDialogProvider.cs" />
     <Compile Include="DialogWindows\IGetRecordsmanNameProvider.cs" />
     <Compile Include="DialogWindows\IRecordViewModelDialogProvider.cs" />
-    <Compile Include="DialogWindows\NewRecordWindow.xaml.cs">
+    <Compile Include="DialogWindows\Windows\NewRecordWindow.xaml.cs">
       <DependentUpon>NewRecordWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="DialogWindows\PrettyDialogProviderFactory.cs" />
-    <Compile Include="DialogWindows\PrettyDialogWindow.xaml.cs">
+    <Compile Include="DialogWindows\Windows\PrettyDialogWindow.xaml.cs">
       <DependentUpon>PrettyDialogWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="DialogWindows\PrettyGameViewModelDialogProvider.cs" />
@@ -103,8 +107,17 @@
     <Compile Include="DialogWindows\SimpleRecordViewModelDialogProvider.cs" />
     <Compile Include="DialogWindows\SimpleGameViewModelDialogProvider.cs" />
     <Compile Include="ViewModel\GameViewModel.cs" />
+    <Compile Include="ViewModel\GameViewModelSys\CustomGameTypeCommandConverter.cs" />
+    <Compile Include="ViewModel\GameViewModelSys\CustomSettingsCheckboxConverter.cs" />
+    <Compile Include="ViewModel\GameViewModelSys\CustomSettingsEnableConverter.cs" />
+    <Compile Include="ViewModel\GameViewModelSys\ValidErrorMessageVisibilityConverter.cs" />
     <Compile Include="ViewModel\IDynamicGameFieldSize.cs" />
+    <Compile Include="ViewModel\CellViewModelSys\NearbyColorConverter.cs" />
+    <Compile Include="ViewModel\CellViewModelSys\NearbyTextConverter.cs" />
+    <Compile Include="ViewModel\MinefieldViewModelSys\MinesLeftTextColorConverter.cs" />
+    <Compile Include="ViewModel\MinefieldViewModelSys\TimerSecondsConverter.cs" />
     <Compile Include="ViewModel\RecordsViewModel.cs" />
+    <Compile Include="ViewModel\RecordsViewModelSys\RecordTimeConverter.cs" />
     <Compile Include="View\CellView.xaml.cs">
       <DependentUpon>CellView.xaml</DependentUpon>
     </Compile>
@@ -118,6 +131,7 @@
       <DependentUpon>MineFieldView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\MinesweeperPage.cs" />
+    <Compile Include="View\MinesweeperPageType.cs" />
     <Compile Include="View\RecordsPage.xaml.cs">
       <DependentUpon>RecordsPage.xaml</DependentUpon>
     </Compile>
@@ -125,11 +139,11 @@
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="WindowClosingBehavior\WindowClosingBehavior.cs" />
-    <Page Include="DialogWindows\NewRecordWindow.xaml">
+    <Page Include="DialogWindows\Windows\NewRecordWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="DialogWindows\PrettyDialogWindow.xaml">
+    <Page Include="DialogWindows\Windows\PrettyDialogWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

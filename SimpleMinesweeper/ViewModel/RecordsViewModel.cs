@@ -26,6 +26,7 @@ namespace SimpleMinesweeper.ViewModel
 
         private string professionalName;
         private int? professionalTime;
+
         #endregion
 
         #region Properties
@@ -95,6 +96,7 @@ namespace SimpleMinesweeper.ViewModel
                 return "-";
             return name;
         }
+
         #endregion
 
         #region Constructor
@@ -116,8 +118,14 @@ namespace SimpleMinesweeper.ViewModel
         #endregion
 
         #region Commands
+
         public RelayCommand CleareRecordsCommand { get; }
+
         public RelayCommand CloseRecordsCommand { get; }
+
+        #endregion
+
+        #region Commands logic
 
         private void CleareRecordsExecute(object parameter)
         {
@@ -135,6 +143,7 @@ namespace SimpleMinesweeper.ViewModel
         {
             gameViewModel.LoadCurrentGamePage();
         }
+
         #endregion
 
         #region Event handlers
@@ -166,26 +175,4 @@ namespace SimpleMinesweeper.ViewModel
 
         #endregion
     }
-
-    #region Converter types
-        
-    public class RecordTimeConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            int? seconds = (int?)value;
-
-            if (seconds.HasValue)
-                return seconds.ToString();
-
-            return "-";
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    #endregion
 }

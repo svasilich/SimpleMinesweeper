@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-
-namespace SimpleMinesweeper.DialogWindows
+﻿namespace SimpleMinesweeper.DialogWindows
 {
     public class PrettyRecordViewModelDialogProvider : IRecordViewModelDialogProvider
     {
+        #region Public methods
+
         public bool AskUserBeforeCleareRecord()
         {
             return CommonPrettyAskDialogProvider.Ask(new CleareRecordDialogModel());
         }
+
+        #endregion
     }
 }

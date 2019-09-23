@@ -6,8 +6,11 @@ namespace SimpleMinesweeper.Core
     public class GameTimer : IGameTimer
     {
         #region Fields
+
         private Timer timer;
+
         private int seconds;
+
         #endregion
 
         #region Properties
@@ -31,10 +34,12 @@ namespace SimpleMinesweeper.Core
         #endregion
 
         #region Event handlers
+
         private void TimerTick(object stateInfo)
         {
             ++Seconds;
         }
+
         #endregion
 
         #region Timer logic

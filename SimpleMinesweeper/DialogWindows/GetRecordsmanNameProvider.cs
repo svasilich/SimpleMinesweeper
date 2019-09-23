@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SimpleMinesweeper.Core;
+﻿using SimpleMinesweeper.Core;
 
 namespace SimpleMinesweeper.DialogWindows
 {
     public class GetRecordsmanNameProvider : IGetRecordsmanNameProvider
     {
+
+        #region Public methods
+        
         public string GetRecordsmanName(GameType gameType, int recordTime)
         {
             var recordWindow = new NewRecordWindow(gameType, recordTime);
@@ -17,5 +15,7 @@ namespace SimpleMinesweeper.DialogWindows
             else
                 return string.Empty;
         }
+
+        #endregion
     }
 }

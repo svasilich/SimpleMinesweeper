@@ -1,19 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SimpleMinesweeper.Core.GameSettings
+﻿namespace SimpleMinesweeper.Core.GameSettings
 {
-    
-    
     public class SettingsItem
     {
+
+        #region Properties
+
         public GameType Type { get; set; }
+
         public int Height { get; set; }
+
         public int Width { get; set; }
+
         public int MineCount { get; set; }
+
+        #endregion
+
+        #region Constructor
 
         public SettingsItem()
         {
@@ -21,5 +23,8 @@ namespace SimpleMinesweeper.Core.GameSettings
             Width = SettingsHelper.MinWidth;
             MineCount = SettingsHelper.MinMineCount;
         }
+
+        #endregion
+
     }
 }

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace SimpleMinesweeper.DialogWindows
@@ -10,12 +6,14 @@ namespace SimpleMinesweeper.DialogWindows
     public class BasePrettyDialogModel : IPrettyDialogWindowModel
     {
         #region Fields
+
         private string caption;
         private string message;
         private string imageSource;        
+
         #endregion
 
-        #region Propertirs
+        #region Properties
 
         public string Caption
         {
@@ -90,14 +88,22 @@ namespace SimpleMinesweeper.DialogWindows
         #endregion
 
         #region Constructor
+
         protected BasePrettyDialogModel(PrettyDialogType dialogType)
         {
             DialogType = dialogType;
         }
+
         #endregion
 
+        #region Events
+
         public event EventHandler OnMessageChanged;
+
         public event EventHandler OnCaptionChanged;
+
         public event EventHandler OnImageSourceChanged;
+
+        #endregion
     }
 }

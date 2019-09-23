@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SimpleMinesweeper.Core.GameSettings;
 
 namespace SimpleMinesweeper.Core
@@ -11,6 +8,7 @@ namespace SimpleMinesweeper.Core
     public class Minefield : IMinefield
     {
         #region Fields
+
         private int notMinedCellsCount;
         private int openedCellsCount;
         private FieldState state;
@@ -18,9 +16,11 @@ namespace SimpleMinesweeper.Core
 
         private readonly ICellFactory cellFactory;
         private readonly IMinePositionsGenerator minePositionsGenerator;
+
         #endregion
 
         #region Properties
+
         public List<List<ICell>> Cells { get; private set; }
 
         public virtual FieldState State
@@ -42,8 +42,11 @@ namespace SimpleMinesweeper.Core
         }
 
         public int Height { get; private set; }
+
         public int Width { get; private set; }
+
         public int MinesCount { get; private set; }
+
         public int FlagsCount
         {
             get { return flagsCount; }
@@ -53,21 +56,78 @@ namespace SimpleMinesweeper.Core
                 OnFlagsCountChanged?.Invoke(this, EventArgs.Empty);
             }
         }
+
         #endregion
 
         #region Constructor
+
         public Minefield(ICellFactory cellFactory, IMinePositionsGenerator minePositionsGenerator)
         {
             this.cellFactory = cellFactory;
             this.minePositionsGenerator = minePositionsGenerator;
             State = FieldState.NotStarted;
         }
+
+        #endregion
+
+        #region Public methods
+
+        public void SetGameSettings(SettingsItem settings)
+        {
+            Height = settings.Height;
+            Width = settings.Width;
+            MinesCount = settings.MineCount;
+        }
+
+        public virtual void Fill()
+        {
+            if (!SettingsHelper.CheckValidity(Height, Width, MinesCount, out string reason))
+                throw new Exception(reason);
+
+            FlagsCount = 0;
+            notMinedCellsCount = Height * Width - MinesCount;
+            openedCellsCount = 0;
+
+            Cells = new List<List<ICell>>(Height);
+            for (int y = 0; y < Height; ++y)
+            {
+                List<ICell> row = new List<ICell>(Width);
+                for (int x = 0; x < Width; ++x)
+                {
+                    ICell cell = cellFactory.CreateCell(this, x, y);
+                    cell.OnStateChanged += Cell_OnStateChanged;
+                    row.Add(cell);
+                }
+                Cells.Add(row);
+            }
+
+            MineAField();
+
+            OnFilled?.Invoke(this, EventArgs.Empty);
+            State = FieldState.NotStarted;
+        }
+
+        public ICell GetCellByCoords(int x, int y)
+        {
+            return Cells[y][x];
+        }
+
+        public int GetCellMineNearbyCount(ICell cell)
+        {
+            IEnumerable<ICell> nearby = GetCellNearby(cell);
+            return nearby.Where(c => c.Mined).Count();
+        }
+
         #endregion
 
         #region Events
+
         public event EventHandler OnStateChanged;
+
         public event EventHandler OnFilled;
+
         public event EventHandler OnFlagsCountChanged;
+
         #endregion
 
         #region Event handlers
@@ -124,69 +184,38 @@ namespace SimpleMinesweeper.Core
             }
         }
 
-        private void GameOver()
+        #endregion
+        
+        #region Business logic
+
+        private IEnumerable<ICell> GetCellNearby(ICell cell)
         {
-            State = FieldState.GameOver;
+            int topLeftX = cell.CoordX - 1;
+            topLeftX = topLeftX < 0 ? 0 : topLeftX;
+            int topLeftY = cell.CoordY - 1;
+            topLeftY = topLeftY < 0 ? 0 : topLeftY;
 
-            foreach (var row in Cells)
-                foreach (var cell in row)
+            int bottomRihtX = cell.CoordX + 1;
+            bottomRihtX = bottomRihtX == Width ? Width - 1 : bottomRihtX;
+            int bottomRightY = cell.CoordY + 1;
+            bottomRightY = bottomRightY == Height ? Height - 1 : bottomRightY;
+
+            List<ICell> nearby = new List<ICell>();
+            for (int x = topLeftX; x <= bottomRihtX; ++x)
+                for (int y = topLeftY; y <= bottomRightY; ++y)
                 {
-                    cell.OnStateChanged -= Cell_OnStateChanged;
+                    if (x == cell.CoordX && y == cell.CoordY)
+                        continue;
 
-                    if (cell.State == CellState.NotOpened)
-                    {
-                        if (cell.Mined)
-                            cell.State = CellState.NoFindedMine;
-                        else
-                            cell.State = CellState.Opened;
-                    }
+                    nearby.Add(Cells[y][x]);
+                };
 
-                    if (cell.State == CellState.Flagged && !cell.Mined)
-                        cell.State = CellState.WrongFlag;
-
-                    cell.OnStateChanged += Cell_OnStateChanged;
-                }
+            return nearby;
         }
 
-        #endregion
-
-        #region Settings
-        public void SetGameSettings(SettingsItem settings)
+        private static bool IsMineExists(IEnumerable<ICell> cells)
         {
-            Height = settings.Height;
-            Width = settings.Width;
-            MinesCount = settings.MineCount;
-        }
-        #endregion
-
-        #region Filling
-
-        public virtual void Fill()
-        {
-            if (!SettingsHelper.CheckValidity(Height, Width, MinesCount, out string reason))
-                throw new Exception(reason);            
-
-            FlagsCount = 0;
-            notMinedCellsCount = Height * Width - MinesCount;
-            openedCellsCount = 0;
-
-            Cells = new List<List<ICell>>(Height);
-            for (int y = 0; y < Height; ++y)
-            {
-                List<ICell> row = new List<ICell>(Width);
-                for (int x = 0; x < Width; ++x)
-                {
-                    ICell cell = cellFactory.CreateCell(this, x, y);
-                    cell.OnStateChanged += Cell_OnStateChanged;
-                    row.Add(cell);
-                }
-                Cells.Add(row);
-            }
-
-            MineAField();
-
-            OnFilled?.Invoke(this, EventArgs.Empty);
-            State = FieldState.NotStarted;
+            return cells.Where(c => c.Mined).Any();
         }
 
         private void MineAField()
@@ -218,49 +247,30 @@ namespace SimpleMinesweeper.Core
             }
         }
 
-        #endregion
-
-        #region Cells and mines
-        public ICell GetCellByCoords(int x, int y)
+        private void GameOver()
         {
-            return Cells[y][x];
-        }
+            State = FieldState.GameOver;
 
-        public int GetCellMineNearbyCount(ICell cell)
-        {
-            IEnumerable<ICell> nearby = GetCellNearby(cell);
-            return nearby.Where(c => c.Mined).Count();
-        }
-
-        private IEnumerable<ICell> GetCellNearby(ICell cell)
-        {
-            int topLeftX = cell.CoordX - 1;
-            topLeftX = topLeftX < 0 ? 0 : topLeftX;
-            int topLeftY = cell.CoordY - 1;
-            topLeftY = topLeftY < 0 ? 0 : topLeftY;
-
-            int bottomRihtX = cell.CoordX + 1;
-            bottomRihtX = bottomRihtX == Width ? Width - 1 : bottomRihtX;
-            int bottomRightY = cell.CoordY + 1;
-            bottomRightY = bottomRightY == Height ? Height - 1 : bottomRightY;
-
-            List<ICell> nearby = new List<ICell>();
-            for (int x = topLeftX; x <= bottomRihtX; ++x)
-                for (int y = topLeftY; y <= bottomRightY; ++y)
+            foreach (var row in Cells)
+                foreach (var cell in row)
                 {
-                    if (x == cell.CoordX && y == cell.CoordY)
-                        continue;
+                    cell.OnStateChanged -= Cell_OnStateChanged;
 
-                    nearby.Add(Cells[y][x]);
-                };
+                    if (cell.State == CellState.NotOpened)
+                    {
+                        if (cell.Mined)
+                            cell.State = CellState.NoFindedMine;
+                        else
+                            cell.State = CellState.Opened;
+                    }
 
-            return nearby;
+                    if (cell.State == CellState.Flagged && !cell.Mined)
+                        cell.State = CellState.WrongFlag;
+
+                    cell.OnStateChanged += Cell_OnStateChanged;
+                }
         }
 
-        private static bool IsMineExists(IEnumerable<ICell> cells)
-        {
-            return cells.Where(c => c.Mined).Any();
-        }
         #endregion
     }
 }

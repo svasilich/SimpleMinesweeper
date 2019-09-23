@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-
-namespace SimpleMinesweeper.DialogWindows
+﻿namespace SimpleMinesweeper.DialogWindows
 {
     public static class CommonPrettyAskDialogProvider
     {
+        #region Public methods
+        
         public static bool Ask(IPrettyDialogWindowModel dialogModel)
         {
             var dialogWindow = new PrettyDialogWindow();
@@ -17,5 +12,7 @@ namespace SimpleMinesweeper.DialogWindows
             dialogWindow.ShowDialog();
             return prettyDialogWindowViewModel.DialogResult == dialogModel.AcceptAnswer;
         }
+
+        #endregion
     }
 }

@@ -1,23 +1,33 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SimpleMinesweeper.Core
 {
     public class RandomMinePositionGenerator : IMinePositionsGenerator
     {
+        #region Fields
+
         private Random generator;
+
+        #endregion
+
+        #region Constructor
 
         public RandomMinePositionGenerator()
         {
             generator = new Random((int)DateTime.Now.Ticks);
         }
 
+        #endregion
+
+        #region Public methods
+
         public int Next(int max)
         {
             return generator.Next(max);
         }
+
+        #endregion
+
+
     }
 }

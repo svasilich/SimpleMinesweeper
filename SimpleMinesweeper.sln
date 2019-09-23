@@ -7,12 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleMinesweeper", "Simple
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleMinesweeperTests", "SimpleMinesweeperTests\SimpleMinesweeperTests.csproj", "{1D5419AF-3DF8-49AA-9F3E-0BCE73DDC036}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{5183E304-E45F-4BE7-AED3-E4C823BA0223}"
-	ProjectSection(SolutionItems) = preProject
-		requirements.txt = requirements.txt
-		todo.txt = todo.txt
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

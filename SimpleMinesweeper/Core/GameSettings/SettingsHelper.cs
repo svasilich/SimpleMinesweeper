@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SimpleMinesweeper.Core.GameSettings
+﻿namespace SimpleMinesweeper.Core.GameSettings
 {
     public static class SettingsHelper
     {
+        #region Consts
+
         public const int MinHeight = 5;
         public const int MinWidth = 5;
         public const int MinMineCount = 1;
+
+        #endregion
 
         public static bool CheckValidity(int height, int width, int mineCount, out string reason)
         {

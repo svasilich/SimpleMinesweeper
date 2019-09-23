@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-
-namespace SimpleMinesweeper.DialogWindows
+﻿namespace SimpleMinesweeper.DialogWindows
 {
     public class CleareRecordDialogModel : BasePrettyDialogModel
     {
@@ -18,6 +11,6 @@ namespace SimpleMinesweeper.DialogWindows
             ImageSource = @"pack://application:,,,/Icons/basket.png";
         }
 
-#endregion
+        #endregion
     }
 }

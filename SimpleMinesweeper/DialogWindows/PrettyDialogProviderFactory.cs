@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SimpleMinesweeper.DialogWindows
+﻿namespace SimpleMinesweeper.DialogWindows
 {
     public class PrettyDialogProviderFactory : IDialogProviderFactory
     {
+        #region Public methods
+
         public IGameViewModelDialogProvider GetGameViewModelDialogProvider()
         {
             return new PrettyGameViewModelDialogProvider();
@@ -17,5 +13,8 @@ namespace SimpleMinesweeper.DialogWindows
         {
             return new PrettyRecordViewModelDialogProvider();
         }
+
+        #endregion
+
     }
 }

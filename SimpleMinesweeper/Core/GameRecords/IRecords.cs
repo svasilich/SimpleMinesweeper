@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SimpleMinesweeper.Core;
 
 namespace SimpleMinesweeper.Core.GameRecords
 {
@@ -15,11 +11,12 @@ namespace SimpleMinesweeper.Core.GameRecords
 
         void UpdateRecord(GameType gameType, int seconds, string player);
 
-        void Clear();
-
-        event EventHandler OnRecordChanged;
+        void Clear();        
 
         void Load();
+
         void Save();
+
+        event EventHandler OnRecordChanged;
     }
 }

@@ -1,21 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SimpleMinesweeper.Core
 {
     public class Cell : ICell
     {
         #region Fields
-        private IMinefield minefield;
 
         private CellState state;
+
         private bool mined;
+
         #endregion
 
         #region Properties
+
         public CellState State
         {
             get => state;
@@ -44,29 +42,33 @@ namespace SimpleMinesweeper.Core
 
         public int MinesNearby { get; set; }
 
-        public IMinefield Owner => minefield;
+        public IMinefield Owner { get; }
         #endregion
 
         #region Events
+
         public event EventHandler<CellChangeStateEventArgs> OnStateChanged;
 
         public event EventHandler OnMinedChanged;
+
         #endregion
 
         #region Constructor
+
         public Cell(IMinefield field, int x, int y)
         {
-            minefield = field;
+            Owner = field;
             CoordX = x;
             CoordY = y;
             State = CellState.NotOpened;
         }
+
         #endregion
 
         #region Business logic
         public void Open()
         {
-            if (!minefield.CellsStateCanBeChanged)
+            if (!Owner.CellsStateCanBeChanged)
                 return;
 
             if (State == CellState.NotOpened)
@@ -75,7 +77,7 @@ namespace SimpleMinesweeper.Core
                     State = CellState.Explosion;
                 else
                 {
-                    MinesNearby = minefield.GetCellMineNearbyCount(this);
+                    MinesNearby = Owner.GetCellMineNearbyCount(this);
                     State = CellState.Opened;
                 }
 
@@ -84,7 +86,7 @@ namespace SimpleMinesweeper.Core
 
         public void SetFlag()
         {
-            if (!minefield.CellsStateCanBeChanged)
+            if (!Owner.CellsStateCanBeChanged)
                 return;
 
             if (State == CellState.NotOpened)

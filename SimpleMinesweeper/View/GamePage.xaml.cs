@@ -23,7 +23,19 @@ namespace SimpleMinesweeper.View
     /// </summary>
     public partial class GamePage : MinesweeperPage
     {
+        #region Fields
+
         private MinefieldViewModel viewModel;
+
+        #endregion
+
+        #region Properties
+
+        public override MinesweeperPageType PageType => MinesweeperPageType.Game;
+
+        #endregion
+
+        #region Constructor
 
         public GamePage() : base()
         {
@@ -35,6 +47,6 @@ namespace SimpleMinesweeper.View
             ViewElement.SizeChanged += viewModel.MainWindow_SizeChanged;
         }
 
-        public override MinesweeperPageType PageType => MinesweeperPageType.Game;
+        #endregion
     }
 }

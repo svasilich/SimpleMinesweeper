@@ -1,22 +1,19 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Data;
-using System.Globalization;
 using System.ComponentModel;
 using System.Windows.Controls;
-
 using SimpleMinesweeper.Core;
 using SimpleMinesweeper.Core.GameSettings;
 using SimpleMinesweeper.CommonMVVM;
 using SimpleMinesweeper.View;
 using SimpleMinesweeper.DialogWindows;
 
-
 namespace SimpleMinesweeper.ViewModel
 {
     public class GameViewModel : ViewModelBase, IDataErrorInfo
     {
         #region Fields
+
         private MainWindow mainWindow;
         private MinesweeperPage currentPage;
 
@@ -30,14 +27,26 @@ namespace SimpleMinesweeper.ViewModel
         private int customWidth;
         private int custopmHeight;
         private int customMineCount;
+
         #endregion
 
         #region Properties
 
         public IGame Game { get; private set; }
 
+        public GameType GameType
+        {
+            get => Game.Settings.CurrentSettings.Type;
+        }
+
+        public void UpdateCustomSettings()
+        {
+            Game.Settings.SetCustomSize(CustomHeight, CustomWidth, CustomMineCount);
+            Game.Settings.Save(Properties.Resources.settingsPath);
+        }
+
         #region Custom game settings interface
-        
+
         public void UpdatePageValuesFromApp()
         {
             CustomWidth = Game.Settings.GetItemByType(GameType.Custom).Width;
@@ -82,18 +91,7 @@ namespace SimpleMinesweeper.ViewModel
             }
         }
         #endregion
-
-        public GameType GameType
-        {
-            get => Game.Settings.CurrentSettings.Type;
-        }
-
-        public void UpdateCustomSettings()
-        {
-            Game.Settings.SetCustomSize(CustomHeight, CustomWidth, CustomMineCount);
-            Game.Settings.Save(Properties.Resources.settingsPath);
-        }
-
+        
         #endregion
 
         #region Constructor
@@ -186,13 +184,17 @@ namespace SimpleMinesweeper.ViewModel
         #endregion
 
         #region Commands
+
         public RelayCommand MenuSetGameTypeCommand { get; }
+
         public RelayCommand MenuOpenSettingsCommand { get; }
+
         public RelayCommand MenuOpenRecordsCommand { get; }
 
         public RelayCommand MenuExitCommand { get; }
 
         public RelayCommand ClosingCommand { get; }
+
         #endregion
 
         #region Navigation and commands logic
@@ -241,84 +243,8 @@ namespace SimpleMinesweeper.ViewModel
         {
             Application.Current.MainWindow.Close();            
         }
+
         #endregion
         
     }
-
-    #region Converter types
-    public class CustomSettingsCheckboxConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            GameType currentGameType = (GameType)value;
-            return currentGameType == GameType.Custom;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    public class CustomSettingsEnableConverter : IMultiValueConverter
-    {
-        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
-        {
-            bool customGameCheckboxValue = (bool)values[0];
-            if (!customGameCheckboxValue)
-                return false;
-
-            string errText = values[1].ToString();
-            return string.IsNullOrEmpty(errText);
-        }        
-
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    public class CustomGameTypeCommandConverter : IMultiValueConverter
-    {
-        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
-        {
-            SettingsItem settings = new SettingsItem();
-            settings.Type = GameType.Custom;
-            if (int.TryParse(values[0].ToString(), out int width))
-                settings.Width = width;
-
-            if (int.TryParse(values[1].ToString(), out int height))
-                settings.Height = height;
-
-            if (int.TryParse(values[2].ToString(), out int minesCount))
-                settings.MineCount = minesCount;
-
-            return settings;
-        }
-
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    public class ValidErrorMessageVisibilityConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            string errText = (string)value;
-            if (string.IsNullOrWhiteSpace(errText))
-                return Visibility.Hidden;
-            else
-                return Visibility.Visible;
-
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    #endregion
 }

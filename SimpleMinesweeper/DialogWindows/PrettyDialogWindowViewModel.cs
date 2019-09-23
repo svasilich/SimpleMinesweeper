@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using SimpleMinesweeper.CommonMVVM;
 
@@ -10,18 +6,25 @@ namespace SimpleMinesweeper.DialogWindows
 {
     class PrettyDialogWindowViewModel : ViewModelBase
     {
+        #region Fields
+
         private Window dialogWindow;
         private IPrettyDialogWindowModel model;
         private MessageBoxResult acceptResult;
         private MessageBoxResult cancelResult;
 
+        #endregion
+
         #region Properties
+
         public string WindowCaption
-        { get => model.Caption;
-          set => NotifyPropertyChanged();
+        {
+            get => model.Caption;
+            set => NotifyPropertyChanged();
         }
 
-        public string Message {
+        public string Message
+        {
             get => model.Message;
             set => NotifyPropertyChanged();
         }
@@ -37,6 +40,7 @@ namespace SimpleMinesweeper.DialogWindows
         public string ButtonCancelText { get; }        
 
         public MessageBoxResult DialogResult { get; private set; }
+
         #endregion        
 
         #region Constructor
@@ -46,7 +50,6 @@ namespace SimpleMinesweeper.DialogWindows
             this.model = model;
             WindowCaption = model.Caption;
             Message = model.Message;
-            //ImageSource = @"pack://application:,,,/Icons/message_exit_1.jpg";
             ImageSource = model.ImageSource;
 
             model.OnCaptionChanged += Model_OnCaptionChanged;
@@ -71,12 +74,16 @@ namespace SimpleMinesweeper.DialogWindows
             ButtonAcceptCommand = new RelayCommand(AcceptCommandExecute);
             ButtonCancelCommand = new RelayCommand(CancelCommandExecute);
             this.dialogWindow = dialogWindow;
-        }        
+        }
+
+        #endregion
 
         #region Commands
+
         public RelayCommand ButtonAcceptCommand { get; }
 
         public RelayCommand ButtonCancelCommand { get; }
+
         #endregion
 
         #region Commans logic
@@ -94,9 +101,7 @@ namespace SimpleMinesweeper.DialogWindows
         }
 
         #endregion
-
-        #endregion
-
+        
         #region Event handlers
 
         private void Model_OnImageSourceChanged(object sender, EventArgs e)

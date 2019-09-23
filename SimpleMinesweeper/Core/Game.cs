@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using SimpleMinesweeper.Core.GameSettings;
 using SimpleMinesweeper.Core.GameRecords;
 using SimpleMinesweeper.DialogWindows;
@@ -14,20 +9,27 @@ namespace SimpleMinesweeper.Core
     public class Game : IGame
     {
         #region Fields
+
         private static IGame gameInstance;
+
         private readonly IGetRecordsmanNameProvider getRecordsmanNameProvider;
+
         #endregion
 
         #region Properties
+
         public IMinefield GameField { get; private set; }
+
         public ISettingsManager Settings { get; private set; }
 
         public IGameTimer Timer { get; private set; }
 
         public IRecords Records { get; private set; }
+
         #endregion
 
         #region Constructors
+
         protected Game(ISettingsManager settings, IRecords records, IMinefield gameField, IGetRecordsmanNameProvider getRecordsmanNameProvider = null)
         {
             Settings = settings;
@@ -44,11 +46,16 @@ namespace SimpleMinesweeper.Core
 
             this.getRecordsmanNameProvider = getRecordsmanNameProvider;
         }
+
         #endregion
 
         #region Events
 
         public event EventHandler OnRecord;
+        
+        #endregion
+
+        #region Event handlers
 
         protected virtual void Settings_OnCurrentGameChanged(object sender, EventArgs e)
         {
@@ -58,7 +65,7 @@ namespace SimpleMinesweeper.Core
         }
 
         private void GameField_OnStateChanged(object sender, EventArgs e)
-        {            
+        {
             switch (GameField.State)
             {
                 case FieldState.InGame:
@@ -81,20 +88,10 @@ namespace SimpleMinesweeper.Core
             }
         }
 
-        private void HandleRecord(GameType gameType, int winnerTime)
-        {
-            OnRecord?.Invoke(this, EventArgs.Empty);
-
-            string winnerName = getRecordsmanNameProvider?.GetRecordsmanName(Settings.CurrentSettings.Type, winnerTime);
-            if (!string.IsNullOrEmpty(winnerName))
-            {
-                Records.UpdateRecord(gameType, winnerTime, winnerName);
-                Records.Save();
-            }
-        }
         #endregion
 
         #region Get default instance logic (static)
+
         public static IGame GetInstance()
         {
             return gameInstance ?? CreateInstance();
@@ -117,5 +114,20 @@ namespace SimpleMinesweeper.Core
         }
         #endregion
 
+        #region Handle record logic
+
+        private void HandleRecord(GameType gameType, int winnerTime)
+        {
+            OnRecord?.Invoke(this, EventArgs.Empty);
+
+            string winnerName = getRecordsmanNameProvider?.GetRecordsmanName(Settings.CurrentSettings.Type, winnerTime);
+            if (!string.IsNullOrEmpty(winnerName))
+            {
+                Records.UpdateRecord(gameType, winnerTime, winnerName);
+                Records.Save();
+            }
+        }
+
+        #endregion
     }
 }

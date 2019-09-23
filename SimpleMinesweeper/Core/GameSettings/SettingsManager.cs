@@ -8,8 +8,10 @@ namespace SimpleMinesweeper.Core.GameSettings
 {
     public class SettingsManager : ISettingsManager
     {
-        #region Members
+        #region Fields
+
         private SettingsItem currentSettings;
+
         #endregion
 
         #region Properties
@@ -45,8 +47,11 @@ namespace SimpleMinesweeper.Core.GameSettings
         #endregion
 
         #region Events
+
         public event EventHandler OnCurrentGameChanged;
+
         public event EventHandler OnCustomSizeChanged;
+
         #endregion
 
         #region Set and get settings methods.
