@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SimpleMinesweeper.DialogWindows"
         mc:Ignorable="d"
-        Title="Установлен новый рекорд" Height="450" Width="800">
+        Title="Установлен новый рекорд" Height="450" Width="800"
+        WindowStyle="None">
     <Window.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="FontSize" Value="25"/>

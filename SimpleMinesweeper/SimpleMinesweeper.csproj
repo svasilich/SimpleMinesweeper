@@ -79,6 +79,12 @@
     <Compile Include="Core\ICellFactory.cs" />
     <Compile Include="Core\IGame.cs" />
     <Compile Include="Core\IGameTimer.cs" />
+    <Compile Include="DialogWindows\AskUserBeforeQuitDialogModel.cs" />
+    <Compile Include="DialogWindows\BasePrettyDialogModel.cs" />
+    <Compile Include="DialogWindows\CleareRecordDialogModel.cs" />
+    <Compile Include="DialogWindows\CommonPrettyAskDialogProvider.cs" />
+    <Compile Include="DialogWindows\IPrettyDialogWindowModel.cs" />
+    <Compile Include="DialogWindows\PrettyDialogWindowViewModel.cs" />
     <Compile Include="DialogWindows\GetRecordsmanNameProvider.cs" />
     <Compile Include="DialogWindows\IDialogProviderFactory.cs" />
     <Compile Include="DialogWindows\IGameViewModelDialogProvider.cs" />
@@ -87,6 +93,12 @@
     <Compile Include="DialogWindows\NewRecordWindow.xaml.cs">
       <DependentUpon>NewRecordWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DialogWindows\PrettyDialogProviderFactory.cs" />
+    <Compile Include="DialogWindows\PrettyDialogWindow.xaml.cs">
+      <DependentUpon>PrettyDialogWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DialogWindows\PrettyGameViewModelDialogProvider.cs" />
+    <Compile Include="DialogWindows\PrettyRecordViewModelDialogProvider.cs" />
     <Compile Include="DialogWindows\SimpleDialogProviderFactory.cs" />
     <Compile Include="DialogWindows\SimpleRecordViewModelDialogProvider.cs" />
     <Compile Include="DialogWindows\SimpleGameViewModelDialogProvider.cs" />
@@ -114,6 +126,10 @@
     </Compile>
     <Compile Include="WindowClosingBehavior\WindowClosingBehavior.cs" />
     <Page Include="DialogWindows\NewRecordWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DialogWindows\PrettyDialogWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -229,6 +245,18 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="MineIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\message_exit_1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\message_exit_2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\message_exit_3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\basket.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
