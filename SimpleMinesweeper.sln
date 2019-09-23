@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleMinesweeper", "Simple
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleMinesweeperTests", "SimpleMinesweeperTests\SimpleMinesweeperTests.csproj", "{1D5419AF-3DF8-49AA-9F3E-0BCE73DDC036}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SimpleMinesweeperSetup", "SimpleMinesweeperSetup\SimpleMinesweeperSetup.vdproj", "{8F0FB966-CED9-45AF-B349-524947DE9D21}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,7 +22,8 @@ Global
 		{1D5419AF-3DF8-49AA-9F3E-0BCE73DDC036}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1D5419AF-3DF8-49AA-9F3E-0BCE73DDC036}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1D5419AF-3DF8-49AA-9F3E-0BCE73DDC036}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1D5419AF-3DF8-49AA-9F3E-0BCE73DDC036}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F0FB966-CED9-45AF-B349-524947DE9D21}.Debug|Any CPU.ActiveCfg = Debug
+		{8F0FB966-CED9-45AF-B349-524947DE9D21}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
