@@ -99,17 +99,17 @@ namespace SimpleMinesweeper.DialogWindows
 
         #region Event handlers
 
-        private void Model_OnImageSourceChanged()
+        private void Model_OnImageSourceChanged(object sender, EventArgs e)
         {
             ImageSource = model.ImageSource;
         }
 
-        private void Model_OnMessageChanged()
+        private void Model_OnMessageChanged(object sender, EventArgs e)
         {
             Message = model.Message;
         }
 
-        private void Model_OnCaptionChanged()
+        private void Model_OnCaptionChanged(object sender, EventArgs e)
         {
             WindowCaption = model.Caption;
         }

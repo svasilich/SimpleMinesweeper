@@ -23,7 +23,7 @@ namespace SimpleMinesweeper.DialogWindows
             set
             {
                 caption = value;
-                OnCaptionChanged?.Invoke();
+                OnCaptionChanged?.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -33,7 +33,7 @@ namespace SimpleMinesweeper.DialogWindows
             set
             {
                 message = value;
-                OnMessageChanged?.Invoke();
+                OnMessageChanged?.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -43,7 +43,7 @@ namespace SimpleMinesweeper.DialogWindows
             set
             {
                 imageSource = value;
-                OnImageSourceChanged?.Invoke();
+                OnImageSourceChanged?.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -96,8 +96,8 @@ namespace SimpleMinesweeper.DialogWindows
         }
         #endregion
 
-        public event Action OnMessageChanged;
-        public event Action OnCaptionChanged;
-        public event Action OnImageSourceChanged;
+        public event EventHandler OnMessageChanged;
+        public event EventHandler OnCaptionChanged;
+        public event EventHandler OnImageSourceChanged;
     }
 }

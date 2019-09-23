@@ -14,9 +14,9 @@ namespace SimpleMinesweeper.DialogWindows
         MessageBoxResult AcceptAnswer { get; }
         MessageBoxResult CancelAnswer { get; }
 
-        event Action OnMessageChanged;
-        event Action OnCaptionChanged;
-        event Action OnImageSourceChanged;
+        event EventHandler OnMessageChanged;
+        event EventHandler OnCaptionChanged;
+        event EventHandler OnImageSourceChanged;
     }
 
     public enum PrettyDialogType
