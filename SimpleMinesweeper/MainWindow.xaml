@@ -7,7 +7,7 @@
         xmlns:vcb="clr-namespace:SimpleMinesweeper.WindowClosingBehavior"
         mc:Ignorable="d"
         vcb:WindowClosingBehavior.Closing="{Binding ClosingCommand}"
-        Title="MainWindow" MinHeight="530" MinWidth="650">
+        Title="Simple Minesweeper" MinHeight="530" MinWidth="650">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
