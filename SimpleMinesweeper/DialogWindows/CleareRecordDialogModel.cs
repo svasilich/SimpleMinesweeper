@@ -7,7 +7,7 @@
         public CleareRecordDialogModel() : base(PrettyDialogType.OkCancel)
         {
             Caption = "Рекорды";
-            Message = "Будет очищена таблица рекордов.Продолжить ?";
+            Message = "Будет очищена таблица рекордов. Продолжить?";
             ImageSource = @"pack://application:,,,/Icons/basket.png";
         }
 
