@@ -14,7 +14,7 @@ namespace SimpleMinesweeperTests.Core
     [TestFixture]
     class RecordsTest
     {
-        private static string RecordsPath = AppContext.BaseDirectory + "records.dat";
+        private static string RecordsPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "records.dat";
 
         [Test]
         public void AddNewRecordInEmptyList()

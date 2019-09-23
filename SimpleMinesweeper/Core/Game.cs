@@ -61,7 +61,7 @@ namespace SimpleMinesweeper.Core
         {
             GameField.SetGameSettings(Settings.CurrentSettings);
             GameField.Fill();
-            Settings.Save(Properties.Resources.settingsPath);
+            Settings.Save(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + Properties.Resources.settingsPath);
         }
 
         private void GameField_OnStateChanged(object sender, EventArgs e)
@@ -100,9 +100,9 @@ namespace SimpleMinesweeper.Core
         private static IGame CreateInstance()
         {
             var settings = new SettingsManager();
-            settings.Load(AppContext.BaseDirectory + Properties.Resources.settingsPath);
+            settings.Load(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + Properties.Resources.settingsPath);
 
-            var records = new Records(AppContext.BaseDirectory + Properties.Resources.recordsPath);
+            var records = new Records(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + Properties.Resources.recordsPath);
             records.Load();
 
             return gameInstance = 
@@ -118,6 +118,9 @@ namespace SimpleMinesweeper.Core
 
         private void HandleRecord(GameType gameType, int winnerTime)
         {
+            if (gameType == GameType.Custom)
+                return;
+
             OnRecord?.Invoke(this, EventArgs.Empty);
 
             string winnerName = getRecordsmanNameProvider?.GetRecordsmanName(Settings.CurrentSettings.Type, winnerTime);

@@ -42,7 +42,7 @@ namespace SimpleMinesweeper.ViewModel
         public void UpdateCustomSettings()
         {
             Game.Settings.SetCustomSize(CustomHeight, CustomWidth, CustomMineCount);
-            Game.Settings.Save(Properties.Resources.settingsPath);
+            Game.Settings.Save(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + Properties.Resources.settingsPath);
         }
 
         #region Custom game settings interface
