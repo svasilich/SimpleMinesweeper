@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace SimpleMinesweeper.ViewModel.RecordsViewModelSys
+namespace SimpleMinesweeper.ViewModel
 {
     public class RecordTimeConverter : IValueConverter
     {
