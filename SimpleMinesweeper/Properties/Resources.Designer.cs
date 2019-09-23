@@ -91,7 +91,7 @@ namespace SimpleMinesweeper.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на records.dat.
+        ///   Ищет локализованную строку, похожую на \SV\SimpleMinesweeper\records.dat.
         /// </summary>
         internal static string recordsPath {
             get {
@@ -100,7 +100,7 @@ namespace SimpleMinesweeper.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на settings.dat.
+        ///   Ищет локализованную строку, похожую на \SV\SimpleMinesweeper\settings.dat.
         /// </summary>
         internal static string settingsPath {
             get {
