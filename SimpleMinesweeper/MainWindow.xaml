@@ -25,7 +25,7 @@
                 <Separator/>
                 <MenuItem Header="Выход" Command="{Binding MenuExitCommand}"/>
             </MenuItem>
-            <MenuItem Header="О программе"></MenuItem>
+            <MenuItem Header="О программе" Command="{Binding MenuOpenAboutCommand}"></MenuItem>
         </Menu>
         <Frame Name="WorkArea" Grid.Row="1" NavigationUIVisibility="Hidden"/>
     </Grid>

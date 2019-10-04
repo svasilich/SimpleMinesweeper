@@ -1,0 +1,86 @@
+﻿<local:MinesweeperPage x:Class="SimpleMinesweeper.View.AboutPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:SimpleMinesweeper.View"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="AboutPage">
+
+    <Page.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="TextAlignment" Value="Left"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="FontSize" Value="15"/>
+        </Style>
+    </Page.Resources>
+
+    <Grid VerticalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" 
+                   TextAlignment="Center"
+                   VerticalAlignment="Center"
+                   FontSize="25"
+                   FontWeight="DemiBold">Игра "Сапёр"</TextBlock>
+        <StackPanel
+            Grid.Row="1"
+            Orientation="Horizontal">
+            <TextBlock>Автор:</TextBlock>
+            <TextBlock FontWeight="DemiBold">Stepan Fedik</TextBlock>
+        </StackPanel>
+        <StackPanel
+            Grid.Row="2"
+            Orientation="Horizontal">
+            <TextBlock>Сайт:</TextBlock>
+            <TextBlock>
+                <Hyperlink>simpleminesweeper.ru</Hyperlink>
+            </TextBlock>
+        </StackPanel>
+        <StackPanel
+            Grid.Row="3"
+            Orientation="Horizontal">
+            <TextBlock>Почта:</TextBlock>
+            <TextBlock>
+                <Hyperlink>support@simpleminesweeper.ru</Hyperlink>
+            </TextBlock>
+        </StackPanel>
+        <ScrollViewer Grid.Row="4" BorderThickness="1">
+        <TextBlock
+            TextWrapping="Wrap"
+            Background="LightGray"
+            Padding="10"
+            VerticalAlignment="Stretch"
+            >
+            Как играть?<LineBreak/>
+            <LineBreak/>
+Сапёр - игра очень простая. Здесь вы можете ознакомиться с правилами игры.<LineBreak/>
+В игре существует три стандартных уровня сложности и один пользовательский. Стандартные уровни сложности:<LineBreak/>
+- Новичок. Поле 9х9, на котором находятся 10 мин.<LineBreak/>
+- Любитель. Поле 16х16, на котором находятся 40 мин.<LineBreak/>
+- Профессионал. Поле 30х16, 99 мин.<LineBreak/><LineBreak/>
+Установить сложность можно с помощью меню игры или страницы настроек.<LineBreak/>
+Чтобы начать игру, нажмите на одну из клеток минного поля. Эта клетка откроется. Если вам повезёт, клетка будет пустой и откроется ещё несколько соседних клеток. Если нет, клетка будет обозначена цифрой. Проиграть на первом ходу невозможно.<LineBreak/>
+Цифра указывает на количество мин, расположенных вокруг этой клетки. Допустимы значения от 1 до 8.<LineBreak/>
+Нажав правой кнопкой мыши по неоткрытой клетке, можно установить отметку – флажок. Отмечайте флажками клетки, которые, по вашему мнению, заминированы. Если вы случайно нажмёте левой кнопкой мыши по установленному флажку, ничего не произойдёт. Нажмите на флажок правой кнопкой мыши, чтобы убрать отметку.<LineBreak/>
+Если вы откроете клетку, в которой расположена мина, игра будет проиграна.<LineBreak/>
+<LineBreak/>
+Чтобы выиграть, откройте все незаминированные клетки. Постарайтесь сделать это как можно быстрее, чтобы оставить своё имя в таблице рекордов!
+        </TextBlock>
+      </ScrollViewer>
+        <StackPanel Grid.Row="5"
+                    Orientation="Horizontal">
+            <TextBlock>Версия: </TextBlock>
+            <TextBlock FontWeight="DemiBold" Text="{Binding Version}"/>
+            <Button Padding="10" Margin="5" Command="{Binding CheckUpdateCommand}">Проверить наличие обновлений</Button>
+        </StackPanel>
+    </Grid>
+</local:MinesweeperPage>

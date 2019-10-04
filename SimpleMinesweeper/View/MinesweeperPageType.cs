@@ -5,5 +5,6 @@
         Game,
         Settings,
         Records,
+        About,
     }
 }

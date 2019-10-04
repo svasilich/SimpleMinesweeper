@@ -38,6 +38,9 @@
     <ApplicationIcon>MineIcon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -82,6 +85,7 @@
     <Compile Include="Core\ICellFactory.cs" />
     <Compile Include="Core\IGame.cs" />
     <Compile Include="Core\IGameTimer.cs" />
+    <Compile Include="Core\Updater\Updater.cs" />
     <Compile Include="DialogWindows\AskUserBeforeQuitDialogModel.cs" />
     <Compile Include="DialogWindows\BasePrettyDialogModel.cs" />
     <Compile Include="DialogWindows\CleareRecordDialogModel.cs" />
@@ -106,6 +110,7 @@
     <Compile Include="DialogWindows\SimpleDialogProviderFactory.cs" />
     <Compile Include="DialogWindows\SimpleRecordViewModelDialogProvider.cs" />
     <Compile Include="DialogWindows\SimpleGameViewModelDialogProvider.cs" />
+    <Compile Include="ViewModel\AboutViewModel.cs" />
     <Compile Include="ViewModel\GameViewModel.cs" />
     <Compile Include="ViewModel\GameViewModelSys\CustomGameTypeCommandConverter.cs" />
     <Compile Include="ViewModel\GameViewModelSys\CustomSettingsCheckboxConverter.cs" />
@@ -118,6 +123,9 @@
     <Compile Include="ViewModel\MinefieldViewModelSys\TimerSecondsConverter.cs" />
     <Compile Include="ViewModel\RecordsViewModel.cs" />
     <Compile Include="ViewModel\RecordsViewModelSys\RecordTimeConverter.cs" />
+    <Compile Include="View\AboutPage.xaml.cs">
+      <DependentUpon>AboutPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\CellView.xaml.cs">
       <DependentUpon>CellView.xaml</DependentUpon>
     </Compile>
@@ -165,6 +173,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\AboutPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\CellView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

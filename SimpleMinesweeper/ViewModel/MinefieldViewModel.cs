@@ -5,6 +5,8 @@ using System.Windows;
 using SimpleMinesweeper.Core;
 using SimpleMinesweeper.CommonMVVM;
 
+using System.IO;
+
 namespace SimpleMinesweeper.ViewModel
 {
     public class MinefieldViewModel : ViewModelBase
@@ -175,8 +177,8 @@ namespace SimpleMinesweeper.ViewModel
 
         protected void ResizeField(double containerWidth, double containerHeight)
         {
-            double newWidth = 0;
-            double newHeight = 0;
+            double newWidth;
+            double newHeight;
 
             if (containerWidth > containerHeight)
                 ScaleSide(containerWidth, containerHeight, game.GameField.Width, game.GameField.Height, out newWidth, out newHeight);

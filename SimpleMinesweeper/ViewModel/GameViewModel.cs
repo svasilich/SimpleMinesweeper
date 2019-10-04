@@ -20,6 +20,7 @@ namespace SimpleMinesweeper.ViewModel
         private readonly MinesweeperPage gamePage;
         private readonly MinesweeperPage recordsPage;
         private readonly MinesweeperPage settingsPage;
+        private readonly MinesweeperPage aboutPage;
 
         private readonly IGameViewModelDialogProvider dialogProvider;
 
@@ -104,6 +105,7 @@ namespace SimpleMinesweeper.ViewModel
             gamePage = new GamePage(); // Контекст установим свой собственный, в конструкторе.
             settingsPage = new SettingsPage { DataContext = this };
             recordsPage = new RecordsPage { DataContext = new RecordsViewModel(this, dialogProviderFactory.GetRecordViewModelDialogProvider()) };
+            aboutPage = new AboutPage { DataContext = new AboutViewModel() };   
 
             dialogProvider = dialogProviderFactory.GetGameViewModelDialogProvider();
             
@@ -117,6 +119,7 @@ namespace SimpleMinesweeper.ViewModel
             MenuSetGameTypeCommand = new RelayCommand(SetGameTypeExecute);
             MenuOpenSettingsCommand = new RelayCommand(o => LoadPage(settingsPage));
             MenuOpenRecordsCommand = new RelayCommand(o => LoadPage(recordsPage));
+            MenuOpenAboutCommand = new RelayCommand(o => LoadPage(aboutPage));
 
             // Все данные уже сохранены. Action для закрытия не нужен.
             ClosingCommand = new RelayCommand(null, o => dialogProvider.AskUserBeforeQuit());
@@ -191,6 +194,8 @@ namespace SimpleMinesweeper.ViewModel
 
         public RelayCommand MenuOpenRecordsCommand { get; }
 
+        public RelayCommand MenuOpenAboutCommand { get; }
+
         public RelayCommand MenuExitCommand { get; }
 
         public RelayCommand ClosingCommand { get; }
@@ -241,7 +246,9 @@ namespace SimpleMinesweeper.ViewModel
 
         private void Exit()
         {
-            Application.Current.MainWindow.Close();            
+            mainWindow.Close();
+            //Environment.Exit(0);
+            //Application.Current.MainWindow.Close();            
         }
 
         #endregion
