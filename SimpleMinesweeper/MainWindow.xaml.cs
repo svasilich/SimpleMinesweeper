@@ -13,8 +13,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using SimpleMinesweeper.Core;
+using SimpleMinesweeper.Core.Updater;
 using SimpleMinesweeper.ViewModel;
 using SimpleMinesweeper.DialogWindows;
+
 
 namespace SimpleMinesweeper
 {
@@ -29,8 +31,12 @@ namespace SimpleMinesweeper
         {
             InitializeComponent();
 
+            IDialogProviderFactory factory = new PrettyDialogProviderFactory();
+            Updater.SetDialogProvider(factory.GetUpdateDialogProvider());
             IGame game = Game.GetInstance();            
-            gameView = new GameViewModel(game, this, new PrettyDialogProviderFactory());
+            gameView = new GameViewModel(game, this, factory);
+
+            Task.Run(() => Updater.CheckVersionAndUpdateProgram());
         }
     }
 }

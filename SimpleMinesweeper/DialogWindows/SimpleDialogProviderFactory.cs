@@ -14,6 +14,11 @@
             return new SimpleRecordViewModelDialogProvider();
         }
 
+        public IUpdateDialogProvider GetUpdateDialogProvider()
+        {
+            return null;
+        }
+
         #endregion
     }
 }

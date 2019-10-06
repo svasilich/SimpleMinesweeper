@@ -55,22 +55,7 @@ namespace SimpleMinesweeper.ViewModel
 
         private void CheckUpdate()
         {
-            Updater updater = new Updater();
-            if (updater.CheckUpdate())
-            {
-                MessageBox.Show("Has new version!");
-                //string installFile = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "SimpleMinesweeper.msi";
-                string installFile = @"d:\" + "SimpleMinesweeper.msi";
-                if (File.Exists(installFile))
-                {
-                    File.Delete(installFile);
-                }
-                WebClient client = new WebClient();
-                client.DownloadFile(@"http://www.simpleminesweeper.ru/GameData/GetInstaller", installFile);
-                Process.Start(installFile);
-                Environment.Exit(0);
-            }
-            return;
+            Updater.CheckVersionAndUpdateProgram(true);
         }
 
         #endregion

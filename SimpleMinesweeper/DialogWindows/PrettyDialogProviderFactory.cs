@@ -14,6 +14,11 @@
             return new PrettyRecordViewModelDialogProvider();
         }
 
+        public IUpdateDialogProvider GetUpdateDialogProvider()
+        {
+            return new PrettyUpdateDialogProvider();
+        }
+
         #endregion
 
     }

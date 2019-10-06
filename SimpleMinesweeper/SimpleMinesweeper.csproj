@@ -86,11 +86,13 @@
     <Compile Include="Core\IGame.cs" />
     <Compile Include="Core\IGameTimer.cs" />
     <Compile Include="Core\Updater\Updater.cs" />
+    <Compile Include="DialogWindows\AskBeforeUpdateDialogModel.cs" />
     <Compile Include="DialogWindows\AskUserBeforeQuitDialogModel.cs" />
     <Compile Include="DialogWindows\BasePrettyDialogModel.cs" />
     <Compile Include="DialogWindows\CleareRecordDialogModel.cs" />
     <Compile Include="DialogWindows\CommonPrettyAskDialogProvider.cs" />
     <Compile Include="DialogWindows\IPrettyDialogWindowModel.cs" />
+    <Compile Include="DialogWindows\IUpdateDialogProvider.cs" />
     <Compile Include="DialogWindows\PrettyDialogType.cs" />
     <Compile Include="DialogWindows\PrettyDialogWindowViewModel.cs" />
     <Compile Include="DialogWindows\GetRecordsmanNameProvider.cs" />
@@ -98,6 +100,7 @@
     <Compile Include="DialogWindows\IGameViewModelDialogProvider.cs" />
     <Compile Include="DialogWindows\IGetRecordsmanNameProvider.cs" />
     <Compile Include="DialogWindows\IRecordViewModelDialogProvider.cs" />
+    <Compile Include="DialogWindows\PrettyUpdateDialogProvider.cs" />
     <Compile Include="DialogWindows\Windows\NewRecordWindow.xaml.cs">
       <DependentUpon>NewRecordWindow.xaml</DependentUpon>
     </Compile>
@@ -283,6 +286,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Icons\basket.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\update.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

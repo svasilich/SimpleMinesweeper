@@ -4,5 +4,7 @@
     {
         IRecordViewModelDialogProvider GetRecordViewModelDialogProvider();
         IGameViewModelDialogProvider GetGameViewModelDialogProvider();
+
+        IUpdateDialogProvider GetUpdateDialogProvider();
     }
 }
