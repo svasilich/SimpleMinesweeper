@@ -39,6 +39,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_BB87F4ABF622AABB716BB2518E5891B9"
+        "OwnerKey" = "8:_2B7063BF70E749248793AC0EA4B9CF16"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_2B7063BF70E749248793AC0EA4B9CF16"
         "MsmSig" = "8:_UNDEFINED"
@@ -47,6 +53,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_623A02441E36A4EB95D8772107B93579"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_BB87F4ABF622AABB716BB2518E5891B9"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -112,6 +124,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.6.1"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.6.1 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.6.1"
+                    }
+                }
             }
         }
     }
@@ -207,6 +227,37 @@
                     }
                 }
             "SourcePath" = "8:System.Net.Http.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_F8B3D66F38984530B39E104FC51776E2"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_BB87F4ABF622AABB716BB2518E5891B9"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_BB87F4ABF622AABB716BB2518E5891B9"
+                    {
+                    "Name" = "8:Newtonsoft.Json.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Newtonsoft.Json.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_F8B3D66F38984530B39E104FC51776E2"
@@ -324,22 +375,22 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Simple Minesweeper"
-        "ProductCode" = "8:{2E02DFA0-4C79-4F81-8862-514BBED83AF0}"
-        "PackageCode" = "8:{2D567249-FCAF-4265-A88E-B7284878F8E0}"
-        "UpgradeCode" = "8:{54AD297D-0E2B-4DE6-AD7B-8418DAA48D78}"
+        "ProductCode" = "8:{B2F523C1-1212-4D4B-B244-13BFCC649C0C}"
+        "PackageCode" = "8:{20C42549-1B35-4C07-870A-39CCB46D3AEE}"
+        "UpgradeCode" = "8:{863DF561-C75A-482D-80D8-2387CE3E6AFB}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
-        "RemovePreviousVersions" = "11:FALSE"
+        "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.0"
+        "ProductVersion" = "8:1.0.3"
         "Manufacturer" = "8:SV"
         "ARPHELPTELEPHONE" = "8:"
-        "ARPHELPLINK" = "8:"
+        "ARPHELPLINK" = "8:http://simpleminesweeper.ru/"
         "Title" = "8:SimpleMinesweeper Installer"
         "Subject" = "8:"
         "ARPCONTACT" = "8:Stepan Fedik"
-        "Keywords" = "8:"
+        "Keywords" = "8:minesweeper сапёр"
         "ARPCOMMENTS" = "8:Simple minesweeper for Windows."
         "ARPURLINFOABOUT" = "8:"
         "ARPPRODUCTICON" = "8:_8C78E1B62BBE4120B985557946A72C3F"
@@ -452,7 +503,7 @@
             "Description" = "8:"
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
-            "Transitive" = "11:FALSE"
+            "Transitive" = "11:TRUE"
             "Target" = "8:_2B7063BF70E749248793AC0EA4B9CF16"
             "Folder" = "8:_12DC544E783147FD944B304DB237F705"
             "WorkingFolder" = "8:_F8B3D66F38984530B39E104FC51776E2"
@@ -874,7 +925,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_2B7063BF70E749248793AC0EA4B9CF16"
             {
-            "SourcePath" = "8:..\\SimpleMinesweeper\\obj\\Debug\\SimpleMinesweeper.exe"
+            "SourcePath" = "8:..\\SimpleMinesweeper\\obj\\Release\\SimpleMinesweeper.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_F8B3D66F38984530B39E104FC51776E2"
